@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-TITLE = Kinematic Analysis Program ~ General Planar Motion
+TITLE = Kinematic Analysis Program ~ Vector Loop Analysis
 DATE  = 2026.04.16
 _____________________________________________________________________
 DESCRIPTION:
 1. Kinematic analysis program to determine velocities and accelerations of the pins.
-2. The program will use general planer equations to determine the velocities and accelerations of the pins.
+2. The program will use vector loop analysis to solve for the unknowns in the mechanism.
 3. The program will display the results through a graphical representation of the mechanism and a table of the results.
 _____________________________________________________________________
 AUTHOR : Nicholas Heling
