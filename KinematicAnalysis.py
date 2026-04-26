@@ -15,10 +15,14 @@ AUTHOR : Nicholas Heling
 # ? ================================================================ ?
 
 # ! PYTHON TEMPLATES & LIBRARIES !
+import os
 import numpy as np
+import matplotlib.pyplot as plt
 
 # ! PROJECT MODULES !
-
+import lib._PositionSolver as _PositionSolver
+import lib._VelocitySolver as _VelocitySolver
+import lib._AccelerationSolver as _AccelerationSolver
 
 # * VARIABLES *
 # ? ================================================================ ?
@@ -42,32 +46,20 @@ LENGTH = {
     "LINK_M": 15.00 * SCALE_FACTOR,  
 }
 
+# LINK_N: Hypotenuse of LINK_A & LINK_L
+LENGTH["LINK_N"] = np.sqrt(LENGTH["LINK_A"]**2 + LENGTH["LINK_L"]**2)
+
 # MOTOR PARAMETERS
 # * MOTOR REVOLUTION IS IN RPM *
 # * MOTOR ANGULAR VELOCITY IS IN RAD/S *
-MOTOR_REVOLUTION = 30.00                                           
-MOTOR_ANGULAR_VELOCITY = (MOTOR_REVOLUTION * 2 * np.pi) / 60.00     
+# * MOTOR ALPHA IS IN RAD/S^2 *
+MOTOR_REVOLUTION = 30.00                                  
+MOTOR_ANGULAR_VELOCITY = (MOTOR_REVOLUTION * 2 * np.pi) / 60.00
+MOTOR_ALPHA = 0.00
 
-
-# * FUNCTION *
-# ? ================================================================ ?
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
+# ANGLES
+# * ALL ANGLES ARE IN RAD *
+THETA_M = np.linspace(0, 2 * np.pi, 360, endpoint=False)
 
 
 # * MAIN *
@@ -85,13 +77,28 @@ def main():
     
     Raises:
     """
-    # Code Here
+    # Initialize Lists to Store Figures and Figure Names
+    figure_path = []
+    figure_names = []
     
     
-    pass
+    
+    
+    
+    
+    # Create Figures Dictionary to save figures
+    figures_dictionary = os.path.join(os.path.dirname(__file__), 'Figures')
+    os.makedirs(figures_dictionary, exist_ok=True)
+    
+    # Save Figures to Figures Directory as PDF
+    for figure, name in zip(figure_path, figure_names):
+        figure_file_path = os.path.join(figures_dictionary, f'{name}.pdf')
+        figure.savefig(figure_file_path)
+        
+        # Success Message for Saving Figure
+        print(f"✅ {name} saved to {figure_file_path}")
 
-        
-        
+       
 # * EXECUTE *
 # ? ================================================================ ?
 if __name__ == "__main__":
