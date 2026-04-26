@@ -70,56 +70,6 @@ def function_name():
     pass
 
 
-# * CLASSES *
-# ? ================================================================ ?
-
-class ClassName:
-    """
-    Summary of what the class does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    def __init__(self):
-        """
-        Initializes a new instance of the ClassName class.
-        
-        Args:
-            - self (ClassName): The instance of the class.
-        
-        Returns:
-            
-        
-        Raises:
-        """
-        
-        
-        pass
-
-    def method_name(self):
-        """
-        Summary of what the method does
-        
-        Args:
-            - self (ClassName): The instance of the class.
-        
-        Returns:
-        
-        
-        Raises:
-        """
-        
-        
-        
-        pass
-
-
 # * MAIN *
 # ? ================================================================ ?
 
