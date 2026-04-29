@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 TITLE = Kinematic Analysis Program ~ Vector Loop Analysis
-DATE  = 2026.04.16
+DATE  = 2026.05.15
 _____________________________________________________________________
 DESCRIPTION:
 1. Kinematic analysis program to determine velocities and accelerations of the pins.
@@ -60,6 +60,8 @@ MOTOR_ALPHA = 0.00
 # ANGLES
 # * ALL ANGLES ARE IN RAD *
 THETA_M = np.linspace(0, 2 * np.pi, 360, endpoint=False)
+
+THETA_N = np.arctan2(LENGTH["LINK_L"], LENGTH["LINK_A"])
 
 
 # * MAIN *
