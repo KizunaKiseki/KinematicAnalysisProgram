@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 import lib._PositionSolver as _PositionSolver
 import lib._VelocitySolver as _VelocitySolver
 import lib._AccelerationSolver as _AccelerationSolver
+import lib._Plot as _Plot
 
 # * VARIABLES *
 # ? ================================================================ ?
@@ -80,9 +81,6 @@ def main():
     # Initialize Lists to Store Figures and Figure Names
     figure_path = []
     figure_names = []
-    
-    
-    
     
     
     
