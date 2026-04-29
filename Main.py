@@ -26,7 +26,6 @@ import lib._AccelerationSolver as _AccelerationSolver
 
 # * VARIABLES *
 # ? ================================================================ ?
-
 # LINK DIMENSIONS
 # * ALL LINK DIMENSIONS ARE IN MM *
 SCALE_FACTOR = 1.50    
@@ -60,7 +59,6 @@ MOTOR_ALPHA = 0.00
 # ANGLES
 # * ALL ANGLES ARE IN RAD *
 THETA_M = np.linspace(0, 2 * np.pi, 360, endpoint=False)
-
 THETA_N = np.arctan2(LENGTH["LINK_L"], LENGTH["LINK_A"])
 
 
