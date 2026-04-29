@@ -62,6 +62,25 @@ MOTOR_ALPHA = 0.00
 THETA_M = np.linspace(0, 2 * np.pi, 360, endpoint=False)
 THETA_N = np.arctan2(LENGTH["LINK_L"], LENGTH["LINK_A"])
 
+# * FUNCTION *
+# ? ================================================================ ?
+
+def function_name():
+    """
+    Summary of what the function does
+    
+    Args:
+    
+    
+    Returns:
+    
+    
+    Raises:
+    """
+    
+    
+    
+    pass
 
 # * MAIN *
 # ? ================================================================ ?
@@ -81,7 +100,6 @@ def main():
     # Initialize Lists to Store Figures and Figure Names
     figure_path = []
     figure_names = []
-    
     
     
     # Create Figures Dictionary to save figures
