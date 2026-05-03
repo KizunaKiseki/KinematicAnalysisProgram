@@ -254,93 +254,114 @@ def plot_position_figure(theta_array : np.ndarray, position_array : np.ndarray, 
     return position_figure
 
 
-def function_name():
+def plot_velocity_figure(theta_array : np.ndarray, velocity_array : np.ndarray, coordinate_index : int,
+                         point_label : str, title : str) -> pl.figure:
     """
-    Summary of what the function does
+    General function for plotting x or y velocity vs. crank angle. 
     
     Args:
-    
+        theta_array (np.ndarray): Crank rotation array in degrees.
+        velocity_array (np.ndarray): Velocity array for a point.
+        coordinate_index (int): 0 for x-velocity, 1 for y-velocity.
+        point_label (str): Point label, such as P1, P2, or P5.
+        title (str): Figure title.
     
     Returns:
-    
-    
-    Raises:
+        figure (pl.figure) : Matplotlib figure object.
     """
+    # Set up figure and axes
+    velocity_figure, velocity_axes = setup_figure()
+    
+    # Choose coordinate label based on index
+    coordinate_label = "Vx" if coordinate_index == 0 else "Vy"
+    
+    # Set title and axes labels
+    velocity_axes.set_title(title)
+    velocity_axes.set_xlabel("Clockwise Crank Angle Rotation [degrees]")
+    velocity_axes.set_ylabel(f"{coordinate_label} [mm/s]")
+    
+    # Plot the velocity vs. crank angle
+    velocity_axes.plot(theta_array, velocity_array[:, coordinate_index], color=PATH_COLOR, linewidth=2.0, label=f"{coordinate_label} {point_label}")
+    
+    # Create Legend & Layout
+    velocity_axes.legend(loc = 'best')
+    velocity_figure.tight_layout()
     
     
-    
-    pass
+    return velocity_figure
 
 
-def function_name():
+def plot_speed_figure(theta_array : np.ndarray, velocity_array : np.ndarray, coordinate_index : int,
+                         point_label : str, title : str) -> pl.figure:
     """
-    Summary of what the function does
+    General function for plotting speed vs. crank angle.
     
     Args:
-    
+        theta_array (np.ndarray): Crank rotation array in degrees.
+        velocity_array (np.ndarray): Velocity array for a point.
+        coordinate_index (int): 0 for x-velocity, 1 for y-velocity.
+        point_label (str): Point label, such as P1, P2, or P5.
+        title (str): Figure title.
     
     Returns:
-    
-    
-    Raises:
+        figure (pl.figure) : Matplotlib figure object.
     """
+    # Set up figure and axes
+    speed_figure, speed_axes = setup_figure()
+    
+    # Set title and axes labels
+    speed_axes.set_title(title)
+    speed_axes.set_xlabel("Clockwise Crank Angle Rotation [degrees]")
+    speed_axes.set_ylabel(f"Speed [mm/s]")
+    
+    # Calculate speed as the magnitude of the velocity vector
+    speed_array = np.linalg.norm(velocity_array, axis=1)
+    
+    # Plot the speed vs. crank angle
+    speed_axes.plot(theta_array, speed_array, color=PATH_COLOR, linewidth=2.0, label=f"Speed {point_label}")
+    
+    # Create Legend & Layout
+    speed_axes.legend(loc = 'best')
+    speed_figure.tight_layout()
     
     
-    
-    pass
+    return speed_figure
 
 
-def function_name():
+
+def plot_acceleration_figure(theta_array : np.ndarray, acceleration_array : np.ndarray, coordinate_index : int,
+                         point_label : str, title : str) -> pl.figure:
     """
-    Summary of what the function does
+    General function for plotting x or y acceleration vs. crank angle. 
     
     Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
-
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
+        theta_array (np.ndarray): Crank rotation array in degrees.
+        acceleration_array (np.ndarray): Acceleration array for a point.
+        coordinate_index (int): 0 for x-acceleration, 1 for y-acceleration.
+        point_label (str): Point label, such as P1, P2, or P5.
+        title (str): Figure title.
     
     Returns:
-    
-    
-    Raises:
+        figure (pl.figure) : Matplotlib figure object.
     """
+    # Set up figure and axes
+    acceleration_figure, acceleration_axes = setup_figure()
+    
+    # Choose coordinate label based on index
+    coordinate_label = "Ax" if coordinate_index == 0 else "Ay"
+    
+    # Set title and axes labels
+    acceleration_axes.set_title(title)
+    acceleration_axes.set_xlabel("Clockwise Crank Angle Rotation [degrees]")
+    acceleration_axes.set_ylabel(f"{coordinate_label} [mm/s²]")
+    
+    # Plot the acceleration vs. crank angle
+    acceleration_axes.plot(theta_array, acceleration_array[:, coordinate_index], color=PATH_COLOR, linewidth=2.0, label=f"{coordinate_label} {point_label}")
+    
+    # Create Legend & Layout
+    acceleration_axes.legend(loc = 'best')
+    acceleration_figure.tight_layout()
     
     
-    
-    pass
-
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
-
+    return acceleration_figure
 

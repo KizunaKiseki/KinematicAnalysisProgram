@@ -19,9 +19,6 @@ import numpy as np
 # ! PROJECT MODULES !
 import lib._Plot as _plot
 
-# * VARIABLES *
-# ? ================================================================ ?
-
 
 # * FUNCTION *
 # ? ================================================================ ?
@@ -52,7 +49,7 @@ def create_position_figures(O2 : np.ndarray, O4: np.ndarray, array_P1: np.ndarra
     figure_path = []
     figure_names = []
     
-    # Figure Creation
+    # * Create Position Figures for Each Point *
     p1_figures(figure_path, figure_names, O2, O4, array_P1, crank_angle_plot)
     p2_figures(figure_path, figure_names, O2, O4, array_P1, array_P2, crank_angle_plot)
     p5_figures(figure_path, figure_names, O2, O4, array_P1, array_P5, crank_angle_plot)

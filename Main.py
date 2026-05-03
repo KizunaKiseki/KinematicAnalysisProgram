@@ -21,6 +21,8 @@ import matplotlib.pyplot as plt
 import lib._Plot as _plot
 import lib._Solve as _solve
 import lib._Position as _position
+import lib._Velocity as _velocity
+import lib._Acceleration as _acceleration
 
 # * VARIABLES *
 # ? ================================================================ ?
@@ -169,9 +171,15 @@ def main():
         # ? Solve for Point P7 across all Crank Angles ?
         array_P7[step] = _solve.solve_point_7(array_P6[step], array_P5[step], LINK_H, LINK_I)
     
+    
     # ! Create Position Figures for Each Point !
-    position_path, position_names = _position.create_position_figures(O2, O4, array_P1, array_P2, array_P4, array_P5, 
-                                                                  array_P6, array_P7, CRANK_ANGLE_PLOT)
+    # position_path, position_names = _position.create_position_figures(O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, CRANK_ANGLE_PLOT)
+    
+    # ! Create Velocity Figures for Each Point !
+    velocity_path, velocity_names = _velocity.create_velocity_figures(array_V1, CRANK_ANGLE_PLOT)
+    
+    # ! Create Acceleration Figures for Each Point !
+    
     
     # ! Save Figures !
     save_figures(position_path, position_names, folder_name="Position")
