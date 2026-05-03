@@ -70,7 +70,6 @@ def draw_point(axes : pl.axes, point : np.ndarray, label : str) -> None:
     axes.text(point[0], point[1], f" {label}", fontsize=10)
 
 
-
 def draw_link(axes : pl.axes, point_1 : np.ndarray, point_2 : np.ndarray, label : str) -> None:
     """
     Draw a link between two points on the given axes.
@@ -86,7 +85,6 @@ def draw_link(axes : pl.axes, point_1 : np.ndarray, point_2 : np.ndarray, label 
     """
     # Plot the link as a line between the two points
     axes.plot([point_1[0], point_2[0]], [point_1[1], point_2[1]], marker='o', label=label)
-
 
 
 def set_axes_limits(axes : pl.axes, points : list[np.ndarray], padding : float = 10.0) -> None:
@@ -108,7 +106,6 @@ def set_axes_limits(axes : pl.axes, points : list[np.ndarray], padding : float =
     # Set limits with padding
     axes.set_xlim(min(x_coords) - padding, max(x_coords) + padding)
     axes.set_ylim(min(y_coords) - padding, max(y_coords) + padding)
-
 
 
 def plot_ground_link(O2 : np.ndarray, O4 : np.ndarray, P1 : np.ndarray) -> pl.figure:
@@ -134,8 +131,8 @@ def plot_ground_link(O2 : np.ndarray, O4 : np.ndarray, P1 : np.ndarray) -> pl.fi
     ground_axes.set_ylabel("Y [mm]")
     
     # Draw Links
-    draw_link(ground_axes, O2, O4, "Link N: 02 to 04")
-    draw_link(ground_axes, O4, P1, "Link M: 04 to P1")
+    draw_link(ground_axes, O2, O4, "Link N")
+    draw_link(ground_axes, O4, P1, "Link M")
     
     # Draw Points
     draw_point(ground_axes, O2, "02")
@@ -145,10 +142,8 @@ def plot_ground_link(O2 : np.ndarray, O4 : np.ndarray, P1 : np.ndarray) -> pl.fi
     # Set axes limits based on point locations
     set_axes_limits(ground_axes, [O2, O4, P1], padding=15.0)
     
-    # Create Legend
+    # Create Legend & Layout
     ground_axes.legend(loc = 'best')
-    
-    # Tight Layout
     ground_figure.tight_layout()
 
     
@@ -182,18 +177,17 @@ def plot_p1_position(O2 : np.ndarray, O4 : np.ndarray, array_P1 : np.ndarray) ->
     draw_point(p1_position_axes, O4, "04")
     
     # Draw Crank Path
-    p1_position_axes.plot(array_P1[:, 0], array_P1[:, 1], label="path of P1")
+    p1_position_axes.plot(array_P1[:, 0], array_P1[:, 1], label="Path P1")
     
     # Draw starting crank position
-    draw_link(p1_position_axes, O4, array_P1[0], "Starting Link M")
+    draw_link(p1_position_axes, O2, O4, "Link N")
+    draw_link(p1_position_axes, O4, array_P1[0], "Link M")
     
     # Set axes limits based on point locations
     set_axes_limits(p1_position_axes, [O2, O4, *array_P1], padding=15.0)
     
-    # Create Legend
+    # Create Legend & Layout
     p1_position_axes.legend(loc = 'best')
-    
-    # Tight Layout
     p1_position_figure.tight_layout()
     
     
@@ -222,7 +216,7 @@ def plot_p1_x_figure(theta_m : np.ndarray, array_P1 : np.ndarray) -> pl.figure:
     p1_x_axes.set_ylabel("X [mm]")
     
     # Plot X-coordinate of P1
-    p1_x_axes.plot(theta_m, array_P1[:, 0], label="X-coordinate of P1")
+    p1_x_axes.plot(theta_m, array_P1[:, 0], label="X P1")
     
     # Create Legend
     p1_x_axes.legend(loc = 'best')
@@ -256,16 +250,300 @@ def plot_p1_y_figure(theta_m : np.ndarray, array_P1 : np.ndarray) -> pl.figure:
     p1_y_axes.set_ylabel("Y [mm]")
     
     # Plot Y-coordinate of P1
-    p1_y_axes.plot(theta_m, array_P1[:, 1], label="Y-coordinate of P1")
+    p1_y_axes.plot(theta_m, array_P1[:, 1], label="Y P1")
     
-    # Create Legend
+    # Create Legend & Layout
     p1_y_axes.legend(loc = 'best')
-    
-    # Tight Layout
     p1_y_figure.tight_layout()
     
     
     return p1_y_figure
+
+
+def plot_nm_bj_figure(O2 : np.ndarray, O4 : np.ndarray, P1 : np.ndarray, P2 : np.ndarray) -> pl.figure:
+    """
+    Plots the closed loop N + M = B + J for one crank angle.
+        
+    ! Figure 5 : Closed Loop N + M = B + J !
+    
+    Args:
+        O2 (np.ndarray) : The (x, y) coordinates of Point O2, the fixed ground origin.
+        O4 (np.ndarray) : The (x, y) coordinates of Point O4, the fixed crank origin.
+        P1 (np.ndarray) : The (x, y) coordinates of Point P1, the crank pin at the end of link M.
+        P2 (np.ndarray) : The (x, y) coordinates of Point P2, the upper joint connecting links B and J.
+    
+    Returns:
+        nm_bj_figure (pl.figure) : A Matplotlib figure object containing the plot of the closed loop N + M = B + J.
+    """
+    # Set up figure and axes
+    nm_bj_figure, nm_bj_axes = setup_figure()
+    
+    # Set title and axes labels
+    nm_bj_axes.set_title("Figure 5: Closed Loop N + M = B + J")
+    nm_bj_axes.set_xlabel("X [mm]")
+    nm_bj_axes.set_ylabel("Y [mm]")
+    
+    # Draw Links
+    draw_link(nm_bj_axes, O2, O4, "Link N")
+    draw_link(nm_bj_axes, O4, P1, "Link M")
+    draw_link(nm_bj_axes, O2, P2, "Link B")
+    draw_link(nm_bj_axes, P1, P2, "Link J")
+    
+    # Draw Points
+    draw_point(nm_bj_axes, O2, "02")
+    draw_point(nm_bj_axes, O4, "04")
+    draw_point(nm_bj_axes, P1, "P1")
+    draw_point(nm_bj_axes, P2, "P2")
+    
+    # Set axes limits based on point locations
+    set_axes_limits(nm_bj_axes, [O2, O4, P1, P2], padding=15.0)
+    
+    # Create Legend & Layout
+    nm_bj_axes.legend(loc = 'best')
+    nm_bj_figure.tight_layout()
+    
+    
+    return nm_bj_figure
+
+
+def plot_p2_position(O2 : np.ndarray, O4 : np.ndarray, array_P1 : np.ndarray, array_P2 : np.ndarray) -> pl.figure:
+    """
+    Plot the position of Point P2 over one full rotation of the crank.
+    
+    ! Figure 6 : Point P2 Position !
+
+    Args:
+        O2 (np.ndarray) : The (x, y) coordinates of Point O2, the fixed ground origin.
+        O4 (np.ndarray) : The (x, y) coordinates of Point O4, the fixed crank origin.
+        array_P1 (np.ndarray) : An array of shape (NUM_STEPS, 2) containing the (x, y) coordinates of Point P1 at each crank angle.
+        array_P2 (np.ndarray) : An array of shape (NUM_STEPS, 2) containing the (x, y) coordinates of Point P2 at each crank angle.
+        
+    Returns:
+        p2_position_figure (pl.figure) : A Matplotlib figure object containing the plot of Point P2's position.
+    """
+    # Set up figure and axes
+    p2_position_figure, p2_position_axes = setup_figure()
+    
+    # Set title and axes labels
+    p2_position_axes.set_title("Figure 6: Point P2 Position")
+    p2_position_axes.set_xlabel("X [mm]")
+    p2_position_axes.set_ylabel("Y [mm]")
+    
+    # Draw Path of P2
+    p2_position_axes.plot(array_P2[:, 0], array_P2[:, 1], label="Path P2")
+    
+    # Draw starting crank position
+    draw_link(p2_position_axes, O2, O4, "Link N")
+    draw_link(p2_position_axes, O4, array_P1[0], "Link M")
+    draw_link(p2_position_axes, O2, array_P2[0], "Link B")
+    draw_link(p2_position_axes, array_P1[0], array_P2[0], "Link J")
+    
+    # Draw ground point and crank center
+    draw_point(p2_position_axes, O2, "02")
+    draw_point(p2_position_axes, O4, "04")
+    draw_point(p2_position_axes, array_P1[0], "P1")
+    draw_point(p2_position_axes, array_P2[0], "P2")
+    
+    # Set axes limits based on point locations
+    set_axes_limits(p2_position_axes, [O2, O4, *array_P1, *array_P2], padding=15.0)
+    
+    # Create Legend & Layout
+    p2_position_axes.legend(loc = 'best')
+    p2_position_figure.tight_layout()
+    
+    
+    return p2_position_figure
+
+
+def plot_p2_x_figure(theta_m : np.ndarray, array_P2 : np.ndarray) -> pl.figure:
+    """
+    Plot the X-coordinate of Point P2 as a function of the crank angle.
+    
+    ! Figure 7 : P2 x-Position vs. Crank Angle !
+    
+    Args:
+        theta_m (np.ndarray) : An array of crank angles in degrees.
+        array_P2 (np.ndarray) : An array of shape (NUM_STEPS, 2) containing the (x, y) coordinates of Point P2 at each crank angle.
+    
+    Returns:
+        p2_x_figure (pl.figure) : A Matplotlib figure object containing the plot of Point P2's X-coordinate.
+    """
+    # Set up figure and axes
+    p2_x_figure, p2_x_axes = setup_figure()
+    
+    # Set title and axes labels
+    p2_x_axes.set_title("Figure 7: P2 x-Position vs. Crank Angle")
+    p2_x_axes.set_xlabel("Clockwise Crank Angle Rotation [degrees]")
+    p2_x_axes.set_ylabel("X [mm]")
+    
+    # Plot X-coordinate of P2
+    p2_x_axes.plot(theta_m, array_P2[:, 0], label="X-coordinate of P2")
+    
+    # Create Legend & Layout
+    p2_x_axes.legend(loc = 'best')
+    p2_x_figure.tight_layout()
+    
+    
+    return p2_x_figure
+    
+
+def plot_p2_y_figure(theta_m : np.ndarray, array_P2 : np.ndarray) -> pl.figure:
+    """
+    Plot the Y-coordinate of Point P2 as a function of the crank angle.
+    
+    ! Figure 8 : P2 y-Position vs. Crank Angle !
+    
+    Args:
+        theta_m (np.ndarray) : An array of crank angles in degrees.
+        array_P2 (np.ndarray) : An array of shape (NUM_STEPS, 2) containing the (x, y) coordinates of Point P2 at each crank angle.
+    
+    Returns:
+        p2_y_figure (pl.figure) : A Matplotlib figure object containing the plot of Point P2's Y-coordinate.
+    """
+    # Set up figure and axes
+    p2_y_figure, p2_y_axes = setup_figure()
+    
+    # Set title and axes labels
+    p2_y_axes.set_title("Figure 8: P2 y-Position vs. Crank Angle")
+    p2_y_axes.set_xlabel("Clockwise Crank Angle Rotation [degrees]")
+    p2_y_axes.set_ylabel("Y [mm]")
+    
+    # Plot Y-coordinate of P2
+    p2_y_axes.plot(theta_m, array_P2[:, 1], label="Y-coordinate of P2")
+    
+    # Create Legend & Layout
+    p2_y_axes.legend(loc = 'best')
+    p2_y_figure.tight_layout()
+    
+    
+    return p2_y_figure
+
+
+
+def function_name():
+    """
+    Summary of what the function does
+    
+    Args:
+    
+    
+    Returns:
+    
+    
+    Raises:
+    """
+    
+    
+    
+    pass
+
+
+def function_name():
+    """
+    Summary of what the function does
+    
+    Args:
+    
+    
+    Returns:
+    
+    
+    Raises:
+    """
+    
+    
+    
+    pass
+
+
+def function_name():
+    """
+    Summary of what the function does
+    
+    Args:
+    
+    
+    Returns:
+    
+    
+    Raises:
+    """
+    
+    
+    
+    pass
+
+
+def function_name():
+    """
+    Summary of what the function does
+    
+    Args:
+    
+    
+    Returns:
+    
+    
+    Raises:
+    """
+    
+    
+    
+    pass
+
+
+def function_name():
+    """
+    Summary of what the function does
+    
+    Args:
+    
+    
+    Returns:
+    
+    
+    Raises:
+    """
+    
+    
+    
+    pass
+
+
+def function_name():
+    """
+    Summary of what the function does
+    
+    Args:
+    
+    
+    Returns:
+    
+    
+    Raises:
+    """
+    
+    
+    
+    pass
+
+
+def function_name():
+    """
+    Summary of what the function does
+    
+    Args:
+    
+    
+    Returns:
+    
+    
+    Raises:
+    """
+    
+    
+    
+    pass
 
 
 def function_name():

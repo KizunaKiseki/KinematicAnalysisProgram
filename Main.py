@@ -75,7 +75,7 @@ O2 = np.array([0.0, 0.0])
 O4 = np.array([LINK_A, LINK_L]) 
 
 # Figures Aesthetics Tweaks
-CRANK_ANGLE_PLOT = np.linspace(0, CRANK_ANGLE + 360, NUM_STEPS)  
+CRANK_ANGLE_PLOT = np.linspace(0, CRANK_ANGLE - 360, NUM_STEPS)  
 
 
 # * MAIN *
@@ -96,20 +96,28 @@ def main():
     # Initialize figure_path & figure_names lists for saving figures
     figure_path = []
     figure_names = []
-
-    # ! Solve for Ground Link !
+    
+    # ! Solve for one crank angle !
+    
+    # ? Solve for P1 for one crank angle ?
     P1 = _solve.solve_point_1(O4, LINK_M, THETA_M_TEST)
+    
+    # ? Solve for P2 for one crank angle ?
+    P2 = _solve.solve_point_2(O2, P1, LINK_B, LINK_J)
 
-    # ! Solve for Point P1 across all Crank Angles !
+    # ! Solve across all crank angles !
     # Initialize array to store P1 positions for each crank angle
     array_P1 = np.zeros((NUM_STEPS, 2))  
     
+    # Initialize array to store P2 positions for each crank angle
+    array_P2 = np.zeros((NUM_STEPS, 2))
+    
     for step, theta_m in enumerate(THETA_M_ARRAY):
+        # ? Solve for Point P1 across all Crank Angles ?
         array_P1[step] = _solve.solve_point_1(O4, LINK_M, theta_m)
-    
-    
-    
-    
+        
+        # ? Solve for Point P2 across all Crank Angles ?
+        array_P2[step] = _solve.solve_point_2(O2, array_P1[step], LINK_B, LINK_J)
     
     
     # ! Point 1 Figures !
@@ -134,7 +142,26 @@ def main():
     figure_path.append(p1_y_figure)
     figure_names.append("P1_y_Position_vs_Crank_Angle")
     
+    # ! Point 2 Figures !
+    # * Create Closed Loop NM + BJ Figure *
+    figure_NM_BJ = _plot.plot_nm_bj_figure(O2, O4, P1, P2)
+    figure_path.append(figure_NM_BJ)
+    figure_names.append("NM_BJ_Closed_Loop")
     
+    # * Create Point P2 Position Figure *
+    p2_position_figure = _plot.plot_p2_position(O2, O4, array_P1, array_P2)
+    figure_path.append(p2_position_figure)
+    figure_names.append("P2_Position")
+    
+    # * Create Point P2 x-Position vs. Crank Angle Figure *
+    p2_x_figure = _plot.plot_p2_x_figure(CRANK_ANGLE_PLOT, array_P2)
+    figure_path.append(p2_x_figure)
+    figure_names.append("P2_x_Position_vs_Crank_Angle")
+    
+    # * Create Point P2 y-Position vs. Crank Angle Figure *
+    p2_y_figure = _plot.plot_p2_y_figure(CRANK_ANGLE_PLOT, array_P2)
+    figure_path.append(p2_y_figure)
+    figure_names.append("P2_y_Position_vs_Crank_Angle")
     
     # Create Figures Dictionary to save figures
     figures_dictionary = os.path.join(os.path.dirname(__file__), 'Figures')
