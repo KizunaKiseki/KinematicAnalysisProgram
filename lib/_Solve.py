@@ -182,6 +182,70 @@ def solve_point_2(O2 : np.ndarray, P1 : np.ndarray, link_b : float, link_j : flo
     return P2
 
 
+def solve_velocity_2(O2 : np.ndarray, P1 : np.ndarray, P2 : np.ndarray, v_P1 : np.ndarray) -> tuple[np.ndarray, float, float]:
+    """
+    Solve for the velocity of Point P2.
+    
+    ! Loop:
+        N + M = B + J.
+        
+    ! Velocity Relationships:
+        1. V_P2 = omega_B x r_B
+        2. V_P2 = V_P1 + omega_J x r_J
+        
+        where :
+        r_B = P2 - O2
+        r_J = P2 - P1
+        
+    ! Planar Cross Product:
+        omega x r = omega * [-r_y, r_x]
+    
+    ! Component Form:
+        1. omega_B * rB_x = Vx_P1 - omega_J * rJ_x
+        2. -omega_B * rB_y = Vy_P1 + omega_J * rJ_y
+
+        
+        Rearranging gives:
+        1. omega_B * rB_x + omega_J * rJ_x = Vx_P1
+        2. -omega_B * rB_y - omega_J * rJ_y = Vy_P1
+
+
+    ! Matrix Form:
+        | -r_B_y   r_J_y | | omega_B | = | Vx_P1 |
+        | r_B_x   -r_J_x | | omega_J | = | Vy_P1 |
+    
+    Args:
+        O2 (np.ndarray): Fixed ground pivot.
+        P1 (np.ndarray): Crank pin position.
+        P2 (np.ndarray): Upper joint position.
+        v_P1 (np.ndarray): Velocity of Point P1 [v_x_P1, v_y_P1].
+    
+    Returns:
+        omega_B (float): Angular velocity of Link B.
+        omega_J (float): Angular velocity of Link J.
+        v_P2 (np.ndarray): Velocity of Point P2 [v_x_P2, v_y_P2].
+    """
+    # Position vectors from O2 and P1 to P2
+    r_B = P2 - O2
+    r_J = P2 - P1
+    
+    # Coefficient matrix for omega_B and omega_J
+    coefficient_matrix = np.array([[-r_B[1], r_J[1]], 
+                                   [r_B[0], -r_J[0]]])
+    
+    # Right-hand side vector for v_P1 components
+    rhs_vector = np.array([v_P1[0], v_P1[1]])
+    
+    # Solve for omega_B and omega_J using np.linalg.solve
+    omega_B, omega_J = np.linalg.solve(coefficient_matrix, rhs_vector)
+    
+    # Calculate velocity of P2 using either velocity relationship (using v_P1 for consistency)
+    v_P2 = omega_B * np.array([-r_B[1], r_B[0]]) 
+    
+    return v_P2, omega_B, omega_J
+    
+
+
 def solve_point_5(O2 : np.ndarray, P1 : np.ndarray, link_c : float, link_k : float) -> np.ndarray:
     """
     Solves the position of Point P5.
@@ -338,22 +402,7 @@ def solve_point_7(P6: np.ndarray, P5 : np.ndarray, link_h : float, link_i : floa
 
 
 
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
+
 
 def function_name():
     """

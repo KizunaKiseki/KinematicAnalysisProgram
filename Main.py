@@ -147,6 +147,11 @@ def main():
     
     # Initialize array to store velocity for each crank angle
     array_V1 = np.zeros((NUM_STEPS, 2))
+    array_V2 = np.zeros((NUM_STEPS, 2))
+    
+    # Initialize array to store angular velocity for each crank angle
+    array_omegaB = np.zeros(NUM_STEPS)
+    array_omegaJ = np.zeros(NUM_STEPS)
     
     # * Loop through each crank angle and solve for each angle *
     for step, theta_m in enumerate(THETA_M_ARRAY):
@@ -158,6 +163,10 @@ def main():
         
         # ? Solve for Point P2 across all Crank Angles ?
         array_P2[step] = _solve.solve_point_2(O2, array_P1[step], LINK_B, LINK_J)
+        
+        # ? Solve for Velocity & Angular Velocity of Point P2 across all Crank Angles ?
+        array_V2[step], array_omegaB[step], array_omegaJ[step] = _solve.solve_velocity_2(O2, array_P1[step], array_P2[step], 
+                                                                                         array_V1[step])
         
         # ? Solve for Point P4 across all Crank Angles ?
         array_P4[step] = _solve.solve_point_4(O2, array_P2[step], LINK_D, LINK_E)
@@ -173,10 +182,10 @@ def main():
     
     
     # ! Create Position Figures for Each Point !
-    position_path, position_names = _position.create_position_figures(O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, CRANK_ANGLE_PLOT)
+    # position_path, position_names = _position.create_position_figures(O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, CRANK_ANGLE_PLOT)
     
     # ! Create Velocity Figures for Each Point !
-    velocity_path, velocity_names = _velocity.create_velocity_figures(array_V1, CRANK_ANGLE_PLOT)
+    velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, array_V1, array_V2, array_omegaB, array_omegaJ)
     
     # ! Create Acceleration Figures for Each Point !
     

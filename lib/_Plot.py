@@ -328,6 +328,38 @@ def plot_speed_figure(theta_array : np.ndarray, velocity_array : np.ndarray,
     return speed_figure
 
 
+def plot_angular_velocity_figure(theta_array : np.ndarray, omega_array : np.ndarray,
+                     point_label : str, title : str) -> pl.figure:
+    """
+    General function for plotting angular velocity vs. crank angle.
+    
+    Args:
+        theta_array (np.ndarray): Crank rotation array in degrees.
+        omega_array (np.ndarray): Angular velocity array for a point.
+        point_label (str): Point label, such as P1, P2, or P5.
+        title (str): Figure title.
+    
+    Returns:
+        figure (pl.figure) : Matplotlib figure object.
+    """
+    # Set up figure and axes
+    omega_figure, omega_axes = setup_figure()
+    
+    # Set title and axes labels
+    omega_axes.set_title(title)
+    omega_axes.set_xlabel("Clockwise Crank Angle Rotation [degrees]")
+    omega_axes.set_ylabel(f"Angular Velocity [rad/s]")
+    
+    # Plot the angular velocity vs. crank angle
+    omega_axes.plot(theta_array, omega_array, color=PATH_COLOR, linewidth=2.0, label=f"Angular Velocity {point_label}")
+    
+    # Create Legend & Layout
+    omega_axes.legend(loc = 'best')
+    omega_figure.tight_layout()
+    
+    
+    return omega_figure
+
 
 def plot_acceleration_figure(theta_array : np.ndarray, acceleration_array : np.ndarray, coordinate_index : int,
                          point_label : str, title : str) -> pl.figure:
