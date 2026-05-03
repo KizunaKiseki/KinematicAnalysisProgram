@@ -99,17 +99,7 @@ def main():
 
     # ! Solve for Ground Link !
     P1 = _solve.solve_point_1(O4, LINK_M, THETA_M_TEST)
-    
-    # ? Print Point P1 Position Results ?
-    print(f"02 = {O2}")
-    print(f"04 = {O4}")
-    print(f"P1 = {P1}")
 
-    # * Create Point P1 Figure *
-    ground_figure = _plot.plot_ground_link(O2, O4, P1)
-    figure_path.append(ground_figure)
-    figure_names.append("Ground_Link_P1")
-    
     # ! Solve for Point P1 across all Crank Angles !
     # Initialize array to store P1 positions for each crank angle
     array_P1 = np.zeros((NUM_STEPS, 2))  
@@ -117,10 +107,22 @@ def main():
     for step, theta_m in enumerate(THETA_M_ARRAY):
         array_P1[step] = _solve.solve_point_1(O4, LINK_M, theta_m)
     
-    # * Create Point P1 Trajectory Figure *
-    p1_trajectory_figure = _plot.plot_p1_trajectory(O2, O4, array_P1)
-    figure_path.append(p1_trajectory_figure)
-    figure_names.append("P1_Trajectory")
+    
+    
+    
+    
+    
+    # ! Point 1 Figures !
+    
+    # * Create Point P1 Figure *
+    ground_figure = _plot.plot_ground_link(O2, O4, P1)
+    figure_path.append(ground_figure)
+    figure_names.append("Ground_Link_P1")
+    
+    # * Create Point P1 Position Figure *
+    p1_position_figure = _plot.plot_p1_position(O2, O4, array_P1)
+    figure_path.append(p1_position_figure)
+    figure_names.append("P1_Position")
     
     # * Create Point P1 x-Position vs. Crank Angle Figure *
     p1_x_figure = _plot.plot_p1_x_figure(CRANK_ANGLE_PLOT, array_P1)
@@ -131,6 +133,7 @@ def main():
     p1_y_figure = _plot.plot_p1_y_figure(CRANK_ANGLE_PLOT, array_P1)
     figure_path.append(p1_y_figure)
     figure_names.append("P1_y_Position_vs_Crank_Angle")
+    
     
     
     # Create Figures Dictionary to save figures
