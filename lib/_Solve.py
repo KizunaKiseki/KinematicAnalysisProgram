@@ -264,22 +264,45 @@ def solve_point_6(P4 : np.ndarray, P5 : np.ndarray, link_f : float, link_g : flo
     return P6
 
 
-def solve_P7():
+def solve_point_7(P6: np.ndarray, P5 : np.ndarray, link_h : float, link_i : float) -> np.ndarray:
     """
-    Summary of what the function does
+    Solves the position of Point P7.
+    
+    ! Known:
+        1. P6 = Upper right joint position
+        2. P5 = Lower joint position
+        
+    ! Link Constraints:
+        1. Distance from P6 to P7 = Link H
+        2. Distance from P5 to P7 = Link I
+        
+    ! Circle Equations:
+        1. (x_P7 - x_P6)^2 + (y_P7 - y_P6)^2 = link_h^2
+        2. (x_P7 - x_P5)^2 + (y_P7 - y_P5)^2 = link_i^2
+        
+    ? Since P7 is the foot point of the mechanism at the bottom, the intersection with smaller y-value is the correct solution.
     
     Args:
-    
+        P6 (np.ndarray): Upper right joint position.
+        P5 (np.ndarray): Lower joint position.
+        link_h (float): Length of Link H.
+        link_i (float): Length of Link I.
     
     Returns:
-    
-    
-    Raises:
+        P7 (np.ndarray): Position of Point P7 [x_P7, y_P7].
     """
+    # Use circle intersection to solve for P7
+    option_P7_1, option_P7_2 = circle_intersection(P6, link_h, P5, link_i)
     
-    
-    
-    pass
+    # Choose the correct intersection point based on the mechanism configuration
+    if option_P7_1[1] < option_P7_2[1]:
+        P7 = option_P7_1
+    else:
+        P7 = option_P7_2
+      
+        
+    return P7
+
 
 def function_name():
     """

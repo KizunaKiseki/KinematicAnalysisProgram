@@ -236,7 +236,7 @@ def plot_position_figure(theta_array : np.ndarray, position_array : np.ndarray, 
     position_figure, position_axes = setup_figure()
     
     # Choose coordinate label based on index
-    coordinate_label = "X [mm]" if coordinate_index == 0 else "Y [mm]"
+    coordinate_label = "X" if coordinate_index == 0 else "Y"
     
     # Set title and axes labels
     position_axes.set_title(title)

@@ -104,6 +104,7 @@ def main():
     array_P4 = np.zeros((NUM_STEPS, 2))
     array_P5 = np.zeros((NUM_STEPS, 2))
     array_P6 = np.zeros((NUM_STEPS, 2))
+    array_P7 = np.zeros((NUM_STEPS, 2))
     
     # * Loop through each crank angle and solve for each position *
     for step, theta_m in enumerate(THETA_M_ARRAY):
@@ -121,6 +122,9 @@ def main():
         
         # ? Solve for Point P6 across all Crank Angles ?
         array_P6[step] = _solve.solve_point_6(array_P4[step], array_P5[step], LINK_F, LINK_G)
+        
+        # ? Solve for Point P7 across all Crank Angles ?
+        array_P7[step] = _solve.solve_point_7(array_P6[step], array_P5[step], LINK_H, LINK_I)
     
     
     # ! Position Figures for P1 !
@@ -547,29 +551,29 @@ def main():
         
         links=[
             {
-                "point_1": O2,
-                "point_2": array_P6[0],
+                "point_1": array_P6[0],
+                "point_2": array_P5[0],
                 "label": "Link G",
                 "color": _plot.LINK_G_COLOR,
             },
             {
                 "point_1": array_P6[0],
-                "point_2": array_P5[0],
+                "point_2": array_P7[0],
                 "label": "Link H",
                 "color": _plot.LINK_H_COLOR,
             },
             {
                 "point_1": array_P5[0],
-                "point_2": O2,
+                "point_2": array_P7[0],
                 "label": "Link I",
                 "color": _plot.LINK_I_COLOR,
             },
         ],
 
         points=[
-            {"point": array_P5[0], "label": "P5", "x_offset": -10, "y_offset": -14},
-            {"point": array_P6[0], "label": "P6", "x_offset": 4, "y_offset": 6},
-            {"point": array_P7[0], "label": "P7", "x_offset": -14, "y_offset": 6},
+            {"point": array_P5[0], "label": "P5", "x_offset": 8, "y_offset": -4},
+            {"point": array_P6[0], "label": "P6", "x_offset": -4, "y_offset": 8},
+            {"point": array_P7[0], "label": "P7", "x_offset": -8, "y_offset": -16},
         ],
         
         paths = None,
@@ -687,44 +691,177 @@ def main():
         links=[
             {
                 "point_1": O2,
-                "point_2": P4,
+                "point_2": array_P4[0],
                 "label": "Link D",
                 "color": _plot.LINK_D_COLOR,
             },
             {
-                "point_1": P4,
-                "point_2": P6,
+                "point_1": array_P4[0],
+                "point_2": array_P6[0],
                 "label": "Link F",
                 "color": _plot.LINK_F_COLOR,
             },
             {
-                "point_1": P5,
-                "point_2": P6,
+                "point_1": array_P5[0],
+                "point_2": array_P6[0],
                 "label": "Link G",
                 "color": _plot.LINK_G_COLOR,
             },
             {
                 "point_1": O2,
-                "point_2": P5,
+                "point_2": array_P5[0],
                 "label": "Link C",
                 "color": _plot.LINK_C_COLOR,
             },
         ],
 
         points=[
-            {"point": O2, "label": "O2", "x_offset": -10, "y_offset": -14},
-            {"point": P4, "label": "P4", "x_offset": -14, "y_offset": 6},
-            {"point": P6, "label": "P6", "x_offset": -12, "y_offset": 6},
-            {"point": P5, "label": "P5", "x_offset": 6, "y_offset": -14},
+            {"point": O2, "label": "O2", "x_offset": -10, "y_offset": 8},
+            {"point": array_P4[0], "label": "P4", "x_offset": -14, "y_offset": 6},
+            {"point": array_P5[0], "label": "P5", "x_offset": 6, "y_offset": -14},
+            {"point": array_P6[0], "label": "P6", "x_offset": -8, "y_offset": -16},
         ],
+        
+        paths = None,
 
         padding=20.0
     )
 
     figure_path.append(parallel_mechanism_figure)
-    figure_names.append("parallel_mechanism_figure")
+    figure_names.append("Parallel_Figure")
     
     
+    # ! Position Figures for P7 !
+    foot_figure = _plot.plot_mechanism_figure(
+        title="Figure 20: Foot Mechanism",
+        
+        links=[
+        {
+            "point_1": O2,
+            "point_2": array_P4[0],
+            "label": "Link D",
+            "color": _plot.LINK_D_COLOR,
+        },
+        {
+            "point_1": O2,
+            "point_2": array_P5[0],
+            "label": "Link C",
+            "color": _plot.LINK_C_COLOR,
+        },
+        {
+            "point_1": array_P4[0],
+            "point_2": array_P6[0],
+            "label": "Link F",
+            "color": _plot.LINK_F_COLOR,
+        },
+        {
+            "point_1": array_P5[0],
+            "point_2": array_P6[0],
+            "label": "Link G",
+            "color": _plot.LINK_G_COLOR,
+        },
+        {
+            "point_1": array_P6[0],
+            "point_2": array_P7[0],
+            "label": "Link H",
+            "color": _plot.LINK_H_COLOR,
+        },
+        {
+            "point_1": array_P5[0],
+            "point_2": array_P7[0],
+            "label": "Link I",
+            "color": _plot.LINK_I_COLOR,
+        },
+        ],
+
+        points=[
+            {"point": O2, "label": "O2", "x_offset": -8, "y_offset": 8},
+            {"point": array_P4[0], "label": "P4", "x_offset": -14, "y_offset": 6},
+            {"point": array_P5[0], "label": "P5", "x_offset": 6,   "y_offset": -14},
+            {"point": array_P6[0], "label": "P6", "x_offset": 0, "y_offset": 6},
+            {"point": array_P7[0], "label": "P7", "x_offset": -8,  "y_offset": -14},
+        ],
+
+        paths = None,
+        
+        padding=20.0
+        
+    )
+        
+    p7_position_figure = _plot.plot_mechanism_figure(
+        title="Figure 21: Point P7 Position",
+
+        links=[
+        {
+            "point_1": O2,
+            "point_2": array_P4[0],
+            "label": "Link D",
+            "color": _plot.LINK_D_COLOR,
+        },
+        {
+            "point_1": O2,
+            "point_2": array_P5[0],
+            "label": "Link C",
+            "color": _plot.LINK_C_COLOR,
+        },
+        {
+            "point_1": array_P4[0],
+            "point_2": array_P6[0],
+            "label": "Link F",
+            "color": _plot.LINK_F_COLOR,
+        },
+        {
+            "point_1": array_P5[0],
+            "point_2": array_P6[0],
+            "label": "Link G",
+            "color": _plot.LINK_G_COLOR,
+        },
+        {
+            "point_1": array_P6[0],
+            "point_2": array_P7[0],
+            "label": "Link H",
+            "color": _plot.LINK_H_COLOR,
+        },
+        {
+            "point_1": array_P5[0],
+            "point_2": array_P7[0],
+            "label": "Link I",
+            "color": _plot.LINK_I_COLOR,
+        },
+        ],
+
+        points=[
+            {"point": O2, "label": "O2", "x_offset": -8, "y_offset": 8},
+            {"point": array_P4[0], "label": "P4", "x_offset": -14, "y_offset": 6},
+            {"point": array_P5[0], "label": "P5", "x_offset": 6,   "y_offset": -14},
+            {"point": array_P6[0], "label": "P6", "x_offset": 0, "y_offset": 6},
+            {"point": array_P7[0], "label": "P7", "x_offset": -8,  "y_offset": -14},
+        ],
+
+        paths=[
+            {
+                "array": array_P7,
+                "label": "P7 Path",
+            }
+        ],
+
+        padding=20.0
+    )
+    
+    P7_x_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P7, 0, "P7", "Figure 22: Point P7 x-Position vs. Crank Angle")
+    P7_y_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P7, 1, "P7", "Figure 23: Point P7 y-Position vs. Crank Angle")
+    
+    # Append P7 Figures to Figure Path
+    figure_path.append(foot_figure)
+    figure_path.append(p7_position_figure)
+    figure_path.append(P7_x_figure)
+    figure_path.append(P7_y_figure)
+    
+    # Append P7 Figure Names to Figure Names List
+    figure_names.append("Foot_Mechanism")
+    figure_names.append("P7_Position")
+    figure_names.append("P7_x_Position")
+    figure_names.append("P7_y_Position")
 
     # Create Figures Dictionary to save figures
     figures_dictionary = os.path.join(os.path.dirname(__file__), 'Figures')
