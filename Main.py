@@ -78,44 +78,6 @@ O4 = np.array([LINK_A, LINK_L])
 CRANK_ANGLE_PLOT = np.linspace(0, CRANK_ANGLE + 360, NUM_STEPS)  
 
 
-# * FUNCTION *
-# ? ================================================================ ?
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
-
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
-
 # * MAIN *
 # ? ================================================================ ?
 
