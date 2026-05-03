@@ -70,7 +70,7 @@ def draw_point(axes : pl.axes, point : np.ndarray, label : str) -> None:
     axes.text(point[0], point[1], f" {label}", fontsize=10)
 
 
-def draw_link(axes : pl.axes, point_1 : np.ndarray, point_2 : np.ndarray, label : str) -> None:
+def draw_link(axes : pl.axes, point_1 : np.ndarray, point_2 : np.ndarray, label : str, color : str) -> None:
     """
     Draw a link between two points on the given axes.
     
@@ -79,12 +79,13 @@ def draw_link(axes : pl.axes, point_1 : np.ndarray, point_2 : np.ndarray, label 
         point_1 (np.ndarray) : The (x, y) coordinates of the first point.
         point_2 (np.ndarray) : The (x, y) coordinates of the second point.
         label (str) : The label for the link to be displayed next to it on the plot.
+        color (str) : The color to use for the link (e.g., 'blue', 'red', etc.).
     
     Returns:
         None
     """
     # Plot the link as a line between the two points
-    axes.plot([point_1[0], point_2[0]], [point_1[1], point_2[1]], marker='o', label=label)
+    axes.plot([point_1[0], point_2[0]], [point_1[1], point_2[1]], marker='o', color=color, label=label)
 
 
 def set_axes_limits(axes : pl.axes, points : list[np.ndarray], padding : float = 10.0) -> None:
@@ -131,9 +132,9 @@ def plot_ground_link(O2 : np.ndarray, O4 : np.ndarray, P1 : np.ndarray) -> pl.fi
     ground_axes.set_ylabel("Y [mm]")
     
     # Draw Links
-    draw_link(ground_axes, O2, O4, "Link N")
-    draw_link(ground_axes, O4, P1, "Link M")
-    
+    draw_link(ground_axes, O2, O4, "Link N", color = "blue")
+    draw_link(ground_axes, O4, P1, "Link M", color = "orange")
+
     # Draw Points
     draw_point(ground_axes, O2, "02")
     draw_point(ground_axes, O4, "04")
@@ -177,11 +178,11 @@ def plot_p1_position(O2 : np.ndarray, O4 : np.ndarray, array_P1 : np.ndarray) ->
     draw_point(p1_position_axes, O4, "04")
     
     # Draw Crank Path
-    p1_position_axes.plot(array_P1[:, 0], array_P1[:, 1], label="Path P1")
+    p1_position_axes.plot(array_P1[:, 0], array_P1[:, 1], label="Path P1", color="purple")
     
     # Draw starting crank position
-    draw_link(p1_position_axes, O2, O4, "Link N")
-    draw_link(p1_position_axes, O4, array_P1[0], "Link M")
+    draw_link(p1_position_axes, O2, O4, "Link N", color = "cyan")
+    draw_link(p1_position_axes, O4, array_P1[0], "Link M", color = "orange")
     
     # Set axes limits based on point locations
     set_axes_limits(p1_position_axes, [O2, O4, *array_P1], padding=15.0)
@@ -284,10 +285,10 @@ def plot_nm_bj_figure(O2 : np.ndarray, O4 : np.ndarray, P1 : np.ndarray, P2 : np
     nm_bj_axes.set_ylabel("Y [mm]")
     
     # Draw Links
-    draw_link(nm_bj_axes, O2, O4, "Link N")
-    draw_link(nm_bj_axes, O4, P1, "Link M")
-    draw_link(nm_bj_axes, O2, P2, "Link B")
-    draw_link(nm_bj_axes, P1, P2, "Link J")
+    draw_link(nm_bj_axes, O2, O4, "Link N", color = "blue")
+    draw_link(nm_bj_axes, O4, P1, "Link M", color = "orange")
+    draw_link(nm_bj_axes, O2, P2, "Link B", color = "green")
+    draw_link(nm_bj_axes, P1, P2, "Link J", color = "red")
     
     # Draw Points
     draw_point(nm_bj_axes, O2, "02")
@@ -330,13 +331,14 @@ def plot_p2_position(O2 : np.ndarray, O4 : np.ndarray, array_P1 : np.ndarray, ar
     p2_position_axes.set_ylabel("Y [mm]")
     
     # Draw Path of P2
-    p2_position_axes.plot(array_P2[:, 0], array_P2[:, 1], label="Path P2")
+    p2_position_axes.plot(array_P2[:, 0], array_P2[:, 1], label="Path P2", color="purple")
     
     # Draw starting crank position
-    draw_link(p2_position_axes, O2, O4, "Link N")
-    draw_link(p2_position_axes, O4, array_P1[0], "Link M")
-    draw_link(p2_position_axes, O2, array_P2[0], "Link B")
-    draw_link(p2_position_axes, array_P1[0], array_P2[0], "Link J")
+    draw_link(p2_position_axes, O2, O4, "Link N", color = "cyan")
+    draw_link(p2_position_axes, O4, array_P1[0], "Link M", color = "orange")
+    draw_link(p2_position_axes, array_P1[0], array_P2[0], "Link J", color = "magenta")
+    draw_link(p2_position_axes, O2, array_P2[0], "Link B", color = "green")
+
     
     # Draw ground point and crank center
     draw_point(p2_position_axes, O2, "02")
@@ -377,7 +379,7 @@ def plot_p2_x_figure(theta_m : np.ndarray, array_P2 : np.ndarray) -> pl.figure:
     p2_x_axes.set_ylabel("X [mm]")
     
     # Plot X-coordinate of P2
-    p2_x_axes.plot(theta_m, array_P2[:, 0], label="X-coordinate of P2")
+    p2_x_axes.plot(theta_m, array_P2[:, 0], label="X P2")
     
     # Create Legend & Layout
     p2_x_axes.legend(loc = 'best')
@@ -409,7 +411,7 @@ def plot_p2_y_figure(theta_m : np.ndarray, array_P2 : np.ndarray) -> pl.figure:
     p2_y_axes.set_ylabel("Y [mm]")
     
     # Plot Y-coordinate of P2
-    p2_y_axes.plot(theta_m, array_P2[:, 1], label="Y-coordinate of P2")
+    p2_y_axes.plot(theta_m, array_P2[:, 1], label="Y P2")
     
     # Create Legend & Layout
     p2_y_axes.legend(loc = 'best')
@@ -417,7 +419,6 @@ def plot_p2_y_figure(theta_m : np.ndarray, array_P2 : np.ndarray) -> pl.figure:
     
     
     return p2_y_figure
-
 
 
 def function_name():
