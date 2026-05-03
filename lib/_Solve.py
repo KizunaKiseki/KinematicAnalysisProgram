@@ -26,7 +26,8 @@ import numpy as np
 # * FUNCTION *
 # ? ================================================================ ?
 
-def circle_intersection(center_1 : np.ndarray, radius_1 : float, center_2 : np.ndarray, radius_2 : float) -> tuple[np.ndarray, np.ndarray]:
+def circle_intersection(center_1 : np.ndarray, radius_1 : float, center_2 : np.ndarray, 
+                        radius_2 : float) -> tuple[np.ndarray, np.ndarray]:
     """
     Solves the intersection points of two circles.
     
