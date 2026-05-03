@@ -58,7 +58,7 @@ def create_position_figures(O2 : np.ndarray, O4: np.ndarray, array_P1: np.ndarra
     p5_figures(figure_path, figure_names, O2, O4, array_P1, array_P5, crank_angle_plot)
     p4_figures(figure_path, figure_names, O2, O4, array_P1, array_P2, array_P4, crank_angle_plot)
     p6_figures(figure_path, figure_names, O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, crank_angle_plot)
-    p7_figures(figure_path, figure_names, O2, array_P4, array_P5, array_P6, array_P7, crank_angle_plot)
+    p7_figures(figure_path, figure_names, O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, crank_angle_plot)
     
     return figure_path, figure_names
 
@@ -715,8 +715,9 @@ def p6_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.nda
     figure_names.extend(["Rigid_Body_GHI", "P6_Position", "P6_x_Position", "P6_y_Position", "Parallel_Figure"]) 
     
     
-def p7_figures(figure_path: list, figure_names: list, O2: np.ndarray, array_P4: np.ndarray, array_P5: np.ndarray, 
-               array_P6: np.ndarray, array_P7: np.ndarray, crank_angle_plot: np.ndarray) -> tuple[list, list]:
+def p7_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4 : np.ndarray, array_P1: np.ndarray, array_P2 : np.ndarray, 
+               array_P4: np.ndarray, array_P5: np.ndarray, array_P6: np.ndarray, array_P7: np.ndarray, 
+               crank_angle_plot: np.ndarray) -> tuple[list, list]:
     """
     Creates and appends the position figure for point P6 to the provided lists.
     
@@ -724,6 +725,9 @@ def p7_figures(figure_path: list, figure_names: list, O2: np.ndarray, array_P4: 
         figure_path (list): List to store Matplotlib figure objects.
         figure_names (list): List to store figure file names.
         O2 (np.ndarray): Fixed ground pivot O2.
+        O4 (np.ndarray): Fixed ground pivot O4.
+        array_P1 (np.ndarray): Point P1 position array.
+        array_P2 (np.ndarray): Point P2 position array.
         array_P4 (np.ndarray): Point P4 position array.
         array_P5 (np.ndarray): Point P5 position array.
         array_P6 (np.ndarray): Point P6 position array.
@@ -735,50 +739,90 @@ def p7_figures(figure_path: list, figure_names: list, O2: np.ndarray, array_P4: 
         title="Figure 20: Foot Mechanism",
         
         links=[
-        {
-            "point_1": O2,
-            "point_2": array_P4[0],
-            "label": "Link D",
-            "color": _plot.LINK_D_COLOR,
-        },
-        {
-            "point_1": O2,
-            "point_2": array_P5[0],
-            "label": "Link C",
-            "color": _plot.LINK_C_COLOR,
-        },
-        {
-            "point_1": array_P4[0],
-            "point_2": array_P6[0],
-            "label": "Link F",
-            "color": _plot.LINK_F_COLOR,
-        },
-        {
-            "point_1": array_P5[0],
-            "point_2": array_P6[0],
-            "label": "Link G",
-            "color": _plot.LINK_G_COLOR,
-        },
-        {
-            "point_1": array_P6[0],
-            "point_2": array_P7[0],
-            "label": "Link H",
-            "color": _plot.LINK_H_COLOR,
-        },
-        {
-            "point_1": array_P5[0],
-            "point_2": array_P7[0],
-            "label": "Link I",
-            "color": _plot.LINK_I_COLOR,
-        },
+            {
+                "point_1": O2,
+                "point_2": O4,
+                "label": "Link N",
+                "color": _plot.LINK_N_COLOR,
+                "linestyle": _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1": O4,
+                "point_2": array_P1[0],
+                "label": "Link M",
+                "color": _plot.LINK_M_COLOR,
+            },
+            {
+                "point_1": O2,
+                "point_2": array_P2[0],
+                "label": "Link B",
+                "color": _plot.LINK_B_COLOR,
+            },
+            {
+                "point_1": array_P1[0],
+                "point_2": array_P2[0],
+                "label": "Link J",
+                "color": _plot.LINK_J_COLOR,
+            },
+            {
+                "point_1": O2,
+                "point_2": array_P4[0],
+                "label": "Link D",
+                "color": _plot.LINK_D_COLOR,
+            },
+            {
+                "point_1": array_P4[0],
+                "point_2": array_P2[0],
+                "label": "Link E",
+                "color": _plot.LINK_E_COLOR,
+            },
+            {
+                "point_1": O2,
+                "point_2": array_P5[0],
+                "label": "Link C",
+                "color": _plot.LINK_C_COLOR,
+            },
+            {
+                "point_1": array_P1[0],
+                "point_2": array_P5[0],
+                "label": "Link K",
+                "color": _plot.LINK_K_COLOR,
+            },
+            {
+                "point_1": array_P4[0],
+                "point_2": array_P6[0],
+                "label": "Link F",
+                "color": _plot.LINK_F_COLOR,
+            },
+            {
+                "point_1": array_P5[0],
+                "point_2": array_P6[0],
+                "label": "Link G",
+                "color": _plot.LINK_G_COLOR,
+            },
+            {
+                "point_1": array_P6[0],
+                "point_2": array_P7[0],
+                "label": "Link H",
+                "color": _plot.LINK_H_COLOR,
+            },
+            {
+                "point_1": array_P5[0],
+                "point_2": array_P7[0],
+                "label": "Link I",
+                "color": _plot.LINK_I_COLOR,
+            },
         ],
 
         points=[
-            {"point": O2, "label": "O2", "x_offset": -8, "y_offset": 8},
+            {"point": O2, "label": "O2", "x_offset": -10, "y_offset": -14},
+            {"point": O4, "label": "O4", "x_offset": -6,  "y_offset": -14},
+            {"point": array_P1[0], "label": "P1", "x_offset": -2, "y_offset": -14},
+            {"point": array_P2[0], "label": "P2", "x_offset": 4, "y_offset": 6},
             {"point": array_P4[0], "label": "P4", "x_offset": -14, "y_offset": 6},
-            {"point": array_P5[0], "label": "P5", "x_offset": 6,   "y_offset": -14},
+            {"point": array_P5[0], "label": "P5", "x_offset": 6, "y_offset": -14},
             {"point": array_P6[0], "label": "P6", "x_offset": 0, "y_offset": 6},
-            {"point": array_P7[0], "label": "P7", "x_offset": -8,  "y_offset": -14},
+            {"point": array_P7[0], "label": "P7", "x_offset": -8, "y_offset": -14},
         ],
 
         paths = None,
@@ -791,50 +835,90 @@ def p7_figures(figure_path: list, figure_names: list, O2: np.ndarray, array_P4: 
         title="Figure 21: Point P7 Position",
 
         links=[
-        {
-            "point_1": O2,
-            "point_2": array_P4[0],
-            "label": "Link D",
-            "color": _plot.LINK_D_COLOR,
-        },
-        {
-            "point_1": O2,
-            "point_2": array_P5[0],
-            "label": "Link C",
-            "color": _plot.LINK_C_COLOR,
-        },
-        {
-            "point_1": array_P4[0],
-            "point_2": array_P6[0],
-            "label": "Link F",
-            "color": _plot.LINK_F_COLOR,
-        },
-        {
-            "point_1": array_P5[0],
-            "point_2": array_P6[0],
-            "label": "Link G",
-            "color": _plot.LINK_G_COLOR,
-        },
-        {
-            "point_1": array_P6[0],
-            "point_2": array_P7[0],
-            "label": "Link H",
-            "color": _plot.LINK_H_COLOR,
-        },
-        {
-            "point_1": array_P5[0],
-            "point_2": array_P7[0],
-            "label": "Link I",
-            "color": _plot.LINK_I_COLOR,
-        },
+            {
+                "point_1": O2,
+                "point_2": O4,
+                "label": "Link N",
+                "color": _plot.LINK_N_COLOR,
+                "linestyle": _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1": O4,
+                "point_2": array_P1[0],
+                "label": "Link M",
+                "color": _plot.LINK_M_COLOR,
+            },
+            {
+                "point_1": O2,
+                "point_2": array_P2[0],
+                "label": "Link B",
+                "color": _plot.LINK_B_COLOR,
+            },
+            {
+                "point_1": array_P1[0],
+                "point_2": array_P2[0],
+                "label": "Link J",
+                "color": _plot.LINK_J_COLOR,
+            },
+            {
+                "point_1": O2,
+                "point_2": array_P4[0],
+                "label": "Link D",
+                "color": _plot.LINK_D_COLOR,
+            },
+            {
+                "point_1": array_P4[0],
+                "point_2": array_P2[0],
+                "label": "Link E",
+                "color": _plot.LINK_E_COLOR,
+            },
+            {
+                "point_1": O2,
+                "point_2": array_P5[0],
+                "label": "Link C",
+                "color": _plot.LINK_C_COLOR,
+            },
+            {
+                "point_1": array_P1[0],
+                "point_2": array_P5[0],
+                "label": "Link K",
+                "color": _plot.LINK_K_COLOR,
+            },
+            {
+                "point_1": array_P4[0],
+                "point_2": array_P6[0],
+                "label": "Link F",
+                "color": _plot.LINK_F_COLOR,
+            },
+            {
+                "point_1": array_P5[0],
+                "point_2": array_P6[0],
+                "label": "Link G",
+                "color": _plot.LINK_G_COLOR,
+            },
+            {
+                "point_1": array_P6[0],
+                "point_2": array_P7[0],
+                "label": "Link H",
+                "color": _plot.LINK_H_COLOR,
+            },
+            {
+                "point_1": array_P5[0],
+                "point_2": array_P7[0],
+                "label": "Link I",
+                "color": _plot.LINK_I_COLOR,
+            },
         ],
 
         points=[
-            {"point": O2, "label": "O2", "x_offset": -8, "y_offset": 8},
+            {"point": O2, "label": "O2", "x_offset": -10, "y_offset": -14},
+            {"point": O4, "label": "O4", "x_offset": -6,  "y_offset": -14},
+            {"point": array_P1[0], "label": "P1", "x_offset": -2, "y_offset": -14},
+            {"point": array_P2[0], "label": "P2", "x_offset": 4, "y_offset": 6},
             {"point": array_P4[0], "label": "P4", "x_offset": -14, "y_offset": 6},
-            {"point": array_P5[0], "label": "P5", "x_offset": 6,   "y_offset": -14},
+            {"point": array_P5[0], "label": "P5", "x_offset": 6, "y_offset": -14},
             {"point": array_P6[0], "label": "P6", "x_offset": 0, "y_offset": 6},
-            {"point": array_P7[0], "label": "P7", "x_offset": -8,  "y_offset": -14},
+            {"point": array_P7[0], "label": "P7", "x_offset": -8, "y_offset": -14},
         ],
 
         paths=[
