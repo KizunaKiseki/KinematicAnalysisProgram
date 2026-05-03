@@ -291,7 +291,7 @@ def plot_velocity_figure(theta_array : np.ndarray, velocity_array : np.ndarray, 
     return velocity_figure
 
 
-def plot_speed_figure(theta_array : np.ndarray, velocity_array : np.ndarray, coordinate_index : int,
+def plot_speed_figure(theta_array : np.ndarray, velocity_array : np.ndarray,
                          point_label : str, title : str) -> pl.figure:
     """
     General function for plotting speed vs. crank angle.

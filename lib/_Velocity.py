@@ -59,6 +59,8 @@ def create_velocity_figures(array_V1 : np.ndarray, crank_angle_plot: np.ndarray)
     # * Create Velocity Figures for Each Point *
     v1_figures(figure_path, figure_names, array_V1, crank_angle_plot)
     
+    return figure_path, figure_names
+    
     
 def v1_figures(figure_path : list, figure_names : list, array_V1 : np.ndarray, crank_angle_plot : np.ndarray) -> None:
     """
@@ -71,9 +73,9 @@ def v1_figures(figure_path : list, figure_names : list, array_V1 : np.ndarray, c
         crank_angle_plot (np.ndarray): Array of crank angles for plotting.
     """
     # ! Velocity Figures for Point P1 !
-    v1_x_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V1[:, 0], 0, "P1", "Velocity of Point P1 vs Crank Angle (x-component)")
-    v1_y_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V1[:, 1], 1, "P1", "Velocity of Point P1 vs Crank Angle (y-component)")
-    v1_speed_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V1, 2, "P1", "Speed of Point P1 vs Crank Angle")
+    v1_x_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V1, 0, "P1", "Velocity of Point P1 vs Crank Angle (x-component)")
+    v1_y_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V1, 1, "P1", "Velocity of Point P1 vs Crank Angle (y-component)")
+    v1_speed_figure = _plot.plot_speed_figure(crank_angle_plot, array_V1, "P1", "Speed of Point P1 vs Crank Angle")
     
     
     # Append V1 Figures to Figure Path

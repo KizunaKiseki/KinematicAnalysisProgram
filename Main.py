@@ -78,7 +78,7 @@ O2 = np.array([0.0, 0.0])
 O4 = np.array([LINK_A, LINK_L]) 
 
 # Figures Aesthetics Tweaks
-CRANK_ANGLE_PLOT = np.linspace(0, CRANK_ANGLE - 360, NUM_STEPS)  
+CRANK_ANGLE_PLOT = np.linspace(0, CRANK_ANGLE + 360, NUM_STEPS)  
 
 # * FUNCTION *
 # ? ================================================================ ?
@@ -173,7 +173,7 @@ def main():
     
     
     # ! Create Position Figures for Each Point !
-    # position_path, position_names = _position.create_position_figures(O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, CRANK_ANGLE_PLOT)
+    position_path, position_names = _position.create_position_figures(O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, CRANK_ANGLE_PLOT)
     
     # ! Create Velocity Figures for Each Point !
     velocity_path, velocity_names = _velocity.create_velocity_figures(array_V1, CRANK_ANGLE_PLOT)
