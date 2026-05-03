@@ -98,24 +98,15 @@ def main():
     figure_names = []
     
     # ! Solve for one crank angle !
-    
-    # ? Solve for P1 for one crank angle ?
+    # ? Solve for one crank angle ?
     P1 = _solve.solve_point_1(O4, LINK_M, THETA_M_TEST)
-    
-    # ? Solve for P2 for one crank angle ?
     P2 = _solve.solve_point_2(O2, P1, LINK_B, LINK_J)
-    
-    # ? Solve for P5 for one crank angle ?
     P5 = _solve.solve_point_5(O2, P1, LINK_C, LINK_K)
 
     # ! Solve across all crank angles !
-    # Initialize array to store P1 positions for each crank angle
+    # Initialize array to store positions for each crank angle
     array_P1 = np.zeros((NUM_STEPS, 2))  
-    
-    # Initialize array to store P2 positions for each crank angle
     array_P2 = np.zeros((NUM_STEPS, 2))
-    
-    # Initialize array to store P5 positions for each crank angle
     array_P5 = np.zeros((NUM_STEPS, 2))
     
     for step, theta_m in enumerate(THETA_M_ARRAY):
@@ -129,69 +120,308 @@ def main():
         array_P5[step] = _solve.solve_point_5(O2, array_P1[step], LINK_C, LINK_K)
     
     
-    # ! Point 1 Figures !
-    # * Create Point P1 Figure *
-    ground_figure = _plot.plot_ground_link(O2, O4, P1)
+    # ! Position Figures for P1 !
+    ground_figure = _plot.plot_mechanism_figure(
+        title = "Figure 1 : Ground Link",
+        
+        links = [
+            {
+                "point_1" : O2,
+                "point_2" : O4,
+                "label" : "Link N",
+                "color" : _plot.LINK_N_COLOR,
+                "linestyle" : _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1" : O4,
+                "point_2" : P1,
+                "label" : "Link M",
+                "color" : _plot.LINK_M_COLOR,
+            }
+        ],
+        points = [
+            {"point" : O2, "label" : "O2", "x_offset" : -8.0, "y_offset" : -16.0},
+            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : -16.0},
+            {"point" : P1, "label" : "P1", "x_offset" : 0.0, "y_offset" : -16.0},
+        ],
+        
+        paths = None,
+        
+        padding = 20.0   
+    )
+    
+    p1_position_figure = _plot.plot_mechanism_figure(
+        title = "Figure 2: Point P1 Position",
+        
+        links = [
+            {
+                "point_1" : O2,
+                "point_2" : O4,
+                "label" : "Link N",
+                "color" : _plot.LINK_N_COLOR,
+                "linestyle" : _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1" : O4,
+                "point_2" : array_P1[0],
+                "label" : "Link M",
+                "color" : _plot.LINK_M_COLOR,
+            }
+        ],
+        
+        points = [
+            {"point" : O2, "label" : "O2", "x_offset" : -8.0, "y_offset" : -16.0},
+            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : -16.0},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : 0.0, "y_offset" : -16.0},
+        ],
+        
+        paths = [
+            {
+                "array" : array_P1,
+                "label" : "P1 Path"
+            }  
+        ],
+        
+        padding = 20.0   
+    )
+    
+    p1_x_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P1, 0, "P1", "Figure 3: Point P1 x-Position vs. Crank Angle")
+    p1_y_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P1, 1, "P1", "Figure 4: Point P1 y-Position vs. Crank Angle")
+    
+    
+    # Append P1 Figures to Figure Path
     figure_path.append(ground_figure)
-    figure_names.append("Ground_Link_P1")
-    
-    # * Create Point P1 Position Figure *
-    p1_position_figure = _plot.plot_p1_position(O2, O4, array_P1)
     figure_path.append(p1_position_figure)
-    figure_names.append("P1_Position")
-    
-    # * Create Point P1 x-Position vs. Crank Angle Figure *
-    p1_x_figure = _plot.plot_p1_x_figure(CRANK_ANGLE_PLOT, array_P1)
     figure_path.append(p1_x_figure)
-    figure_names.append("P1_x_Position_vs_Crank_Angle")
-    
-    # * Create Point P1 y-Position vs. Crank Angle Figure *
-    p1_y_figure = _plot.plot_p1_y_figure(CRANK_ANGLE_PLOT, array_P1)
     figure_path.append(p1_y_figure)
-    figure_names.append("P1_y_Position_vs_Crank_Angle")
+    # Append P1 Figure Names to Figure Names List
+    figure_names.append("Ground_Link")
+    figure_names.append("P1_Position")
+    figure_names.append("P1_x_Position")
+    figure_names.append("P1_y_Position")
     
-    # ! Point 2 Figures !
-    # * Create Closed Loop NM + BJ Figure *
-    figure_NM_BJ = _plot.plot_nm_bj_figure(O2, O4, P1, P2)
-    figure_path.append(figure_NM_BJ)
-    figure_names.append("NM_BJ_Closed_Loop")
     
-    # * Create Point P2 Position Figure *
-    p2_position_figure = _plot.plot_p2_position(O2, O4, array_P1, array_P2)
-    figure_path.append(p2_position_figure)
-    figure_names.append("P2_Position")
-    
-    # * Create Point P2 x-Position vs. Crank Angle Figure *
-    p2_x_figure = _plot.plot_p2_x_figure(CRANK_ANGLE_PLOT, array_P2)
-    figure_path.append(p2_x_figure)
-    figure_names.append("P2_x_Position_vs_Crank_Angle")
-    
-    # * Create Point P2 y-Position vs. Crank Angle Figure *
-    p2_y_figure = _plot.plot_p2_y_figure(CRANK_ANGLE_PLOT, array_P2)
-    figure_path.append(p2_y_figure)
-    figure_names.append("P2_y_Position_vs_Crank_Angle")
-    
-    # ! Point 5 Figures !
-    # * Create Closed Loop NM + CK Figure *
-    figure_NM_CK = _plot.plot_nm_ck_figure(O2, O4, P1, P5)
-    figure_path.append(figure_NM_CK)
-    figure_names.append("NM_CK_Closed_Loop")
-    
-    # * Create Point P5 Position Figure *
-    p5_position_figure = _plot.plot_p5_position(O2, O4, array_P1, array_P5)
-    figure_path.append(p5_position_figure)
-    figure_names.append("P5_Position")
-    
-    # * Create Point P5 x-Position vs. Crank Angle Figure *
-    p5_x_figure = _plot.plot_p5_x_figure(CRANK_ANGLE_PLOT, array_P5)
-    figure_path.append(p5_x_figure)
-    figure_names.append("P5_x_Position_vs_Crank_Angle")
-    
-    # * Create Point P5 y-Position vs. Crank Angle Figure *
-    p5_y_figure = _plot.plot_p5_y_figure(CRANK_ANGLE_PLOT, array_P5)
-    figure_path.append(p5_y_figure)
-    figure_names.append("P5_y_Position_vs_Crank_Angle")
+    # ! Position Figures for P2 ! 
+    nm_bj_figure = _plot.plot_mechanism_figure(
+        title = "Figure 5: Closed Loop NM + BJ",
 
+        links = [
+            {
+                "point_1" : O2,
+                "point_2" : O4,
+                "label" : "Link N",
+                "color" : _plot.LINK_N_COLOR,
+                "linestyle" : _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1" : O4,
+                "point_2" : array_P1[0],
+                "label" : "Link M",
+                "color" : _plot.LINK_M_COLOR,
+            },
+            {
+                "point_1" : O2,
+                "point_2" : array_P2[0],
+                "label" : "Link B",
+                "color" : _plot.LINK_B_COLOR,
+            },
+            
+            {
+                "point_1" : array_P1[0],
+                "point_2" : array_P2[0],
+                "label" : "Link J",
+                "color" : _plot.LINK_J_COLOR,
+            }
+        
+        ],
+        
+        points = [
+            {"point" : O2, "label" : "O2", "x_offset" : -8.0, "y_offset" : -16.0},
+            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : -16.0},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : 0.0, "y_offset" : -16.0},
+            {"point" : array_P2[0], "label" : "P2", "x_offset" : -4.0, "y_offset" : 8.0},
+        ],
+        
+        paths = None,
+        
+        padding = 20.0
+    )
+    
+    p2_position_figure = _plot.plot_mechanism_figure(
+        title = "Figure 6: Point P2 Position",
+        
+        links = [
+            {
+                "point_1" : O2,
+                "point_2" : O4,
+                "label" : "Link N",
+                "color" : _plot.LINK_N_COLOR,
+                "linestyle" : _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1" : O4,
+                "point_2" : array_P1[0],
+                "label" : "Link M",
+                "color" : _plot.LINK_M_COLOR,
+            },
+            {
+                "point_1" : O2,
+                "point_2" : array_P2[0],
+                "label" : "Link B",
+                "color" : _plot.LINK_B_COLOR,
+            },
+            
+            {
+                "point_1" : array_P1[0],
+                "point_2" : array_P2[0],
+                "label" : "Link J",
+                "color" : _plot.LINK_J_COLOR,
+            }
+        
+        ],
+        
+        points = [
+            {"point" : O2, "label" : "O2", "x_offset" : -8.0, "y_offset" : -16.0},
+            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : -16.0},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : 0.0, "y_offset" : -16.0},
+            {"point" : array_P2[0], "label" : "P2", "x_offset" : 4.0, "y_offset" : 8.0},
+        ],
+        
+        paths = [
+            {   
+                "array" : array_P2,
+                "label" : "P2 Path"
+            }
+        ],
+        
+        padding = 20.0
+    )
+
+    P2_x_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P2, 0, "P2", "Figure 7: Point P2 x-Position vs. Crank Angle")
+    P2_y_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P2, 1, "P2", "Figure 8: Point P2 y-Position vs. Crank Angle")
+    
+    
+    # Append P2 Figures to Figure Path
+    figure_path.append(nm_bj_figure)
+    figure_path.append(p2_position_figure)
+    figure_path.append(P2_x_figure)
+    figure_path.append(P2_y_figure)
+    
+    # Append P2 Figure Names to Figure Names List
+    figure_names.append("Closed_Loop_NM_BJ")
+    figure_names.append("P2_Position")
+    figure_names.append("P2_x_Position")
+    figure_names.append("P2_y_Position")
+
+    # ! Position Figures for P5 !
+    nm_ck_figure = _plot.plot_mechanism_figure(
+        title = "Figure 9: Closed Loop NM + CK",
+        links = [
+            {
+                "point_1" : O2,
+                "point_2" : O4,
+                "label" : "Link N",
+                "color" : _plot.LINK_N_COLOR,
+                "linestyle" : _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1" : O4,
+                "point_2" : array_P1[0],
+                "label" : "Link M",
+                "color" : _plot.LINK_M_COLOR,
+            },
+            {
+                "point_1" : O2,
+                "point_2" : array_P5[0],
+                "label" : "Link C",
+                "color" : _plot.LINK_C_COLOR,
+            },
+            
+            {
+                "point_1" : array_P1[0],
+                "point_2" : array_P5[0],
+                "label" : "Link K",
+                "color" : _plot.LINK_K_COLOR,
+            }
+        
+        ],
+        
+        points = [
+            {"point" : O2, "label" : "O2", "x_offset" : 8.0, "y_offset" : 8.0},
+            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : 8.0},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : -4.0, "y_offset" : 8.0},
+            {"point" : array_P5[0], "label" : "P5", "x_offset" : -4.0, "y_offset" : -16.0},
+        ],
+        
+        paths = None,
+        
+        padding = 20.0
+    )
+    
+    p5_position_figure = _plot.plot_mechanism_figure(
+        title = "Figure 10: Point P5 Position",
+        links = [
+            {
+                "point_1" : O2,
+                "point_2" : O4,
+                "label" : "Link N",
+                "color" : _plot.LINK_N_COLOR,
+                "linestyle" : _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1" : O4,
+                "point_2" : array_P1[0],
+                "label" : "Link M",
+                "color" : _plot.LINK_M_COLOR,
+            },
+            {
+                "point_1" : O2,
+                "point_2" : array_P5[0],
+                "label" : "Link C",
+                "color" : _plot.LINK_C_COLOR,
+            },
+            
+            {
+                "point_1" : array_P1[0],
+                "point_2" : array_P5[0],
+                "label" : "Link K",
+                "color" : _plot.LINK_K_COLOR,
+            }
+        
+        ],
+        
+        points = [
+            {"point" : O2, "label" : "O2", "x_offset" : 8.0, "y_offset" : 8.0},
+            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : 8.0},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : -4.0, "y_offset" : 8.0},
+            {"point" : array_P5[0], "label" : "P5", "x_offset" : -4.0, "y_offset" : -16.0},
+        ],
+        
+        paths = [
+            {  
+                "array" : array_P5,
+                "label" : "P5 Path"
+            }
+        ],
+        
+        padding = 20.0
+    )
+    
+    P5_x_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P5, 0, "P5", "Figure 11: Point P5 x-Position vs. Crank Angle")
+    P5_y_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P5, 1, "P5", "Figure 12: Point P5 y-Position vs. Crank Angle")
+    
+    
+    # Append P5 Figures to Figure Path
+    figure_path.append(nm_ck_figure)
+    figure_path.append(p5_position_figure)
+    figure_path.append(P5_x_figure)
+    figure_path.append(P5_y_figure)
+    
+    # Append P5 Figure Names to Figure Names List
+    figure_names.append("Closed_Loop_NM_CK")
+    figure_names.append("P5_Position")
+    figure_names.append("P5_x_Position")
+    figure_names.append("P5_y_Position")
 
 
     # Create Figures Dictionary to save figures
