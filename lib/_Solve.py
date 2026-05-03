@@ -239,11 +239,50 @@ def solve_velocity_2(O2 : np.ndarray, P1 : np.ndarray, P2 : np.ndarray, v_P1 : n
     # Solve for omega_B and omega_J using np.linalg.solve
     omega_B, omega_J = np.linalg.solve(coefficient_matrix, rhs_vector)
     
-    # Calculate velocity of P2 using either velocity relationship (using v_P1 for consistency)
+    # Velocity of Point P2
     v_P2 = omega_B * np.array([-r_B[1], r_B[0]]) 
     
     return v_P2, omega_B, omega_J
     
+    
+def solve_point_4(O2 : np.ndarray, P2 : np.ndarray, link_d : float, link_e : float) -> np.ndarray:
+    """
+    Solves the position of Point P4.
+    
+    ! Known:
+        1. O2 = Fixed ground pivot
+        2. P2 = Upper joint position
+        
+    ! Link Constraints:
+        3. Distance from O2 to P4 = Link D
+        4. Distance from P2 to P4 = Link E
+        
+    ! Circle Equations:
+        5. (x_P4 - x_O2)^2 + (y_P4 - y_O2)^2 = link_d^2
+        6. (x_P4 - x_P2)^2 + (y_P4 - y_P2)^2 = link_e^2
+        
+    ? Since P4 is the  upper left joint in the mechanism, the intersection with smaller x-value is the correct solution.
+    
+    Args:
+        O2 (np.ndarray): Fixed ground pivot.
+        P2 (np.ndarray): Upper joint position.
+        link_d (float): Length of Link D.
+        link_e (float): Length of Link E.
+    
+    Returns:
+        P4 (np.ndarray): Position of Point P4 [x_P4, y_P4].
+    """
+    # Use circle intersection to solve for P4
+    option_P4_1, option_P4_2 = circle_intersection(O2, link_d, P2, link_e)
+    
+    # Choose the correct intersection point based on the mechanism configuration
+    if option_P4_1[0] < option_P4_2[0]:
+        P4 = option_P4_1
+    else:
+        P4 = option_P4_2
+    
+    
+    return P4
 
 
 def solve_point_5(O2 : np.ndarray, P1 : np.ndarray, link_c : float, link_k : float) -> np.ndarray:
@@ -285,45 +324,64 @@ def solve_point_5(O2 : np.ndarray, P1 : np.ndarray, link_c : float, link_k : flo
         
     return P5
 
-
-def solve_point_4(O2 : np.ndarray, P2 : np.ndarray, link_d : float, link_e : float) -> np.ndarray:
+def solve_velocity_5(O2 : np.ndarray, P1 : np.ndarray, P5 : np.ndarray, v_P1 : np.ndarray) -> np.ndarray:
     """
-    Solves the position of Point P4.
+    Solves the velocity of Point P5.
     
-    ! Known:
-        1. O2 = Fixed ground pivot
-        2. P2 = Upper joint position
+    ! Velocity Relationships:
+        1. V_P5 = omega_C x r_C
+        2. V_P5 = V_P1 + omega_K x r_K
         
-    ! Link Constraints:
-        3. Distance from O2 to P4 = Link D
-        4. Distance from P2 to P4 = Link E
+        where :
+        r_C = P5 - O2
+        r_K = P5 - P1
         
-    ! Circle Equations:
-        5. (x_P4 - x_O2)^2 + (y_P4 - y_O2)^2 = link_d^2
-        6. (x_P4 - x_P2)^2 + (y_P4 - y_P2)^2 = link_e^2
+    ! Planar Cross Product:
+        omega x r = omega * [-r_y, r_x]
         
-    ? Since P4 is the  upper left joint in the mechanism, the intersection with smaller x-value is the correct solution.
+    ! Component Form:
+        1. omega_C * rC_x = Vx_P1 - omega_K * rK_x
+        2. -omega_C * rC_y = Vy_P1 + omega_K * rK_y
+
+        
+        Rearranging gives:
+        1. omega_C * rC_x + omega_K * rK_x = Vx_P1
+        2. -omega_C * rC_y - omega_K * rK_y = Vy_P1
+        
+    ! Matrix Form:
+        | -rC_y   rK_y | | omega_C | = | Vx_P1 |
+        | rC_x   -rK_x | | omega_K | = | Vy_P1 |
     
     Args:
         O2 (np.ndarray): Fixed ground pivot.
-        P2 (np.ndarray): Upper joint position.
-        link_d (float): Length of Link D.
-        link_e (float): Length of Link E.
+        P1 (np.ndarray): Crank pin position.
+        P5 (np.ndarray): Position of Point P5.
+        v_P1 (np.ndarray): Velocity of Point P1.
     
     Returns:
-        P4 (np.ndarray): Position of Point P4 [x_P4, y_P4].
+        v_P5 (np.ndarray): Velocity of Point P5.
+        omega_C (float): Angular velocity of Link C.
+        omega_K (float): Angular velocity of Link K.
     """
-    # Use circle intersection to solve for P4
-    option_P4_1, option_P4_2 = circle_intersection(O2, link_d, P2, link_e)
+    # Position vectors from O2 and P1 to P5
+    r_C = P5 - O2
+    r_K = P5 - P1
     
-    # Choose the correct intersection point based on the mechanism configuration
-    if option_P4_1[0] < option_P4_2[0]:
-        P4 = option_P4_1
-    else:
-        P4 = option_P4_2
+    # Coefficient matrix for omega_C and omega_K
+    coefficient_matrix = np.array([[-r_C[1], r_K[1]], 
+                                   [r_C[0], -r_K[0]]])
+    
+    # Right-hand side vector
+    rhs = np.array([v_P1[0], v_P1[1]])
+    
+    # Solve for angular velocities
+    omega_C, omega_K = np.linalg.solve(coefficient_matrix, rhs)
+    
+    # Velocity of P5
+    v_P5 = omega_C * np.array([-r_C[1], r_C[0]])
     
     
-    return P4
+    return v_P5, omega_C, omega_K
 
 
 def solve_point_6(P4 : np.ndarray, P5 : np.ndarray, link_f : float, link_g : float) -> np.ndarray:
