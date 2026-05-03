@@ -111,6 +111,37 @@ def solve_point_1(O4 : np.ndarray, link_m : float, theta_m : float) -> np.ndarra
     return P1   
 
 
+def solve_velocity_1(link_m : float, theta_m : float, omega_m : float) -> np.ndarray:
+    """
+    Solves the velocity of Point P1.
+    
+    ! Position Equation:
+        P1 = O4 + link_m * [cos(theta_m), sin(theta_m)]
+        
+    ! Velocity Equation:
+        v_P1 = dP1/dt = link_m * [-sin(theta_m) * dtheta_m/dt, cos(theta_m) * dtheta_m/dt]
+             = link_m * omega_m * [-sin(theta_m), cos(theta_m)]
+             
+    ! X & Y Components:
+        v_x_P1 = -link_m * omega_m * sin(theta_m)
+        v_y_P1 = link_m * omega_m * cos(theta_m)
+            
+    Args:
+        link_m (float): Length of input crank Link M.
+        theta_m (float): The angle of the crank in radians.
+        omega_m (float): The angular velocity of the crank in radians per second.
+    
+    Returns:
+        v_P1 (np.ndarray): Velocity of Point P1 [v_x_P1, v_y_P1].
+    """
+    # Calculate velocity of P1 using the velocity equation
+    v_P1 = link_m * omega_m * np.array([-np.sin(theta_m), np.cos(theta_m)])
+    
+    
+    return v_P1
+
+
+
 def solve_point_2(O2 : np.ndarray, P1 : np.ndarray, link_b : float, link_j : float) -> np.ndarray:
     """
     Solves the position of Point P2.
@@ -305,22 +336,7 @@ def solve_point_7(P6: np.ndarray, P5 : np.ndarray, link_h : float, link_i : floa
     return P7
 
 
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
+
 
 def function_name():
     """
