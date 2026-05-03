@@ -230,7 +230,41 @@ def solve_point_4(O2 : np.ndarray, P2 : np.ndarray, link_d : float, link_e : flo
     return P4
 
 
-def function_name():
+def solve_point_6(P4 : np.ndarray, P5 : np.ndarray, link_f : float, link_g : float) -> np.ndarray:
+    """
+    Solves the position of Point P6.
+    
+    ! Known:
+        1. P4 = Upper left joint position
+        2. P5 = Lower joint position
+        
+    ! Link Constraints:
+        1. Distance from P4 to P6 = Link F
+        2. Distance from P5 to P6 = Link G
+    
+    Args:
+        P4 (np.ndarray): Upper left joint position.
+        P5 (np.ndarray): Lower joint position.
+        link_f (float): Length of Link F.
+        link_g (float): Length of Link G.
+    
+    Returns:
+        P6 (np.ndarray): Position of Point P6 [x_P6, y_P6].
+    """
+    # Use circle intersection to solve for P6
+    option_P6_1, option_P6_2 = circle_intersection(P4, link_f, P5, link_g)
+    
+    # Choose the correct intersection point based on the mechanism configuration
+    if option_P6_1[0] < option_P6_2[0]:
+        P6 = option_P6_1
+    else:
+        P6 = option_P6_2
+    
+    
+    return P6
+
+
+def solve_P7():
     """
     Summary of what the function does
     

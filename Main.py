@@ -101,8 +101,9 @@ def main():
     # Initialize array to store positions for each crank angle
     array_P1 = np.zeros((NUM_STEPS, 2))  
     array_P2 = np.zeros((NUM_STEPS, 2))
-    array_P5 = np.zeros((NUM_STEPS, 2))
     array_P4 = np.zeros((NUM_STEPS, 2))
+    array_P5 = np.zeros((NUM_STEPS, 2))
+    array_P6 = np.zeros((NUM_STEPS, 2))
     
     # * Loop through each crank angle and solve for each position *
     for step, theta_m in enumerate(THETA_M_ARRAY):
@@ -112,11 +113,14 @@ def main():
         # ? Solve for Point P2 across all Crank Angles ?
         array_P2[step] = _solve.solve_point_2(O2, array_P1[step], LINK_B, LINK_J)
         
+        # ? Solve for Point P4 across all Crank Angles ?
+        array_P4[step] = _solve.solve_point_4(O2, array_P2[step], LINK_D, LINK_E)
+        
         # ? Solve for Point P5 across all Crank Angles ?
         array_P5[step] = _solve.solve_point_5(O2, array_P1[step], LINK_C, LINK_K)
         
-        # ? Solve for Point P4 across all Crank Angles ?
-        array_P4[step] = _solve.solve_point_4(O2, array_P2[step], LINK_D, LINK_E)
+        # ? Solve for Point P6 across all Crank Angles ?
+        array_P6[step] = _solve.solve_point_6(array_P4[step], array_P5[step], LINK_F, LINK_G)
     
     
     # ! Position Figures for P1 !
@@ -139,9 +143,9 @@ def main():
             }
         ],
         points = [
-            {"point" : O2, "label" : "O2", "x_offset" : -8.0, "y_offset" : -16.0},
-            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : -16.0},
-            {"point" : array_P1[0], "label" : "P1", "x_offset" : 8.0, "y_offset" : -4.0},
+            {"point" : O2, "label" : "O2", "x_offset" : -8, "y_offset" : -16},
+            {"point" : O4, "label" : "O4", "x_offset" : -4, "y_offset" : -16},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : 8, "y_offset" : -4},
         ],
         
         paths = None,
@@ -169,9 +173,9 @@ def main():
         ],
         
         points = [
-            {"point" : O2, "label" : "O2", "x_offset" : -8.0, "y_offset" : -16.0},
-            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : -16.0},
-            {"point" : array_P1[0], "label" : "P1", "x_offset" : 8.0, "y_offset" : -4.0},
+            {"point" : O2, "label" : "O2", "x_offset" : -8, "y_offset" : -16},
+            {"point" : O4, "label" : "O4", "x_offset" : -4, "y_offset" : -16},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : 8, "y_offset" : -4},
         ],
         
         paths = [
@@ -236,10 +240,10 @@ def main():
         ],
         
         points = [
-            {"point" : O2, "label" : "O2", "x_offset" : -8.0, "y_offset" : -16.0},
-            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : -16.0},
-            {"point" : array_P1[0], "label" : "P1", "x_offset" : 0.0, "y_offset" : -16.0},
-            {"point" : array_P2[0], "label" : "P2", "x_offset" : -4.0, "y_offset" : 8.0},
+            {"point" : O2, "label" : "O2", "x_offset" : -8, "y_offset" : -16},
+            {"point" : O4, "label" : "O4", "x_offset" : -4, "y_offset" : -16},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : 0, "y_offset" : -16},
+            {"point" : array_P2[0], "label" : "P2", "x_offset" : -4, "y_offset" : 8},
         ],
         
         paths = None,
@@ -281,10 +285,10 @@ def main():
         ],
         
         points = [
-            {"point" : O2, "label" : "O2", "x_offset" : -8.0, "y_offset" : -16.0},
-            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : -16.0},
-            {"point" : array_P1[0], "label" : "P1", "x_offset" : 0.0, "y_offset" : -16.0},
-            {"point" : array_P2[0], "label" : "P2", "x_offset" : 4.0, "y_offset" : 8.0},
+            {"point" : O2, "label" : "O2", "x_offset" : -8, "y_offset" : -16},
+            {"point" : O4, "label" : "O4", "x_offset" : -4, "y_offset" : -16},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : 0, "y_offset" : -16},
+            {"point" : array_P2[0], "label" : "P2", "x_offset" : 4, "y_offset" : 8},
         ],
         
         paths = [
@@ -314,117 +318,6 @@ def main():
     figure_names.append("P2_y_Position")
 
 
-    # ! Position Figures for P5 !
-    nm_ck_figure = _plot.plot_mechanism_figure(
-        title = "Figure 9: Closed Loop NM + CK",
-        links = [
-            {
-                "point_1" : O2,
-                "point_2" : O4,
-                "label" : "Link N",
-                "color" : _plot.LINK_N_COLOR,
-                "linestyle" : _plot.LINK_N_LINE_STYLE,
-            },
-            {
-                "point_1" : O4,
-                "point_2" : array_P1[0],
-                "label" : "Link M",
-                "color" : _plot.LINK_M_COLOR,
-            },
-            {
-                "point_1" : O2,
-                "point_2" : array_P5[0],
-                "label" : "Link C",
-                "color" : _plot.LINK_C_COLOR,
-            },
-            
-            {
-                "point_1" : array_P1[0],
-                "point_2" : array_P5[0],
-                "label" : "Link K",
-                "color" : _plot.LINK_K_COLOR,
-            }
-        
-        ],
-        
-        points = [
-            {"point" : O2, "label" : "O2", "x_offset" : 8.0, "y_offset" : 8.0},
-            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : 8.0},
-            {"point" : array_P1[0], "label" : "P1", "x_offset" : -4.0, "y_offset" : 8.0},
-            {"point" : array_P5[0], "label" : "P5", "x_offset" : -4.0, "y_offset" : -16.0},
-        ],
-        
-        paths = None,
-        
-        padding = 20.0
-    )
-    
-    p5_position_figure = _plot.plot_mechanism_figure(
-        title = "Figure 10: Point P5 Position",
-        links = [
-            {
-                "point_1" : O2,
-                "point_2" : O4,
-                "label" : "Link N",
-                "color" : _plot.LINK_N_COLOR,
-                "linestyle" : _plot.LINK_N_LINE_STYLE,
-            },
-            {
-                "point_1" : O4,
-                "point_2" : array_P1[0],
-                "label" : "Link M",
-                "color" : _plot.LINK_M_COLOR,
-            },
-            {
-                "point_1" : O2,
-                "point_2" : array_P5[0],
-                "label" : "Link C",
-                "color" : _plot.LINK_C_COLOR,
-            },
-            
-            {
-                "point_1" : array_P1[0],
-                "point_2" : array_P5[0],
-                "label" : "Link K",
-                "color" : _plot.LINK_K_COLOR,
-            }
-        
-        ],
-        
-        points = [
-            {"point" : O2, "label" : "O2", "x_offset" : 8.0, "y_offset" : 8.0},
-            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : 8.0},
-            {"point" : array_P1[0], "label" : "P1", "x_offset" : -4.0, "y_offset" : 8.0},
-            {"point" : array_P5[0], "label" : "P5", "x_offset" : -4.0, "y_offset" : -16.0},
-        ],
-        
-        paths = [
-            {  
-                "array" : array_P5,
-                "label" : "P5 Path"
-            }
-        ],
-        
-        padding = 20.0
-    )
-    
-    P5_x_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P5, 0, "P5", "Figure 11: Point P5 x-Position vs. Crank Angle")
-    P5_y_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P5, 1, "P5", "Figure 12: Point P5 y-Position vs. Crank Angle")
-    
-    
-    # Append P5 Figures to Figure Path
-    figure_path.append(nm_ck_figure)
-    figure_path.append(p5_position_figure)
-    figure_path.append(P5_x_figure)
-    figure_path.append(P5_y_figure)
-    
-    # Append P5 Figure Names to Figure Names List
-    figure_names.append("Closed_Loop_NM_CK")
-    figure_names.append("P5_Position")
-    figure_names.append("P5_x_Position")
-    figure_names.append("P5_y_Position")
-
-    
     # ! Position Figures for P4 !
     bde_rigid_body_figure = _plot.plot_mechanism_figure(
         title = "Figure 13: Rigid Body BDE",
@@ -536,6 +429,300 @@ def main():
     figure_names.append("P4_Position")
     figure_names.append("P4_x_Position")
     figure_names.append("P4_y_Position")
+    
+
+    # ! Position Figures for P5 !
+    nm_ck_figure = _plot.plot_mechanism_figure(
+        title = "Figure 9: Closed Loop NM + CK",
+        links = [
+            {
+                "point_1" : O2,
+                "point_2" : O4,
+                "label" : "Link N",
+                "color" : _plot.LINK_N_COLOR,
+                "linestyle" : _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1" : O4,
+                "point_2" : array_P1[0],
+                "label" : "Link M",
+                "color" : _plot.LINK_M_COLOR,
+            },
+            {
+                "point_1" : O2,
+                "point_2" : array_P5[0],
+                "label" : "Link C",
+                "color" : _plot.LINK_C_COLOR,
+            },
+            
+            {
+                "point_1" : array_P1[0],
+                "point_2" : array_P5[0],
+                "label" : "Link K",
+                "color" : _plot.LINK_K_COLOR,
+            }
+        
+        ],
+        
+        points = [
+            {"point" : O2, "label" : "O2", "x_offset" : 8.0, "y_offset" : 8.0},
+            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : 8.0},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : -4.0, "y_offset" : 8.0},
+            {"point" : array_P5[0], "label" : "P5", "x_offset" : -4.0, "y_offset" : -16.0},
+        ],
+        
+        paths = None,
+        
+        padding = 20.0
+    )
+    
+    p5_position_figure = _plot.plot_mechanism_figure(
+        title = "Figure 10: Point P5 Position",
+        links = [
+            {
+                "point_1" : O2,
+                "point_2" : O4,
+                "label" : "Link N",
+                "color" : _plot.LINK_N_COLOR,
+                "linestyle" : _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1" : O4,
+                "point_2" : array_P1[0],
+                "label" : "Link M",
+                "color" : _plot.LINK_M_COLOR,
+            },
+            {
+                "point_1" : O2,
+                "point_2" : array_P5[0],
+                "label" : "Link C",
+                "color" : _plot.LINK_C_COLOR,
+            },
+            
+            {
+                "point_1" : array_P1[0],
+                "point_2" : array_P5[0],
+                "label" : "Link K",
+                "color" : _plot.LINK_K_COLOR,
+            }
+        
+        ],
+        
+        points = [
+            {"point" : O2, "label" : "O2", "x_offset" : 8.0, "y_offset" : 8.0},
+            {"point" : O4, "label" : "O4", "x_offset" : -4.0, "y_offset" : 8.0},
+            {"point" : array_P1[0], "label" : "P1", "x_offset" : -4.0, "y_offset" : 8.0},
+            {"point" : array_P5[0], "label" : "P5", "x_offset" : -4.0, "y_offset" : -16.0},
+        ],
+        
+        paths = [
+            {  
+                "array" : array_P5,
+                "label" : "P5 Path"
+            }
+        ],
+        
+        padding = 20.0
+    )
+    
+    P5_x_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P5, 0, "P5", "Figure 11: Point P5 x-Position vs. Crank Angle")
+    P5_y_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P5, 1, "P5", "Figure 12: Point P5 y-Position vs. Crank Angle")
+    
+    
+    # Append P5 Figures to Figure Path
+    figure_path.append(nm_ck_figure)
+    figure_path.append(p5_position_figure)
+    figure_path.append(P5_x_figure)
+    figure_path.append(P5_y_figure)
+    
+    # Append P5 Figure Names to Figure Names List
+    figure_names.append("Closed_Loop_NM_CK")
+    figure_names.append("P5_Position")
+    figure_names.append("P5_x_Position")
+    figure_names.append("P5_y_Position")
+
+    # ! Position Figures for P6 !
+    ghi_rigid_body_figure = _plot.plot_mechanism_figure(
+        title = "Figure 17: Rigid Body GHI",
+        
+        links=[
+            {
+                "point_1": O2,
+                "point_2": array_P6[0],
+                "label": "Link G",
+                "color": _plot.LINK_G_COLOR,
+            },
+            {
+                "point_1": array_P6[0],
+                "point_2": array_P5[0],
+                "label": "Link H",
+                "color": _plot.LINK_H_COLOR,
+            },
+            {
+                "point_1": array_P5[0],
+                "point_2": O2,
+                "label": "Link I",
+                "color": _plot.LINK_I_COLOR,
+            },
+        ],
+
+        points=[
+            {"point": array_P5[0], "label": "P5", "x_offset": -10, "y_offset": -14},
+            {"point": array_P6[0], "label": "P6", "x_offset": 4, "y_offset": 6},
+            {"point": array_P7[0], "label": "P7", "x_offset": -14, "y_offset": 6},
+        ],
+        
+        paths = None,
+        
+        padding = 20.0
+    )
+    
+    p6_position_figure = _plot.plot_mechanism_figure(
+        title = "Figure 18: Point P6 Position",
+        
+        links=[
+            {
+                "point_1": O2,
+                "point_2": O4,
+                "label": "Link N",
+                "color": _plot.LINK_N_COLOR,
+                "linestyle": _plot.LINK_N_LINE_STYLE,
+            },
+            {
+                "point_1": O4,
+                "point_2": array_P1[0],
+                "label": "Link M",
+                "color": _plot.LINK_M_COLOR,
+            },
+            {
+                "point_1": O2,
+                "point_2": array_P2[0],
+                "label": "Link B",
+                "color": _plot.LINK_B_COLOR,
+            },
+            {
+                "point_1": array_P1[0],
+                "point_2": array_P2[0],
+                "label": "Link J",
+                "color": _plot.LINK_J_COLOR,
+            },
+            {
+                "point_1": O2,
+                "point_2": array_P5[0],
+                "label": "Link C",
+                "color": _plot.LINK_C_COLOR,
+            },
+            {
+                "point_1": array_P1[0],
+                "point_2": array_P5[0],
+                "label": "Link K",
+                "color": _plot.LINK_K_COLOR,
+            },
+            {
+                "point_1": O2,
+                "point_2": array_P4[0],
+                "label": "Link D",
+                "color": _plot.LINK_D_COLOR,
+            },
+            {
+                "point_1": array_P4[0],
+                "point_2": array_P2[0],
+                "label": "Link E",
+                "color": _plot.LINK_E_COLOR,
+            },
+            {
+                "point_1": array_P4[0],
+                "point_2": array_P6[0],
+                "label": "Link F",
+                "color": _plot.LINK_F_COLOR,
+            },
+            {
+                "point_1": array_P5[0],
+                "point_2": array_P6[0],
+                "label": "Link G",
+                "color": _plot.LINK_G_COLOR,
+            },
+        ],
+
+        points=[
+            {"point": O2, "label": "O2", "x_offset": -14, "y_offset": -14},
+            {"point": O4, "label": "O4", "x_offset": -6, "y_offset": -14},
+            {"point": array_P1[0], "label": "P1", "x_offset": -2, "y_offset": -14},
+            {"point": array_P2[0], "label": "P2", "x_offset": 4, "y_offset": 6},
+            {"point": array_P4[0], "label": "P4", "x_offset": -14, "y_offset": 6},
+            {"point": array_P5[0], "label": "P5", "x_offset": 6, "y_offset": -14},
+            {"point": array_P6[0], "label": "P6", "x_offset": -0, "y_offset": 6},
+        ],
+
+        paths=[
+            {
+                "array": array_P6,
+                "label": "P6 Path"
+            }
+        ],
+        
+        padding=20.0
+    )
+    
+    P6_x_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P6, 0, "P6", "Figure 19: Point P6 x-Position vs. Crank Angle")
+    P6_y_figure = _plot.plot_position_figure(CRANK_ANGLE_PLOT, array_P6, 1, "P6", "Figure 20: Point P6 y-Position vs. Crank Angle")
+    
+    # Append P6 Figures to Figure Path
+    figure_path.append(ghi_rigid_body_figure)
+    figure_path.append(p6_position_figure)
+    figure_path.append(P6_x_figure)
+    figure_path.append(P6_y_figure)
+    
+    # Append P6 Figure Names to Figure Names List
+    figure_names.append("Rigid_Body_GHI")
+    figure_names.append("P6_Position")
+    figure_names.append("P6_x_Position")
+    figure_names.append("P6_y_Position")
+    
+    
+    # ! Parallel Mechanism Figure !
+    parallel_mechanism_figure = _plot.plot_mechanism_figure(
+    title="Figure 19: Local Loop O2-P4-P6-P5",
+
+        links=[
+            {
+                "point_1": O2,
+                "point_2": P4,
+                "label": "Link D",
+                "color": _plot.LINK_D_COLOR,
+            },
+            {
+                "point_1": P4,
+                "point_2": P6,
+                "label": "Link F",
+                "color": _plot.LINK_F_COLOR,
+            },
+            {
+                "point_1": P5,
+                "point_2": P6,
+                "label": "Link G",
+                "color": _plot.LINK_G_COLOR,
+            },
+            {
+                "point_1": O2,
+                "point_2": P5,
+                "label": "Link C",
+                "color": _plot.LINK_C_COLOR,
+            },
+        ],
+
+        points=[
+            {"point": O2, "label": "O2", "x_offset": -10, "y_offset": -14},
+            {"point": P4, "label": "P4", "x_offset": -14, "y_offset": 6},
+            {"point": P6, "label": "P6", "x_offset": -12, "y_offset": 6},
+            {"point": P5, "label": "P5", "x_offset": 6, "y_offset": -14},
+        ],
+
+        padding=20.0
+    )
+
+    figure_path.append(parallel_mechanism_figure)
+    figure_names.append("parallel_mechanism_figure")
     
     
 
