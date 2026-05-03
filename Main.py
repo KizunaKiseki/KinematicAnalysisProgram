@@ -143,7 +143,7 @@ def main():
     # Save Figures to Figures Directory as PDF
     for figure, name in zip(figure_path, figure_names):
         figure_file_path = os.path.join(figures_dictionary, f'{name}.png')
-        figure.savefig(figure_file_path, bbox_inches='tight')
+        figure.savefig(figure_file_path, bbox_inches='tight', dpi=300)
         
         # Success Message for Saving Figure
         print(f"✅ {name} saved to {figure_file_path}")
