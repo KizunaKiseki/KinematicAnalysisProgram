@@ -85,7 +85,7 @@ def circle_intersection(center_1 : np.ndarray, radius_1 : float, center_2 : np.n
 
 def solve_point_1(O4 : np.ndarray, link_m : float, theta_m : float) -> np.ndarray:
     """
-    Solve the position of Point P1, which is the crank pin at the end of link M.
+    Solve the position of Point P1.
     
     ! Vector Equation:
         1. r_P1 = r_O4 + r_m
@@ -112,7 +112,7 @@ def solve_point_1(O4 : np.ndarray, link_m : float, theta_m : float) -> np.ndarra
 
 def solve_point_2(O2 : np.ndarray, P1 : np.ndarray, link_b : float, link_j : float) -> np.ndarray:
     """
-    Solves the position of Point P2 using the loop N + M = B + J.
+    Solves the position of Point P2.
     
     ! Known:
         1. O2 = Fixed ground pivot
@@ -152,7 +152,7 @@ def solve_point_2(O2 : np.ndarray, P1 : np.ndarray, link_b : float, link_j : flo
 
 def solve_point_5(O2 : np.ndarray, P1 : np.ndarray, link_c : float, link_k : float) -> np.ndarray:
     """
-    Solves the position of Point P5 using the loop N + M = C + K.
+    Solves the position of Point P5.
     
     ! Known:
         1. O2 = Fixed ground pivot
@@ -190,22 +190,45 @@ def solve_point_5(O2 : np.ndarray, P1 : np.ndarray, link_c : float, link_k : flo
     return P5
 
 
-def function_name():
+def solve_point_4(O2 : np.ndarray, P2 : np.ndarray, link_d : float, link_e : float) -> np.ndarray:
     """
-    Summary of what the function does
+    Solves the position of Point P4.
+    
+    ! Known:
+        1. O2 = Fixed ground pivot
+        2. P2 = Upper joint position
+        
+    ! Link Constraints:
+        3. Distance from O2 to P4 = Link D
+        4. Distance from P2 to P4 = Link E
+        
+    ! Circle Equations:
+        5. (x_P4 - x_O2)^2 + (y_P4 - y_O2)^2 = link_d^2
+        6. (x_P4 - x_P2)^2 + (y_P4 - y_P2)^2 = link_e^2
+        
+    ? Since P4 is the  upper left joint in the mechanism, the intersection with smaller x-value is the correct solution.
     
     Args:
-    
+        O2 (np.ndarray): Fixed ground pivot.
+        P2 (np.ndarray): Upper joint position.
+        link_d (float): Length of Link D.
+        link_e (float): Length of Link E.
     
     Returns:
-    
-    
-    Raises:
+        P4 (np.ndarray): Position of Point P4 [x_P4, y_P4].
     """
+    # Use circle intersection to solve for P4
+    option_P4_1, option_P4_2 = circle_intersection(O2, link_d, P2, link_e)
+    
+    # Choose the correct intersection point based on the mechanism configuration
+    if option_P4_1[0] < option_P4_2[0]:
+        P4 = option_P4_1
+    else:
+        P4 = option_P4_2
     
     
-    
-    pass
+    return P4
+
 
 def function_name():
     """

@@ -171,23 +171,23 @@ def plot_mechanism_figure(title : str, links : list[dict], points : list[dict],
     # Set up figure and axes
     mechanism_figure, mechanism_axes = setup_figure()
     
-    # Axis Title & labels
+    # Axis title & labels
     mechanism_axes.set_title(title)
     mechanism_axes.set_xlabel("X [mm]")
     mechanism_axes.set_ylabel("Y [mm]")
     
     
-    # Draw Paths if provided:
+    # Draw paths if provided:
     if paths is not None:
         for path in paths:
             draw_path(mechanism_axes, path['array'], path['label'])
             
-    # Draw Links
+    # Draw links
     for link in links:
         draw_link(mechanism_axes, link['point_1'], link['point_2'], link['label'], 
                   link['color'], link.get('linestyle', '-'), link.get('linewidth', 2.0))
     
-    # Draw Points
+    # Draw points
     for point in points:
         draw_point(mechanism_axes, point['point'], point['label'], 
                    x_offset=point.get('x_offset', 6.0), y_offset=point.get('y_offset', 6.0))
@@ -209,7 +209,7 @@ def plot_mechanism_figure(title : str, links : list[dict], points : list[dict],
     # Set axes limits based on point locations
     set_axes_limits(mechanism_axes, all_points, padding=padding)
     
-    # Create Legend & Layout
+    # Create legend & layout
     mechanism_axes.legend(loc = 'best')
     mechanism_figure.tight_layout()
     
@@ -344,91 +344,3 @@ def function_name():
     pass
 
 
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
-
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
-
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
-
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
-
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
