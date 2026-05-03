@@ -452,6 +452,169 @@ def plot_p2_y_figure(theta_m : np.ndarray, array_P2 : np.ndarray) -> pl.figure:
     return p2_y_figure
 
 
+def plot_nm_ck_figure(O2 : np.ndarray, O4 : np.ndarray, P1 : np.ndarray, P5 : np.ndarray) -> pl.figure:
+    """
+    Plots the closed loop N + M = C + K for one crank angle.
+        
+    ! Figure 9 : Closed Loop N + M = C + K !
+    
+    Args:
+        O2 (np.ndarray) : The (x, y) coordinates of Point O2, the fixed ground origin.
+        O4 (np.ndarray) : The (x, y) coordinates of Point O4, the fixed crank origin.
+        P1 (np.ndarray) : The (x, y) coordinates of Point P1, the crank pin at the end of link M.
+        P5 (np.ndarray) : The (x, y) coordinates of Point P5, the upper joint connecting links C and K.
+    
+    Returns:
+        nm_ck_figure (pl.figure) : A Matplotlib figure object containing the plot of the closed loop N + M = C + K.
+    """
+    # Set up figure and axes
+    nm_ck_figure, nm_ck_axes = setup_figure()
+    
+    # Set title and axes labels
+    nm_ck_axes.set_title("Figure 9: Closed Loop N + M = C + K")
+    nm_ck_axes.set_xlabel("X [mm]")
+    nm_ck_axes.set_ylabel("Y [mm]")
+    
+    # Draw Links
+    draw_link(nm_ck_axes, O2, O4, "Link N", color = LINK_N_COLOR, linestyle=LINK_N_LINE_STYLE)
+    draw_link(nm_ck_axes, O4, P1, "Link M", color = LINK_M_COLOR)
+    draw_link(nm_ck_axes, O2, P5, "Link C", color = LINK_C_COLOR)
+    draw_link(nm_ck_axes, P1, P5, "Link K", color = LINK_K_COLOR)
+    
+    # Draw Points
+    draw_point(nm_ck_axes, O2, "02", x_offset=-8.0, y_offset=8.0)
+    draw_point(nm_ck_axes, O4, "04", x_offset=-4.0, y_offset=8.0)
+    draw_point(nm_ck_axes, P1, "P1", x_offset=-4.0, y_offset=8.0)
+    draw_point(nm_ck_axes, P5, "P5", x_offset=-4.0, y_offset=-16.0)
+    
+    # Set axes limits based on point locations
+    set_axes_limits(nm_ck_axes, [O2, O4, P1, P5], padding=15.0)
+    
+    # Create Legend & Layout
+    nm_ck_axes.legend(loc = 'best')
+    nm_ck_figure.tight_layout()
+    
+    
+    return nm_ck_figure
+
+
+def plot_p5_position(O2 : np.ndarray, O4 : np.ndarray, array_P1 : np.ndarray, array_P5 : np.ndarray) -> pl.figure:
+    """
+    Plot the position of Point P5 over one full rotation of the crank.
+    
+    ! Figure 10 : Point P5 Position !
+
+    Args:
+        O2 (np.ndarray) : The (x, y) coordinates of Point O2, the fixed ground origin.
+        O4 (np.ndarray) : The (x, y) coordinates of Point O4, the fixed crank origin.
+        array_P1 (np.ndarray) : An array of shape (NUM_STEPS, 2) containing the (x, y) coordinates of Point P1 at each crank angle.
+        array_P5 (np.ndarray) : An array of shape (NUM_STEPS, 2) containing the (x, y) coordinates of Point P5 at each crank angle.
+        
+    Returns:
+        p5_position_figure (pl.figure) : A Matplotlib figure object containing the plot of Point P5's position.
+    """
+    # Set up figure and axes
+    p5_position_figure, p5_position_axes = setup_figure()
+    
+    # Set title and axes labels
+    p5_position_axes.set_title("Figure 10: Point P5 Position")
+    p5_position_axes.set_xlabel("X [mm]")
+    p5_position_axes.set_ylabel("Y [mm]")
+    
+    # Draw Path of P5   
+    p5_position_axes.plot(array_P5[:, 0], array_P5[:, 1], label="Path P5", color=PATH_COLOR)
+    
+    # Draw starting crank position
+    draw_link(p5_position_axes, O2, O4, "Link N", color = LINK_N_COLOR,  linestyle=LINK_N_LINE_STYLE)
+    draw_link(p5_position_axes, O4, array_P1[0], "Link M", color = LINK_M_COLOR)
+    draw_link(p5_position_axes, array_P1[0], array_P5[0], "Link J", color = LINK_J_COLOR)
+    draw_link(p5_position_axes, O2, array_P5[0], "Link B", color = LINK_B_COLOR)
+
+    
+    # Draw ground point and crank center
+    draw_point(p5_position_axes, O2, "02", x_offset=-8.0, y_offset=8.0)
+    draw_point(p5_position_axes, O4, "04", x_offset=-4.0, y_offset=8.0)
+    draw_point(p5_position_axes, array_P1[0], "P1", x_offset=-4.0, y_offset=8.0)
+    draw_point(p5_position_axes, array_P5[0], "P5", x_offset=-4.0, y_offset=-16.0)
+    
+    # Set axes limits based on point locations
+    set_axes_limits(p5_position_axes, [O2, O4, *array_P1, *array_P5], padding=15.0)
+    
+    # Create Legend & Layout
+    p5_position_axes.legend(loc = 'best')
+    p5_position_figure.tight_layout()
+    
+    
+    return p5_position_figure
+
+
+def plot_p5_x_figure(theta_m : np.ndarray, array_P5 : np.ndarray) -> pl.figure:
+    """
+    Plot the X-coordinate of Point P5 as a function of the crank angle.
+    
+    ! Figure 11 : P5 x-Position vs. Crank Angle !
+    
+    Args:
+        theta_m (np.ndarray) : An array of crank angles in degrees.
+        array_P5 (np.ndarray) : An array of shape (NUM_STEPS, 2) containing the (x, y) coordinates of Point P5 at each crank angle.
+    
+    Returns:
+        p5_x_figure (pl.figure) : A Matplotlib figure object containing the plot of Point P5's X-coordinate.
+    """
+    # Set up figure and axes
+    p5_x_figure, p5_x_axes = setup_figure()
+    
+    # Set title and axes labels
+    p5_x_axes.set_title("Figure 11: P5 x-Position vs. Crank Angle")
+    p5_x_axes.set_xlabel("Clockwise Crank Angle Rotation [degrees]")
+    p5_x_axes.set_ylabel("X [mm]")
+    
+    # Plot X-coordinate of P5
+    p5_x_axes.plot(theta_m, array_P5[:, 0], label="X P5", color=PATH_COLOR)
+    
+    # Create Legend & Layout
+    p5_x_axes.legend(loc = 'best')
+    p5_x_figure.tight_layout()
+    
+    
+    return p5_x_figure
+    
+
+def plot_p5_y_figure(theta_m : np.ndarray, array_P5 : np.ndarray) -> pl.figure:
+    """
+    Plot the Y-coordinate of Point P5 as a function of the crank angle.
+    
+    ! Figure 12 : P5 y-Position vs. Crank Angle !
+    
+    Args:
+        theta_m (np.ndarray) : An array of crank angles in degrees.
+        array_P5 (np.ndarray) : An array of shape (NUM_STEPS, 2) containing the (x, y) coordinates of Point P5 at each crank angle.
+    
+    Returns:
+        p5_y_figure (pl.figure) : A Matplotlib figure object containing the plot of Point P5's Y-coordinate.
+    """
+    # Set up figure and axes
+    p5_y_figure, p5_y_axes = setup_figure()
+    
+    # Set title and axes labels
+    p5_y_axes.set_title("Figure 12: P5 y-Position vs. Crank Angle")
+    p5_y_axes.set_xlabel("Clockwise Crank Angle Rotation [degrees]")
+    p5_y_axes.set_ylabel("Y [mm]")
+    
+    # Plot Y-coordinate of P5
+    p5_y_axes.plot(theta_m, array_P5[:, 1], label="Y P5", color=PATH_COLOR)
+    
+    # Create Legend & Layout
+    p5_y_axes.legend(loc = 'best')
+    p5_y_figure.tight_layout()
+    
+    
+    return p5_y_figure
+
+
+
+
+
 def function_name():
     """
     Summary of what the function does

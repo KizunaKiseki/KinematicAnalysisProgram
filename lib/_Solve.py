@@ -150,22 +150,45 @@ def solve_point_2(O2 : np.ndarray, P1 : np.ndarray, link_b : float, link_j : flo
     return P2
 
 
-def function_name():
+def solve_point_5(O2 : np.ndarray, P1 : np.ndarray, link_c : float, link_k : float) -> np.ndarray:
     """
-    Summary of what the function does
+    Solves the position of Point P5 using the loop N + M = C + K.
+    
+    ! Known:
+        1. O2 = Fixed ground pivot
+        2. P1 = Crank pin
+    
+    ! Link Constraints:
+        3. Distance from O2 to P5 = Link C
+        4. Distance from P1 to P5 = Link K
+        
+    ! Circle Equations:
+        5. (x_P5 - x_O2)^2 + (y_P5 - y_O2)^2 = link_c^2
+        6. (x_P5 - x_P1)^2 + (y_P5 - y_P1)^2 = link_k^2
+    
+    ? Since P5 is the lower joint in the mechanism, the intersection with smaller y-value is the correct solution.
     
     Args:
-    
+        O2 (np.ndarray): Fixed ground pivot.
+        P1 (np.ndarray): Crank pin position.
+        link_c (float): Length of Link C.
+        link_k (float): Length of Link K.
     
     Returns:
-    
-    
-    Raises:
+        P5 (np.ndarray): Position of Point P5 [x_P5, y_P5].
     """
+    # Use circle intersection to solve for P5
+    option_P5_1, option_P5_2 = circle_intersection(O2, link_c, P1, link_k)
     
-    
-    
-    pass
+    # Choose the correct intersection point based on the mechanism configuration
+    if option_P5_1[1] < option_P5_2[1]:
+        P5 = option_P5_1
+    else:
+        P5 = option_P5_2
+        
+        
+    return P5
+
 
 def function_name():
     """
