@@ -73,8 +73,8 @@ def p1_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.nda
         crank_angle_plot (np.ndarray): Crank angle array used for plotting.
     """
     # ! Position Figures for P1 !
-    ground_figure = _plot.plot_mechanism_figure(
-        title = "Figure 1 : Ground Link",
+    ground_mechanism = _plot.plot_mechanism_figure(
+        title = "Figure XX: Ground Mechanism",
         
         links = [
             {
@@ -102,8 +102,8 @@ def p1_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.nda
         padding = 20.0   
     )
     
-    p1_position_figure = _plot.plot_mechanism_figure(
-        title = "Figure 2: Point P1 Position",
+    position_point1 = _plot.plot_mechanism_figure(
+        title = "Figure XX: Point P1 Position",
         
         links = [
             {
@@ -137,15 +137,15 @@ def p1_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.nda
         padding = 20.0   
     )
     
-    p1_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P1, 0, "P1", "Figure 3: Point P1 x-Position vs. Crank Angle")
-    p1_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P1, 1, "P1", "Figure 4: Point P1 y-Position vs. Crank Angle")
+    position_point1_x = _plot.plot_position_figure(crank_angle_plot, array_P1, 0, "P1", "Figure XX: Point P1 x-Position vs. Crank Angle")
+    position_point1_y = _plot.plot_position_figure(crank_angle_plot, array_P1, 1, "P1", "Figure XX: Point P1 y-Position vs. Crank Angle")
     
 
     # Append P1 Figures to Figure Path
-    figure_path.extend([ground_figure, p1_position_figure, p1_x_figure, p1_y_figure])
+    figure_path.extend([ground_mechanism, position_point1, position_point1_x, position_point1_y])
     
     # Append P1 Figure Names to Figure Names List
-    figure_names.extend(["Ground_Link", "P1_Position", "P1_x_Position", "P1_y_Position"])
+    figure_names.extend(["Figure1_Ground_Mechanism", "Figure2_Position_P1", "Figure3_Position_P1_x", "Figure4_Position_P1_y"])
 
 
 def p2_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.ndarray, 
@@ -164,7 +164,7 @@ def p2_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.nda
     """
     # ! Position Figures for P2 ! 
     nm_bj_figure = _plot.plot_mechanism_figure(
-        title = "Figure 5: Closed Loop NM + BJ",
+        title = "Figure XX: Closed Loop NM + BJ",
 
         links = [
             {
@@ -209,7 +209,7 @@ def p2_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.nda
     )
     
     p2_position_figure = _plot.plot_mechanism_figure(
-        title = "Figure 6: Point P2 Position",
+        title = "Figure XX: Point P2 Position",
         
         links = [
             {
@@ -258,8 +258,8 @@ def p2_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.nda
         padding = 20.0
     )
 
-    P2_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P2, 0, "P2", "Figure 7: Point P2 x-Position vs. Crank Angle")
-    P2_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P2, 1, "P2", "Figure 8: Point P2 y-Position vs. Crank Angle")
+    P2_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P2, 0, "P2", "Figure XX: Point P2 x-Position vs. Crank Angle")
+    P2_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P2, 1, "P2", "Figure XX: Point P2 y-Position vs. Crank Angle")
     
     
     # Append P2 Figures to Figure Path
@@ -287,7 +287,7 @@ def p4_figures(figure_path: list, figure_names: list, O2: np.ndarray,
     """
      # ! Position Figures for P4 !
     bde_rigid_body_figure = _plot.plot_mechanism_figure(
-        title = "Figure 13: Rigid Body BDE",
+        title = "Figure XX: Rigid Body BDE",
         
         links=[
             {
@@ -322,7 +322,7 @@ def p4_figures(figure_path: list, figure_names: list, O2: np.ndarray,
     )
     
     p4_position_figure = _plot.plot_mechanism_figure(
-        title = "Figure 14: Point P4 Position",
+        title = "Figure XX: Point P4 Position",
         
         links=[
             {
@@ -368,8 +368,8 @@ def p4_figures(figure_path: list, figure_names: list, O2: np.ndarray,
         padding=20.0
     )
     
-    P4_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P4, 0, "P4", "Figure 15: Point P4 x-Position vs. Crank Angle")
-    P4_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P4, 1, "P4", "Figure 16: Point P4 y-Position vs. Crank Angle")
+    P4_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P4, 0, "P4", "Figure XX: Point P4 x-Position vs. Crank Angle")
+    P4_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P4, 1, "P4", "Figure XX: Point P4 y-Position vs. Crank Angle")
     
     
     # Append P4 Figures to Figure Path
@@ -395,7 +395,7 @@ def p5_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.nda
     """
     # ! Position Figures for P5 !
     nm_ck_figure = _plot.plot_mechanism_figure(
-        title = "Figure 9: Closed Loop NM + CK",
+        title = "Figure XX: Closed Loop NM + CK",
         links = [
             {
                 "point_1" : O2,
@@ -439,7 +439,7 @@ def p5_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.nda
     )
     
     p5_position_figure = _plot.plot_mechanism_figure(
-        title = "Figure 10: Point P5 Position",
+        title = "Figure XX: Point P5 Position",
         links = [
             {
                 "point_1" : O2,
@@ -487,8 +487,8 @@ def p5_figures(figure_path: list, figure_names: list, O2: np.ndarray, O4: np.nda
         padding = 20.0
     )
     
-    P5_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P5, 0, "P5", "Figure 11: Point P5 x-Position vs. Crank Angle")
-    P5_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P5, 1, "P5", "Figure 12: Point P5 y-Position vs. Crank Angle")
+    P5_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P5, 0, "P5", "Figure XX: Point P5 x-Position vs. Crank Angle")
+    P5_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P5, 1, "P5", "Figure XX: Point P5 y-Position vs. Crank Angle")
     
     
     # Append P5 Figures to Figure Path
@@ -516,7 +516,7 @@ def p6_figures(figure_path: list, figure_names: list, O2: np.ndarray, array_P4: 
     
     # ! Position Figures for P6 !
     ghi_rigid_body_figure = _plot.plot_mechanism_figure(
-        title = "Figure 17: Rigid Body GHI",
+        title = "Figure XX: Rigid Body GHI",
         
         links=[
             {
@@ -551,7 +551,7 @@ def p6_figures(figure_path: list, figure_names: list, O2: np.ndarray, array_P4: 
     )
     
     p6_position_figure = _plot.plot_mechanism_figure(
-        title = "Figure 18: Point P6 Position",
+        title = "Figure XX: Point P6 Position",
         
         links=[
             {
@@ -597,14 +597,14 @@ def p6_figures(figure_path: list, figure_names: list, O2: np.ndarray, array_P4: 
         padding=20.0
     )
     
-    P6_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P6, 0, "P6", "Figure 19: Point P6 x-Position vs. Crank Angle")
-    P6_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P6, 1, "P6", "Figure 20: Point P6 y-Position vs. Crank Angle")
+    P6_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P6, 0, "P6", "Figure XX: Point P6 x-Position vs. Crank Angle")
+    P6_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P6, 1, "P6", "Figure XX: Point P6 y-Position vs. Crank Angle")
 
     
     
     # ! Parallel Mechanism Figure !
     parallel_mechanism_figure = _plot.plot_mechanism_figure(
-    title="Figure 19: Local Loop O2-P4-P6-P5",
+    title="Figure XX: Local Loop O2-P4-P6-P5",
 
         links=[
             {
@@ -669,7 +669,7 @@ def p7_figures(figure_path: list, figure_names: list, O2: np.ndarray, array_P5: 
     """  
     # ! Position Figures for P7 !
     foot_figure = _plot.plot_mechanism_figure(
-        title="Figure 20: Foot Mechanism",
+        title="Figure XX: Foot Mechanism",
         
         links=[
             {
@@ -707,7 +707,7 @@ def p7_figures(figure_path: list, figure_names: list, O2: np.ndarray, array_P5: 
     )
         
     p7_position_figure = _plot.plot_mechanism_figure(
-        title="Figure 21: Point P7 Position",
+        title="Figure XX: Point P7 Position",
 
         links=[
                         {
@@ -748,8 +748,8 @@ def p7_figures(figure_path: list, figure_names: list, O2: np.ndarray, array_P5: 
         padding=20.0
     )
     
-    P7_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P7, 0, "P7", "Figure 22: Point P7 x-Position vs. Crank Angle")
-    P7_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P7, 1, "P7", "Figure 23: Point P7 y-Position vs. Crank Angle")
+    P7_x_figure = _plot.plot_position_figure(crank_angle_plot, array_P7, 0, "P7", "Figure XX: Point P7 x-Position vs. Crank Angle")
+    P7_y_figure = _plot.plot_position_figure(crank_angle_plot, array_P7, 1, "P7", "Figure XX: Point P7 y-Position vs. Crank Angle")
     
     
     # Append P7 Figures to Figure Path
