@@ -285,6 +285,66 @@ def solve_point_4(O2 : np.ndarray, P2 : np.ndarray, link_d : float, link_e : flo
     return P4
 
 
+def solve_velocity_4(O2 : np.ndarray, P2 : np.ndarray, P4 : np.ndarray, v_P2 : np.ndarray) -> np.ndarray:
+    """
+    Solves the velocity of Point P4.
+    
+    ! Velocity Relationships:
+        1. V_P4 = omega_D x r_D
+        2. V_P4 = V_P2 + omega_E x r_E
+        
+        where :
+        r_D = P4 - O2
+        r_E = P4 - P2
+        
+    ! Planar Cross Product:
+        omega x r = omega * [-r_y, r_x]
+        
+    ! Component Form:
+        1. omega_D * rD_x = Vx_P2 - omega_E * rE_x
+        2. -omega_D * rD_y = Vy_P2 + omega_E * rE_y
+
+        
+        Rearranging gives:
+        1. omega_D * rD_x + omega_E * rE_x = Vx_P2
+        2. -omega_D * rD_y - omega_E * rE_y = Vy_P2
+        
+    ! Matrix Form:
+        | -rD_y   rE_y | | omega_D | = | Vx_P2 |
+        | rD_x   -rE_x | | omega_E | = | Vy_P2 |
+    
+    Args:
+        O2 (np.ndarray): Fixed ground pivot.
+        P2 (np.ndarray): Upper joint position.
+        P4 (np.ndarray): Upper left joint position.
+        v_P2 (np.ndarray): Velocity of Point P2 [v_x_P2, v_y_P2].
+    
+    Returns:
+        v_P4 (np.ndarray): Velocity of Point P4 [v_x_P4, v_y_P4].
+        omega_D (float): Angular velocity of Link D.
+        omega_E (float): Angular velocity of Link E.
+    """
+    # Position vectors from O2 and P2 to P4
+    r_D = P4 - O2
+    r_E = P4 - P2
+    
+    # Coefficient matrix for omega_D and omega_E
+    coefficient_matrix = np.array([[-r_D[1], r_E[1]], 
+                                   [r_D[0], -r_E[0]]])
+    
+    # Right-hand side vector for v_P2 components
+    rhs_vector = np.array([v_P2[0], v_P2[1]])
+    
+    # Solve for omega_D and omega_E using np.linalg.solve
+    omega_D, omega_E = np.linalg.solve(coefficient_matrix, rhs_vector)
+    
+    # Velocity of Point P4
+    v_P4 = omega_D * np.array([-r_D[1], r_D[0]])
+    
+    
+    return v_P4, omega_D, omega_E
+    
+
 def solve_point_5(O2 : np.ndarray, P1 : np.ndarray, link_c : float, link_k : float) -> np.ndarray:
     """
     Solves the position of Point P5.

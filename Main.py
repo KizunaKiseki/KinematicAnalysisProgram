@@ -158,6 +158,8 @@ def main():
     array_omegaJ = np.zeros(NUM_STEPS)
     array_omegaC = np.zeros(NUM_STEPS)
     array_omegaK = np.zeros(NUM_STEPS)
+    array_omegaD = np.zeros(NUM_STEPS)
+    array_omegaE = np.zeros(NUM_STEPS)
     
     # * Loop through each crank angle and solve for each angle *
     for step, theta_m in enumerate(THETA_M_ARRAY):
@@ -177,10 +179,14 @@ def main():
         # ? Solve for Point P4 across all Crank Angles ?
         array_P4[step] = _solve.solve_point_4(O2, array_P2[step], LINK_D, LINK_E)
         
+        # ! Solve for Velocity & Angular Velocity of Point P4 across all Crank Angles !
+        array_V4[step], array_omegaD[step], array_omegaE[step] = _solve.solve_velocity_4(O2, array_P2[step], array_P4[step], 
+                                                                                         array_V2[step])
+        
         # ? Solve for Point P5 across all Crank Angles ?
         array_P5[step] = _solve.solve_point_5(O2, array_P1[step], LINK_C, LINK_K)
         
-        # ! Solve for Velocity of Point P5 across all Crank Angles !
+        # ! Solve for Velocity & Angular Velocity of Point P5 across all Crank Angles !
         array_V5[step], array_omegaC[step], array_omegaK[step] = _solve.solve_velocity_5(O2, array_P1[step], array_P5[step], 
                                                                                          array_V1[step])
         
@@ -192,10 +198,10 @@ def main():
     
     
     # ! Create Position Figures for Each Point !
-    position_path, position_names = _position.create_position_figures(O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, CRANK_ANGLE_PLOT)
+    #position_path, position_names = _position.create_position_figures(O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, CRANK_ANGLE_PLOT)
     
     # ! Create Velocity Figures for Each Point !
-    velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, array_V1, array_V2, array_V5, array_omegaB, array_omegaJ, array_omegaC, array_omegaK)
+    velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, array_V1, array_V2, array_V4, array_V5, array_omegaB, array_omegaJ, array_omegaC, array_omegaK, array_omegaD, array_omegaE)
     
     # ! Create Acceleration Figures for Each Point !
     
