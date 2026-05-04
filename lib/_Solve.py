@@ -440,7 +440,69 @@ def solve_velocity_4(O2 : np.ndarray, P2 : np.ndarray, P4 : np.ndarray, v_P2 : n
     
     return v_P4, omega_D, omega_E
     
-
+    
+def solve_acceleration_4(O2 : np.ndarray, P2 : np.ndarray, P4 : np.ndarray, a_P2 : np.ndarray, omega_D : float, omega_E : float) -> tuple[np.ndarray, float, float]:
+    """
+    Solves the acceleration of Point P4.
+    
+    ! Acceleration Relationships:
+        1. a_P4 = alpha_D x r_D - omega_D^2 * r_D
+        2. a_P4 = a_P2 + alpha_E x r_E - omega_E^2 * r_E
+        
+        where :
+        r_D = P4 - O2
+        r_E = P4 - P2
+        
+    ! Planar Cross Product:
+        alpha x r = alpha * [-r_y, r_x]
+        
+    ! Component Form:
+        1. alpha_D * rD_x = a_x_P2 - alpha_E * rE_x + omega_D^2 * rD_x - omega_E^2 * rE_x
+        2. -alpha_D * rD_y = a_y_P2 + alpha_E * rE_y + omega_D^2 * rD_y - omega_E^2 * rE_y
+        
+        Rearranging gives:
+        1. -alpha_D * rD_x + alpha_E * rE_x = a_x_P2 + omega_D^2 * rD_x - omega_E^2 * rE_x
+        2. alpha_D * rD_y - alpha_E * rE_y = a_y_P2 + omega_D^2 * rD_y - omega_E^2 * rE_y
+        
+    ! Matrix Form:
+        | -rD_x   rE_x | | alpha_D | = | a_x_P2 + omega_D^2 * rD_x - omega_E^2 * rE_x |
+        | rD_y   -rE_y | | alpha_E | = | a_y_P2 + omega_D^2 * rD_y - omega_E^2 * rE_y |
+        
+    Args:
+        O2 (np.ndarray): Fixed ground pivot.
+        P2 (np.ndarray): Upper joint position.
+        P4 (np.ndarray): Upper left joint position.
+        a_P2 (np.ndarray): Acceleration of Point P2 [a_x_P2, a_y_P2].
+        omega_D (float): Angular velocity of Link D.
+        omega_E (float): Angular velocity of Link E.
+        
+    Returns:
+        a_P4 (np.ndarray): Acceleration of Point P4 [a_x_P4, a_y_P4].
+        alpha_D (float): Angular acceleration of Link D.
+        alpha_E (float): Angular acceleration of Link E.   
+    """
+    # Position Vectors
+    r_D = P4 - O2
+    r_E = P4 - P2
+    
+    # Build Coefficient Matrix
+    coefficient_matrix = np.array([[-r_D[1], r_E[1]], 
+                                   [r_D[0], -r_E[0]]])
+    
+    # Right-hand side vector
+    rhs_vector = np.array([a_P2[0] + omega_D**2 * r_D[0] - omega_E**2 * r_E[0], 
+                           a_P2[1] + omega_D**2 * r_D[1] - omega_E**2 * r_E[1]])
+    
+    # Solve for alpha_D and alpha_E
+    alpha_D, alpha_E = np.linalg.solve(coefficient_matrix, rhs_vector)
+    
+    # Acceleration of Point P4
+    a_P4 = alpha_D * np.array([-r_D[1], r_D[0]]) - omega_D**2 * r_D
+    
+    
+    return a_P4, alpha_D, alpha_E
+    
+    
 def solve_point_5(O2 : np.ndarray, P1 : np.ndarray, link_c : float, link_k : float) -> np.ndarray:
     """
     Solves the position of Point P5.
@@ -479,6 +541,7 @@ def solve_point_5(O2 : np.ndarray, P1 : np.ndarray, link_c : float, link_k : flo
         
         
     return P5
+
 
 def solve_velocity_5(O2 : np.ndarray, P1 : np.ndarray, P5 : np.ndarray, v_P1 : np.ndarray) -> np.ndarray:
     """
@@ -696,6 +759,68 @@ def solve_velocity_6(P4 : np.ndarray, P5 : np.ndarray, P6 : np.ndarray, v_P4 : n
     
     return v_P6, omega_F, omega_G
 
+
+def solve_acceleration_6(P4 : np.ndarray, P5 : np.ndarray, P6 : np.ndarray, a_P4 : np.ndarray, a_P5 : np.ndarray, omega_F : float, omega_G : float) -> tuple[np.ndarray, float, float]:
+    """
+    Solves the acceleration of Point P6.
+    
+    ! Acceleration Relationships:
+        1. a_P6 = a_P4 + alpha_F x r_F - omega_F^2 * r_F
+        2. a_P6 = a_P5 + alpha_G x r_G - omega_G^2 * r_G
+        
+        where :
+        r_F = P6 - P4
+        r_G = P6 - P5
+        
+    ! Planar Cross Product:
+        alpha x r = alpha * [-r_y, r_x]
+        
+    ! Component Form:
+        1. alpha_F * rF_x = a_x_P5 - a_x_P4 - alpha_G * rG_x + omega_F^2 * rF_x - omega_G^2 * rG_x
+        2. -alpha_F * rF_y = a_y_P5 - a_y_P4 + alpha_G * rG_y + omega_F^2 * rF_y - omega_G^2 * rG_y
+        
+        Rearranging gives:
+        1. -alpha_F * rF_x + alpha_G * rG_x = a_x_P5 - a_x_P4 + omega_F^2 * rF_x - omega_G^2 * rG_x
+        2. alpha_F * rF_y - alpha_G * rG_y = a_y_P5 - a_y_P4 + omega_F^2 * rF_y - omega_G^2 * rG_y
+        
+    ! Matrix Form:
+        | -rF_x   rG_x | | alpha_F | = | a_x_P5 - a_x_P4 + omega_F^2 * rF_x - omega_G^2 * rG_x |
+        | rF_y   -rG_y | | alpha_G | = | a_y_P5 - a_y_P4 + omega_F^2 * rF_y - omega_G^2 * rG_y |
+        
+    Args:
+        P4 (np.ndarray): Upper left joint position.
+        P5 (np.ndarray): Lower joint position.
+        P6 (np.ndarray): Position of Point P6.
+        a_P4 (np.ndarray): Acceleration of Point P4.
+        a_P5 (np.ndarray): Acceleration of Point P5.
+        omega_F (float): Angular velocity of Link F.
+        omega_G (float): Angular velocity of Link G.
+        
+    Returns:
+        a_P6 (np.ndarray): Acceleration of Point P6.
+        alpha_F (float): Angular acceleration of Link F.
+        alpha_G (float): Angular acceleration of Link G.
+    """
+    # Position Vectors
+    r_F = P6 - P4
+    r_G = P6 - P5
+    
+    # Build Coefficient Matrix
+    coefficient_matrix = np.array([[-r_F[1], r_G[1]], 
+                                   [r_F[0], -r_G[0]]])
+    
+    # Right-hand side vector
+    rhs_vector = np.array([a_P5[0] - a_P4[0] + omega_F**2 * r_F[0] - omega_G**2 * r_G[0], 
+                           a_P5[1] - a_P4[1] + omega_F**2 * r_F[1] - omega_G**2 * r_G[1]])
+    
+    # Solve for alpha_F and alpha_G
+    alpha_F, alpha_G = np.linalg.solve(coefficient_matrix, rhs_vector)
+    
+    # Acceleration of Point P6
+    a_P6 = a_P4 + alpha_F * np.array([-r_F[1], r_F[0]]) - omega_F**2 * r_F
+    
+    
+    return a_P6, alpha_F, alpha_G
 
 def solve_point_7(P6: np.ndarray, P5 : np.ndarray, link_h : float, link_i : float) -> np.ndarray:
     """

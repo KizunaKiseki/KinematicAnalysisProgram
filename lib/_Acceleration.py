@@ -78,7 +78,9 @@ def create_acceleration_figures(crank_angle_plot: np.ndarray, array_A1 : np.ndar
     # * Create Acceleration Figures for each Point *
     a1_figures(figure_path, figure_names, array_A1, crank_angle_plot)
     a2_figures(figure_path, figure_names, array_A2, crank_angle_plot)
+    a4_figures(figure_path, figure_names, array_A4, crank_angle_plot)
     a5_figures(figure_path, figure_names, array_A5, crank_angle_plot)
+    a6_figures(figure_path, figure_names, array_A6, crank_angle_plot)
     
     
     # * Create Angular Acceleration Figures for Each Link *
@@ -86,7 +88,10 @@ def create_acceleration_figures(crank_angle_plot: np.ndarray, array_A1 : np.ndar
     alphaJ_figures(figure_path, figure_names, array_alphaJ, crank_angle_plot)
     alphaC_figures(figure_path, figure_names, array_alphaC, crank_angle_plot)
     alphaK_figures(figure_path, figure_names, array_alphaK, crank_angle_plot)
-    
+    alphaD_figures(figure_path, figure_names, array_alphaD, crank_angle_plot)
+    alphaE_figures(figure_path, figure_names, array_alphaE, crank_angle_plot)
+    alphaF_figures(figure_path, figure_names, array_alphaF, crank_angle_plot)
+    alphaG_figures(figure_path, figure_names, array_alphaG, crank_angle_plot)
     
     
     return figure_path, figure_names
@@ -148,9 +153,9 @@ def a4_figures(figure_path: list, figure_names: list, array_A4: np.ndarray, cran
         crank_angle_plot (np.ndarray): Crank angle array used for plotting.
     """
     # ! Acceleration Figures for Point P4 !
-    a4_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A4, 0, "P4", "Figure XX: P4 X-Acceleration vs Crank Angle")
-    a4_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A4, 1, "P4", "Figure XX: P4 Y-Acceleration vs Crank Angle")
-    a4_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_A4, "P4", "Figure XX: P4 Acceleration Magnitude vs Crank Angle")
+    a4_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A4, 0, "P4", "Figure 67: P4 X-Acceleration vs Crank Angle")
+    a4_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A4, 1, "P4", "Figure 68: P4 Y-Acceleration vs Crank Angle")
+    a4_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_A4, "P4", "Figure 69: P4 Acceleration Magnitude vs Crank Angle")
 
 
     # Append Figures
@@ -194,9 +199,9 @@ def a6_figures(figure_path: list, figure_names: list, array_A6: np.ndarray, cran
         crank_angle_plot (np.ndarray): Crank angle array used for plotting.
     """
     # ! Acceleration Figures for Point P6 !
-    a6_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A6, 0, "P6", "Figure XX: P6 X-Acceleration vs Crank Angle")
-    a6_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A6, 1, "P6", "Figure XX: P6 Y-Acceleration vs Crank Angle")
-    a6_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_A6, "P6", "Figure XX: P6 Acceleration Magnitude vs Crank Angle")
+    a6_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A6, 0, "P6", "Figure 72: P6 X-Acceleration vs Crank Angle")
+    a6_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A6, 1, "P6", "Figure 73: P6 Y-Acceleration vs Crank Angle")
+    a6_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_A6, "P6", "Figure 74: P6 Acceleration Magnitude vs Crank Angle")
 
 
     # Append Figures
@@ -280,7 +285,7 @@ def alphaC_figures(figure_path: list, figure_names: list, array_alphaC: np.ndarr
         crank_angle_plot (np.ndarray): Crank angle array used for plotting.
     """
     # ! Angular Acceleration Figures for Link C !
-    alphaC_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaC, "Link C", "Figure XX: Link C Angular Acceleration vs Crank Angle")
+    alphaC_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaC, "Link C", "Figure 65: Link C Angular Acceleration vs Crank Angle")
     
     # Append Figure
     figure_path.append(alphaC_figure)
@@ -300,7 +305,7 @@ def alphaK_figures(figure_path: list, figure_names: list, array_alphaK: np.ndarr
         crank_angle_plot (np.ndarray): Crank angle array used for plotting.
     """
     # ! Angular Acceleration Figures for Link K !
-    alphaK_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaK, "Link K", "Figure XX: Link K Angular Acceleration vs Crank Angle")
+    alphaK_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaK, "Link K", "Figure 66: Link K Angular Acceleration vs Crank Angle")
     
     # Append Figure
     figure_path.append(alphaK_figure)
@@ -319,7 +324,7 @@ def alphaD_figures(figure_path: list, figure_names: list, array_alphaD: np.ndarr
         crank_angle_plot (np.ndarray): Crank angle array used for plotting.
     """
     # ! Angular Acceleration Figures for Link D !
-    alphaD_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaD, "Link D", "Figure XX: Link D Angular Acceleration vs Crank Angle")
+    alphaD_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaD, "Link D", "Figure 70: Link D Angular Acceleration vs Crank Angle")
     
     # Append Figure
     figure_path.append(alphaD_figure)
@@ -339,7 +344,7 @@ def alphaE_figures(figure_path: list, figure_names: list, array_alphaE: np.ndarr
         crank_angle_plot (np.ndarray): Crank angle array used for plotting.
     """
     # ! Angular Acceleration Figures for Link E !
-    alphaE_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaE, "Link E", "Figure XX: Link E Angular Acceleration vs Crank Angle")
+    alphaE_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaE, "Link E", "Figure 71: Link E Angular Acceleration vs Crank Angle")
     
     # Append Figure
     figure_path.append(alphaE_figure)

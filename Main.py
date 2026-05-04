@@ -209,13 +209,16 @@ def main():
         array_A2[step], array_alphaB[step], array_alphaJ[step] = _solve.solve_acceleration_2(O2, array_P1[step], array_P2[step],
                                                                                          array_A1[step], array_omegaB[step], array_omegaJ[step])
         
-        
         # ? Solve for Point P4 across all Crank Angles ?
         array_P4[step] = _solve.solve_point_4(O2, array_P2[step], LINK_D, LINK_E)
         
         # ! Solve for Velocity & Angular Velocity of Point P4 across all Crank Angles !
         array_V4[step], array_omegaD[step], array_omegaE[step] = _solve.solve_velocity_4(O2, array_P2[step], array_P4[step], 
                                                                                          array_V2[step])
+        
+        # * Solve for Acceleration of Point P4 across all Crank Angles *
+        array_A4[step], array_alphaD[step], array_alphaE[step] = _solve.solve_acceleration_4(O2, array_P2[step], array_P4[step],
+                                                                                         array_A2[step], array_omegaD[step], array_omegaE[step])
         
         # ? Solve for Point P5 across all Crank Angles ?
         array_P5[step] = _solve.solve_point_5(O2, array_P1[step], LINK_C, LINK_K)
@@ -234,6 +237,11 @@ def main():
         # ! Solve for Velocity & Angular Velocity of Point P6 across all Crank Angles !
         array_V6[step], array_omegaF[step], array_omegaG[step] = _solve.solve_velocity_6(array_P4[step], array_P5[step], array_P6[step], 
                                                                                          array_V4[step], array_V5[step])
+        
+        
+        # * Solve for Acceleration of Point P6 across all Crank Angles *
+        array_A6[step], array_alphaF[step], array_alphaG[step] = _solve.solve_acceleration_6(array_P4[step], array_P5[step], array_P6[step],
+                                                                                         array_A4[step], array_A5[step], array_omegaF[step], array_omegaG[step])
         
         # ? Solve for Point P7 across all Crank Angles ?
         array_P7[step] = _solve.solve_point_7(array_P6[step], array_P5[step], LINK_H, LINK_I)
