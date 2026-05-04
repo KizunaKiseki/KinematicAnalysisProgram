@@ -579,43 +579,104 @@ def solve_point_7(P6: np.ndarray, P5 : np.ndarray, link_h : float, link_i : floa
     return P7
 
 
-
-
-
-
-def function_name():
+def solve_velocity_7(P5 : np.ndarray, P6 : np.ndarray, P7 : np.ndarray, v_P5 : np.ndarray, v_P6 : np.ndarray) -> np.ndarray:
     """
-    Summary of what the function does
+    Solves the velocity of Point P7.
+    
+    ! Velocity Relationships:
+        1. V_P7 = V_P6 + omega_H x r_H
+        2. V_P7 = V_P5 + omega_I x r_I
+        
+        where :
+        r_H = P7 - P6
+        r_I = P7 - P5
+        
+    ! Planar Cross Product:
+        omega x r = omega * [-r_y, r_x]
+        
+    ! Component Form:
+        1. omega_H * rH_x = Vx_P6 - omega_I * rI_x
+        2. -omega_H * rH_y = Vy_P6 + omega_I * rI_y
+
+        
+        Rearranging gives:
+        1. omega_H * rH_x + omega_I * rI_x = Vx_P5 - Vx_P6
+        2. -omega_H * rH_y - omega_I * rI_y = Vy_P5 - Vy_P6
+        
+    ! Matrix Form:
+        | -rH_y   rI_y | | omega_H | = | V_x_P5 - Vx_P6 |
+        | rH_x   -rI_x | | omega_I | = | Vy_P5 - Vy_P6 |
     
     Args:
-    
+        P5 (np.ndarray): Lower joint position.
+        P6 (np.ndarray): Upper right joint position.
+        P7 (np.ndarray): Position of Point P7.
+        v_P5 (np.ndarray): Velocity of Point P5.
+        v_P6 (np.ndarray): Velocity of Point P6.
     
     Returns:
-    
-    
-    Raises:
+        v_P7 (np.ndarray): Velocity of Point P7.
+        omega_H (float): Angular velocity of Link H.
+        omega_I (float): Angular velocity of Link I.
     """
+    # Position vectors from P6 and P5 to P7
+    r_H = P7 - P6
+    r_I = P7 - P5
     
+    # Coefficient matrix for omega_H and omega_I
+    coefficient_matrix = np.array([[-r_H[1], r_I[1]], 
+                                   [r_H[0], -r_I[0]]])
     
+    # Right-hand side vector
+    rhs = np.array([v_P5[0] - v_P6[0], 
+                    v_P5[1] - v_P6[1]])
     
-    pass
+    # Solve for angular velocities
+    omega_H, omega_I = np.linalg.solve(coefficient_matrix, rhs)
+    
+    # Velocity of P7
+    v_P7 = omega_H * np.array([-r_H[1], r_H[0]])
+    
+    return v_P7, omega_H, omega_I
 
-def function_name():
+
+def solve_velocity_foot(P5 : np.ndarray, P7 : np.ndarray, v_P5 : np.ndarray, omega_I : np.ndarray) -> float:
     """
-    Summary of what the function does
+    Solves the vertical velocity of the foot point P7.
     
+    ! Foot Loop:
+        r_c + r_I + r_P
+    
+    ! Velocity Relationships:
+        1. V_P7 = V_P5 + omega_I x r_I
+        
+        where :
+        r_I = P7 - P5
+        
+    ! Planar Cross Product:
+        omega x r = omega * [-r_y, r_x]
+        
+    ! Component Form:
+        1. Vx_P7 = Vx_P5 - omega_I * rI_x
+        2. Vy_P7 = Vy_P5 + omega_I * rI_y
+        
     Args:
-    
+        P5 (np.ndarray): Lower joint position.
+        P7 (np.ndarray): Position of Point P7.
+        v_P5 (np.ndarray): Velocity of Point P5.
+        omega_I (float): Angular velocity of Link I.
     
     Returns:
-    
-    
-    Raises:
+        v_foot (np.ndarray): Velocity of the foot point P7.
     """
+    # Position vector from P5 to P7
+    r_I = P7 - P5
     
+    # Velocity of P7 from link I
+    v_foot = v_P5 + omega_I * np.array([-r_I[1], r_I[0]])
     
-    
-    pass
+    return v_foot
+
 
 def function_name():
     """
