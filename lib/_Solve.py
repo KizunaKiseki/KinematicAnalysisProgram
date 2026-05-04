@@ -540,6 +540,68 @@ def solve_velocity_5(O2 : np.ndarray, P1 : np.ndarray, P5 : np.ndarray, v_P1 : n
     return v_P5, omega_C, omega_K
 
 
+def solve_acceleration_5(O2 : np.ndarray, P1 : np.ndarray, P5 : np.ndarray, a_P1 : np.ndarray, omega_C : float, omega_K : float) -> tuple[np.ndarray, float, float]:
+    """
+    Solves the acceleration of Point P5.
+    
+    ! Acceleration Relationships:
+        1. a_P5 = alpha_C x r_C - omega_C^2 * r_C
+        2. a_P5 = a_P1 + alpha_K x r_K - omega_K^2 * r_K
+        
+        where :
+        r_C = P5 - O2
+        r_K = P5 - P1
+        
+    ! Planar Cross Product:
+        alpha x r = alpha * [-r_y, r_x]
+        
+    ! Component Form:
+        1. alpha_C * rC_x = a_x_P1 - alpha_K * rK_x + omega_C^2 * rC_x - omega_K^2 * rK_x
+        2. -alpha_C * rC_y = a_y_P1 + alpha_K * rK_y + omega_C^2 * rC_y - omega_K^2 * rK_y
+        
+        Rearranging gives:
+        1. -alpha_C * rC_x + alpha_K * rK_x = a_x_P1 + omega_C^2 * rC_x - omega_K^2 * rK_x
+        2. alpha_C * rC_y - alpha_K * rK_y = a_y_P1 + omega_C^2 * rC_y - omega_K^2 * rK_y
+        
+    ! Matrix Form:
+        | -rC_x   rK_x | | alpha_C | = | a_x_P1 + omega_C^2 * rC_x - omega_K^2 * rK_x |
+        | rC_y   -rK_y | | alpha_K | = | a_y_P1 + omega_C^2 * rC_y - omega_K^2 * rK_y |
+        
+    Args:
+        O2 (np.ndarray): Fixed ground pivot.
+        P1 (np.ndarray): Crank pin position.
+        P5 (np.ndarray): Position of Point P5.
+        a_P1 (np.ndarray): Acceleration of Point P1.
+        omega_C (float): Angular velocity of Link C.
+        omega_K (float): Angular velocity of Link K.
+    
+    Returns:
+        a_P5 (np.ndarray): Acceleration of Point P5.
+        alpha_C (float): Angular acceleration of Link C.
+        alpha_K (float): Angular acceleration of Link K.
+    """
+    # Position Vectors
+    r_C = P5 - O2
+    r_K = P5 - P1
+    
+    # Build Coefficient Matrix
+    coefficient_matrix = np.array([[-r_C[1], r_K[1]], 
+                                   [r_C[0], -r_K[0]]])
+    
+    # Right-hand side vector
+    rhs_vector = np.array([a_P1[0] + omega_C**2 * r_C[0] - omega_K**2 * r_K[0], 
+                           a_P1[1] + omega_C**2 * r_C[1] - omega_K**2 * r_K[1]])
+    
+    # Solve for alpha_C and alpha_K
+    alpha_C, alpha_K = np.linalg.solve(coefficient_matrix, rhs_vector)
+    
+    # Acceleration of Point P5
+    a_P5 = alpha_C * np.array([-r_C[1], r_C[0]]) - omega_C**2 * r_C
+    
+    
+    return a_P5, alpha_C, alpha_K
+
+
 def solve_point_6(P4 : np.ndarray, P5 : np.ndarray, link_f : float, link_g : float) -> np.ndarray:
     """
     Solves the position of Point P6.

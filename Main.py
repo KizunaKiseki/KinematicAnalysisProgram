@@ -224,6 +224,10 @@ def main():
         array_V5[step], array_omegaC[step], array_omegaK[step] = _solve.solve_velocity_5(O2, array_P1[step], array_P5[step], 
                                                                                          array_V1[step])
         
+        # * Solve for Acceleration of Point P5 across all Crank Angles *
+        array_A5[step], array_alphaC[step], array_alphaK[step] = _solve.solve_acceleration_5(O2, array_P1[step], array_P5[step], 
+                                                                                         array_A1[step], array_omegaC[step], array_omegaK[step])
+        
         # ? Solve for Point P6 across all Crank Angles ?
         array_P6[step] = _solve.solve_point_6(array_P4[step], array_P5[step], LINK_F, LINK_G)
         
