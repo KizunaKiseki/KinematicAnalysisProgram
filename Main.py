@@ -15,7 +15,6 @@ AUTHOR : Nicholas Heling
 # ! PYTHON TEMPLATES & LIBRARIES !
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 
 # ! PROJECT MODULES !
 import lib._Plot as _plot
