@@ -192,7 +192,7 @@ def main():
     
     
     # ! Create Position Figures for Each Point !
-    # position_path, position_names = _position.create_position_figures(O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, CRANK_ANGLE_PLOT)
+    position_path, position_names = _position.create_position_figures(O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7, CRANK_ANGLE_PLOT)
     
     # ! Create Velocity Figures for Each Point !
     velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, array_V1, array_V2, array_V5, array_omegaB, array_omegaJ, array_omegaC, array_omegaK)

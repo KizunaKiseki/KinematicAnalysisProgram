@@ -40,12 +40,16 @@ LINK_J_COLOR = "#577590"
 LINK_K_COLOR = "#84A59D"
 LINK_M_COLOR = "#F4A261"
 LINK_N_COLOR = "#48CAE4"
+LINK_P_COLOR = "#495057"
 
 # Point Colors
 POINT_COLOR = "#000000"  
 
 # * Link N Line Style *
 LINK_N_LINE_STYLE = '--'  
+
+# * Link P Line Style *
+LINK_P_LINE_STYLE = '--'
 
 # * FUNCTION *
 # ? ================================================================ ?
