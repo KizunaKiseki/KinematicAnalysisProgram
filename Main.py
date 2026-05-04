@@ -258,10 +258,10 @@ def main():
         array_Afoot[step] = _solve.solve_acceleration_foot(array_P5[step], array_P7[step], array_A5[step], array_omegaI[step], array_alphaI[step])
     
     # ! Create Position Figures for Each Point !
-    #position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7)
+    position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7)
 
     # ! Create Velocity Figures for Each Point !
-    #velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, array_V1, array_V2, array_V4, array_V5, array_V6, array_V7, array_Vfoot, array_omegaB, array_omegaJ, array_omegaC, array_omegaK, array_omegaD, array_omegaE, array_omegaF, array_omegaG, array_omegaH, array_omegaI)
+    velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, array_V1, array_V2, array_V4, array_V5, array_V6, array_V7, array_Vfoot, array_omegaB, array_omegaJ, array_omegaC, array_omegaK, array_omegaD, array_omegaE, array_omegaF, array_omegaG, array_omegaH, array_omegaI)
     
     # ! Create Acceleration Figures for Each Point !
     acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, array_A1, array_A2, array_A4, array_A5, array_A6, array_A7, array_Afoot, array_alphaB, array_alphaJ, array_alphaC, array_alphaK, array_alphaD, array_alphaE, array_alphaF, array_alphaG, array_alphaH, array_alphaI)
