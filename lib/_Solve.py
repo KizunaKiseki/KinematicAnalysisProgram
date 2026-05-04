@@ -923,7 +923,70 @@ def solve_velocity_7(P5 : np.ndarray, P6 : np.ndarray, P7 : np.ndarray, v_P5 : n
     return v_P7, omega_H, omega_I
 
 
-def solve_velocity_foot(P5 : np.ndarray, P7 : np.ndarray, v_P5 : np.ndarray, omega_I : np.ndarray) -> float:
+def solve_acceleration_7(P5 : np.ndarray, P6 : np.ndarray, P7 : np.ndarray, a_P5 : np.ndarray, a_P6 : np.ndarray, omega_H : float, omega_I : float) -> tuple[np.ndarray, float, float]:
+    """
+    Solves the acceleration of Point P7.
+    
+    ! Acceleration Relationships:
+        1. a_P7 = a_P6 + alpha_H x r_H - omega_H^2 * r_H
+        2. a_P7 = a_P5 + alpha_I x r_I - omega_I^2 * r_I
+        
+        where :
+        r_H = P7 - P6
+        r_I = P7 - P5
+        
+    ! Planar Cross Product:
+        alpha x r = alpha * [-r_y, r_x]
+        
+    ! Component Form:
+        1. alpha_H * rH_x = a_x_P5 - a_x_P6 - alpha_I * rI_x + omega_H^2 * rH_x - omega_I^2 * rI_x
+        2. -alpha_H * rH_y = a_y_P5 - a_y_P6 + alpha_I * rI_y + omega_H^2 * rH_y - omega_I^2 * rI_y
+        
+        Rearranging gives:
+        1. -alpha_H * rH_x + alpha_I * rI_x = a_x_P5 - a_x_P6 + omega_H^2 * rH_x - omega_I^2 * rI_x
+        2. alpha_H * rH_y - alpha_I * rI_y = a_y_P5 - a_y_P6 + omega_H^2 * rH_y - omega_I^2 * rI_y
+        
+    ! Matrix Form:
+        | -rH_x   rI_x | | alpha_H | = | a_x_P5 - a_x_P6 + omega_H^2 * rH_x - omega_I^2 * rI_x |
+        | rH_y   -rI_y | | alpha_I | = | a_y_P5 - a_y_P6 + omega_H^2 * rH_y - omega_I^2 * rI_y |
+        
+    Args:
+        P5 (np.ndarray): Lower joint position.
+        P6 (np.ndarray): Upper right joint position.
+        P7 (np.ndarray): Position of Point P7.
+        a_P5 (np.ndarray): Acceleration of Point P5.
+        a_P6 (np.ndarray): Acceleration of Point P6.
+        omega_H (float): Angular velocity of Link H.
+        omega_I (float): Angular velocity of Link I.
+        
+    Returns:
+        a_P7 (np.ndarray): Acceleration of Point P7.
+        alpha_H (float): Angular acceleration of Link H.
+        alpha_I (float): Angular acceleration of Link I.
+    """
+    # Position Vectors
+    r_H = P7 - P6
+    r_I = P7 - P5
+    
+    # Build Coefficient Matrix
+    coefficient_matrix = np.array([[-r_H[1], r_I[1]], 
+                                   [r_H[0], -r_I[0]]])
+    
+    # Right-hand side vector
+    rhs_vector = np.array([a_P5[0] - a_P6[0] + omega_H**2 * r_H[0] - omega_I**2 * r_I[0], 
+                           a_P5[1] - a_P6[1] + omega_H**2 * r_H[1] - omega_I**2 * r_I[1]])
+    
+    # Solve for alpha_H and alpha_I
+    alpha_H, alpha_I = np.linalg.solve(coefficient_matrix, rhs_vector)
+    
+    # Acceleration of Point P7
+    a_P7 = a_P6 + alpha_H * np.array([-r_H[1], r_H[0]]) - omega_H**2 * r_H
+    
+    
+    return a_P7, alpha_H, alpha_I
+
+
+def solve_velocity_foot(P5 : np.ndarray, P7 : np.ndarray, v_P5 : np.ndarray, omega_I : np.ndarray) -> np.ndarray:
     """
     Solves the vertical velocity of the foot point P7.
     
@@ -960,3 +1023,41 @@ def solve_velocity_foot(P5 : np.ndarray, P7 : np.ndarray, v_P5 : np.ndarray, ome
     
     return v_foot
 
+
+def solve_acceleration_foot(P5 : np.ndarray, P7 : np.ndarray, a_P5 : np.ndarray, omega_I : np.ndarray, alpha_I : np.ndarray) -> np.ndarray:
+    """
+    Solves the vertical acceleration of the foot point P7.
+    
+    ! Foot Loop:
+        r_c + r_I + r_P
+    
+    ! Acceleration Relationships:
+        1. a_P7 = a_P5 + alpha_I x r_I - omega_I^2 * r_I
+        
+        where :
+        r_I = P7 - P5
+        
+    ! Planar Cross Product:
+        alpha x r = alpha * [-r_y, r_x]
+        
+    ! Component Form:
+        1. a_x_P7 = a_x_P5 - alpha_I * rI_x + omega_I^2 * rI_x
+        2. a_y_P7 = a_y_P5 + alpha_I * rI_y - omega_I^2 * rI_y
+        
+    Args:
+        P5 (np.ndarray): Lower joint position.
+        P7 (np.ndarray): Position of Point P7.
+        a_P5 (np.ndarray): Acceleration of Point P5.
+        omega_I (float): Angular velocity of Link I.
+        alpha_I (float): Angular acceleration of Link I.
+    
+    Returns:
+        a_foot (np.ndarray): Acceleration of the foot point P7.
+    """
+    # Position vector from P5 to P7
+    r_I = P7 - P5
+    
+    # Acceleration of P7 from link I
+    a_foot = a_P5 + alpha_I * np.array([-r_I[1], r_I[0]]) - omega_I**2 * r_I
+    
+    return a_foot

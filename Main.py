@@ -238,7 +238,6 @@ def main():
         array_V6[step], array_omegaF[step], array_omegaG[step] = _solve.solve_velocity_6(array_P4[step], array_P5[step], array_P6[step], 
                                                                                          array_V4[step], array_V5[step])
         
-        
         # * Solve for Acceleration of Point P6 across all Crank Angles *
         array_A6[step], array_alphaF[step], array_alphaG[step] = _solve.solve_acceleration_6(array_P4[step], array_P5[step], array_P6[step],
                                                                                          array_A4[step], array_A5[step], array_omegaF[step], array_omegaG[step])
@@ -250,8 +249,15 @@ def main():
         array_V7[step], array_omegaH[step], array_omegaI[step] = _solve.solve_velocity_7(array_P5[step], array_P6[step], array_P7[step], 
                                                                                          array_V5[step], array_V6[step])
         
+        # * Solve for Acceleration of Point P7 across all Crank Angles *
+        array_A7[step], array_alphaH[step], array_alphaI[step] = _solve.solve_acceleration_7(array_P5[step], array_P6[step], array_P7[step],
+                                                                                         array_A5[step], array_A6[step], array_omegaH[step], array_omegaI[step])
+        
         # ! Solve for Velocity of Foot Point P7 across all Crank Angles !
         array_Vfoot[step] = _solve.solve_velocity_foot(array_P5[step], array_P7[step], array_V5[step], array_omegaI[step])
+        
+        # * Solve for Acceleration of Foot Point P7 across all Crank Angles *
+        array_Afoot[step] = _solve.solve_acceleration_foot(array_P5[step], array_P7[step], array_A5[step], array_omegaI[step], array_alphaI[step])
     
     # ! Create Position Figures for Each Point !
     #position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7)
@@ -268,9 +274,6 @@ def main():
     save_figures(acceleration_path, acceleration_names, folder_name="Acceleration")
 
     
-
-    
-       
 # * EXECUTE *
 # ? ================================================================ ?
 if __name__ == "__main__":
