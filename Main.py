@@ -205,6 +205,11 @@ def main():
         array_V2[step], array_omegaB[step], array_omegaJ[step] = _solve.solve_velocity_2(O2, array_P1[step], array_P2[step], 
                                                                                          array_V1[step])
         
+        # * Solve for Acceleration of Point P2 across all Crank Angles *
+        array_A2[step], array_alphaB[step], array_alphaJ[step] = _solve.solve_acceleration_2(O2, array_P1[step], array_P2[step],
+                                                                                         array_A1[step], array_omegaB[step], array_omegaJ[step])
+        
+        
         # ? Solve for Point P4 across all Crank Angles ?
         array_P4[step] = _solve.solve_point_4(O2, array_P2[step], LINK_D, LINK_E)
         
@@ -243,7 +248,7 @@ def main():
     #velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, array_V1, array_V2, array_V4, array_V5, array_V6, array_V7, array_Vfoot, array_omegaB, array_omegaJ, array_omegaC, array_omegaK, array_omegaD, array_omegaE, array_omegaF, array_omegaG, array_omegaH, array_omegaI)
     
     # ! Create Acceleration Figures for Each Point !
-    acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, array_A1)
+    acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, array_A1, array_A2, array_A4, array_A5, array_A6, array_A7, array_Afoot, array_alphaB, array_alphaJ, array_alphaC, array_alphaK, array_alphaD, array_alphaE, array_alphaF, array_alphaG, array_alphaH, array_alphaI)
     
     # ! Save Figures !
     save_figures(position_path, position_names, folder_name="Position")
