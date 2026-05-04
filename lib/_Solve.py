@@ -478,6 +478,67 @@ def solve_point_6(P4 : np.ndarray, P5 : np.ndarray, link_f : float, link_g : flo
     return P6
 
 
+def solve_velocity_6(P4 : np.ndarray, P5 : np.ndarray, P6 : np.ndarray, v_P4 : np.ndarray, v_P5 : np.ndarray) -> np.ndarray:
+    """
+    Solves the velocity of Point P6.
+    
+    ! Velocity Relationships:
+        1. V_P6 = V_P4 + omega_F x r_F
+        2. V_P6 = V_P5 + omega_G x r_G
+        
+        where :
+        r_F = P6 - P4
+        r_G = P6 - P5
+        
+    ! Planar Cross Product:
+        omega x r = omega * [-r_y, r_x]
+        
+    ! Component Form:
+        1. omega_F * rF_x = Vx_P4 - omega_G * rG_x
+        2. -omega_F * rF_y = Vy_P4 + omega_G * rG_y
+
+        
+        Rearranging gives:
+        1. omega_F * rF_x + omega_G * rG_x = Vx_P5 - Vx_P4
+        2. -omega_F * rF_y - omega_G * rG_y = Vy_P5 - Vy_P4
+        
+    ! Matrix Form:
+        | -rF_y   rG_y | | omega_F | = | V_x_P5 - Vx_P4 |
+        | rF_x   -rG_x | | omega_G | = | Vy_P5 - Vy_P4 |
+    
+    Args:
+        P4 (np.ndarray): Upper left joint position.
+        P5 (np.ndarray): Lower joint position.
+        P6 (np.ndarray): Position of Point P6.
+        v_P4 (np.ndarray): Velocity of Point P4.
+        v_P5 (np.ndarray): Velocity of Point P5.
+    
+    Returns:
+        v_P6 (np.ndarray): Velocity of Point P6.
+        omega_F (float): Angular velocity of Link F.
+        omega_G (float): Angular velocity of Link G.
+    """
+    # Position vectors from P4 and P5 to P6
+    r_F = P6 - P4
+    r_G = P6 - P5
+    
+    # Coefficient matrix for omega_F and omega_G
+    coefficient_matrix = np.array([[-r_F[1], r_G[1]], 
+                                   [r_F[0], -r_G[0]]])
+    
+    # Right-hand side vector
+    rhs = np.array([v_P5[0] - v_P4[0], 
+                    v_P5[1] - v_P4[1]])
+    
+    # Solve for angular velocities
+    omega_F, omega_G = np.linalg.solve(coefficient_matrix, rhs)
+    
+    # Velocity of P6
+    v_P6 = omega_F * np.array([-r_F[1], r_F[0]])
+    
+    return v_P6, omega_F, omega_G
+
+
 def solve_point_7(P6: np.ndarray, P5 : np.ndarray, link_h : float, link_i : float) -> np.ndarray:
     """
     Solves the position of Point P7.
