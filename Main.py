@@ -13,8 +13,8 @@ AUTHOR : Nicholas Heling
 # ? ================================================================ ?
 
 # ! PYTHON TEMPLATES & LIBRARIES !
-import os
 import numpy as np
+import os
 
 # ! PROJECT MODULES !
 import lib._Plot as _plot
@@ -42,8 +42,6 @@ LINK_J = 50.00 * SCALE_FACTOR
 LINK_K = 61.90 * SCALE_FACTOR
 LINK_L = 7.80 * SCALE_FACTOR
 LINK_M = 15.00 * SCALE_FACTOR
-
-# ! Ground Link between A & M in [mm] !
 LINK_N = np.sqrt(LINK_A ** 2 + LINK_L ** 2)
 
 # Gear Ratio in [mm]

@@ -17,8 +17,6 @@ AUTHOR : Nicholas Heling
 import numpy as np
 import matplotlib.pyplot as pl
 
-# ! PROJECT MODULES !
-
 
 # * VARIABLES *
 # ? ================================================================ ?

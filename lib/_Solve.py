@@ -16,12 +16,6 @@ AUTHOR : Nicholas Heling
 # ! PYTHON TEMPLATES & LIBRARIES !
 import numpy as np
 
-# ! PROJECT MODULES !
-
-
-# * VARIABLES *
-# ? ================================================================ ?
-
 
 # * FUNCTION *
 # ? ================================================================ ?
@@ -1061,3 +1055,5 @@ def solve_acceleration_foot(P5 : np.ndarray, P7 : np.ndarray, a_P5 : np.ndarray,
     a_foot = a_P5 + alpha_I * np.array([-r_I[1], r_I[0]]) - omega_I**2 * r_I
     
     return a_foot
+
+
