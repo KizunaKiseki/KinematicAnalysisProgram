@@ -85,6 +85,6 @@ def a1_figures(figure_path: list, figure_names: list, array_A1: np.ndarray, cran
     figure_path.extend([a1_x_figure, a1_y_figure, a1_magnitude_figure])
     
     # Append Figure Names
-    figure_names.extend(["Figure 54: P1 X-Acceleration vs Crank Angle", "Figure 55: P1 Y-Acceleration vs Crank Angle", "Figure 56: P1 Acceleration Magnitude vs Crank Angle"])
+    figure_names.extend(["a1_x_figure", "a1_y_figure", "a1_magnitude_figure"])
 
 
