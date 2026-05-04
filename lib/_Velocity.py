@@ -149,9 +149,9 @@ def v4_figures(figure_path : list, figure_names : list, array_V4 : np.ndarray, c
         crank_angle_plot (np.ndarray): Array of crank angles for plotting.
     """
     # ! Velocity Figures for Point P4 !
-    v4_x_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V4, 0, "P4", "Figure 27: Velocity of Point P4 vs Crank Angle (x-component)")
-    v4_y_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V4, 1, "P4", "Figure 28: Velocity of Point P4 vs Crank Angle (y-component)")
-    v4_speed_figure = _plot.plot_speed_figure(crank_angle_plot, array_V4, "P4", "Figure 29: Speed of Point P4 vs Crank Angle")
+    v4_x_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V4, 0, "P4", "Figure 36: Velocity of Point P4 vs Crank Angle (x-component)")
+    v4_y_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V4, 1, "P4", "Figure 37: Velocity of Point P4 vs Crank Angle (y-component)")
+    v4_speed_figure = _plot.plot_speed_figure(crank_angle_plot, array_V4, "P4", "Figure 38: Speed of Point P4 vs Crank Angle")
     
     
     # Append V4 Figures to Figure Path
@@ -172,9 +172,9 @@ def v5_figures(figure_path : list, figure_names : list, array_V5 : np.ndarray, c
         crank_angle_plot (np.ndarray): Array of crank angles for plotting.
     """
     # ! Velocity Figures for Point P5 !
-    v5_x_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V5, 0, "P5", "Figure 27: Velocity of Point P5 vs Crank Angle (x-component)")
-    v5_y_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V5, 1, "P5", "Figure 28: Velocity of Point P5 vs Crank Angle (y-component)")
-    v5_speed_figure = _plot.plot_speed_figure(crank_angle_plot, array_V5, "P5", "Figure 29: Speed of Point P5 vs Crank Angle")
+    v5_x_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V5, 0, "P5", "Figure 32: Velocity of Point P5 vs Crank Angle (x-component)")
+    v5_y_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V5, 1, "P5", "Figure 33: Velocity of Point P5 vs Crank Angle (y-component)")
+    v5_speed_figure = _plot.plot_speed_figure(crank_angle_plot, array_V5, "P5", "Figure 34: Speed of Point P5 vs Crank Angle")
     
     
     # Append V5 Figures to Figure Path
@@ -195,9 +195,9 @@ def v6_figures(figure_path : list, figure_names : list, array_V6 : np.ndarray, c
         crank_angle_plot (np.ndarray): Array of crank angles for plotting.
     """
     # ! Velocity Figures for Point P6 !
-    v6_x_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V6, 0, "P6", "Figure 27: Velocity of Point P6 vs Crank Angle (x-component)")
-    v6_y_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V6, 1, "P6", "Figure 28: Velocity of Point P6 vs Crank Angle (y-component)")
-    v6_speed_figure = _plot.plot_speed_figure(crank_angle_plot, array_V6, "P6", "Figure 29: Speed of Point P6 vs Crank Angle")
+    v6_x_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V6, 0, "P6", "Figure 41: Velocity of Point P6 vs Crank Angle (x-component)")
+    v6_y_figure = _plot.plot_velocity_figure(crank_angle_plot, array_V6, 1, "P6", "Figure 42: Velocity of Point P6 vs Crank Angle (y-component)")
+    v6_speed_figure = _plot.plot_speed_figure(crank_angle_plot, array_V6, "P6", "Figure 43: Speed of Point P6 vs Crank Angle")
     
     
     # Append V6 Figures to Figure Path
@@ -260,7 +260,7 @@ def omegaC_figures(figure_path : list, figure_names : list, array_omegaC : np.nd
         crank_angle_plot (np.ndarray): Array of crank angles for plotting.
     """
     # ! Angular Velocity Figures for Link C !
-    omegaC_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaC, "C", "Figure 32: Angular Velocity of Link C vs Crank Angle")
+    omegaC_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaC, "C", "Figure 35: Angular Velocity of Link C vs Crank Angle")
     
     
     # Append OmegaC Figure to Figure Path
@@ -281,7 +281,7 @@ def omegaK_figures(figure_path : list, figure_names : list, array_omegaK : np.nd
         crank_angle_plot (np.ndarray): Array of crank angles for plotting.
     """
     # ! Angular Velocity Figures for Link K !
-    omegaK_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaK, "K", "Figure 33: Angular Velocity of Link K vs Crank Angle")
+    omegaK_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaK, "K", "Figure 36: Angular Velocity of Link K vs Crank Angle")
     
     
     # Append OmegaK Figure to Figure Path
@@ -302,7 +302,7 @@ def omegaD_figures(figure_path : list, figure_names : list, array_omegaD : np.nd
         crank_angle_plot (np.ndarray): Array of crank angles for plotting.
     """
     # ! Angular Velocity Figures for Link D !
-    omegaD_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaD, "D", "Figure 34: Angular Velocity of Link D vs Crank Angle")
+    omegaD_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaD, "D", "Figure 39: Angular Velocity of Link D vs Crank Angle")
     
     
     # Append OmegaD Figure to Figure Path
@@ -323,7 +323,7 @@ def omegaE_figures(figure_path : list, figure_names : list, array_omegaE : np.nd
         crank_angle_plot (np.ndarray): Array of crank angles for plotting.
     """
     # ! Angular Velocity Figures for Link E !
-    omegaE_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaE, "E", "Figure 35: Angular Velocity of Link E vs Crank Angle")
+    omegaE_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaE, "E", "Figure 40: Angular Velocity of Link E vs Crank Angle")
     
     
     # Append OmegaE Figure to Figure Path
@@ -344,7 +344,7 @@ def omegaF_figures(figure_path : list, figure_names : list, array_omegaF : np.nd
         crank_angle_plot (np.ndarray): Array of crank angles for plotting.
     """
     # ! Angular Velocity Figures for Link F !
-    omegaF_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaF, "F", "Figure 36: Angular Velocity of Link F vs Crank Angle")
+    omegaF_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaF, "F", "Figure 44: Angular Velocity of Link F vs Crank Angle")
     
     
     # Append OmegaF Figure to Figure Path
@@ -365,7 +365,7 @@ def omegaG_figures(figure_path : list, figure_names : list, array_omegaG : np.nd
         crank_angle_plot (np.ndarray): Array of crank angles for plotting.
     """
     # ! Angular Velocity Figures for Link G !
-    omegaG_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaG, "G", "Figure 37: Angular Velocity of Link G vs Crank Angle")
+    omegaG_figure = _plot.plot_angular_velocity_figure(crank_angle_plot, array_omegaG, "G", "Figure 45: Angular Velocity of Link G vs Crank Angle")
     
     
     # Append OmegaG Figure to Figure Path
