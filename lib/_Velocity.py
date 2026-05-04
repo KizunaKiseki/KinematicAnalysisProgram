@@ -68,9 +68,8 @@ def create_velocity_figures(crank_angle_plot: np.ndarray, array_V1 : np.ndarray,
         array_omegaI (np.ndarray): Angular velocity array for Point I.
 
     Returns:
-        tuple[list, list]: A tuple containing two lists:
-            - figure_path (list): List of paths to the saved figures.
-            - figure_names (list): List of figure names.
+        figure_path (list): List of Matplotlib figure objects.
+        figure_names (list): List of figure file names.
     
     Raises:
     """

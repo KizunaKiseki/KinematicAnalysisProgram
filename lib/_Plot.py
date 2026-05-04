@@ -401,3 +401,70 @@ def plot_acceleration_figure(theta_array : np.ndarray, acceleration_array : np.n
     
     return acceleration_figure
 
+
+def plot_acceleration_magnitude_figure(theta_array : np.ndarray, acceleration_array : np.ndarray, point_label : str, title : str) -> pl.figure:
+    """
+    General function for plotting acceleration magnitude vs. crank angle.
+    
+    Args:
+        theta_array (np.ndarray): Crank rotation array in degrees.
+        acceleration_array (np.ndarray): Acceleration array for a point.
+        point_label (str): Point label, such as P1, P2, or P5.
+        title (str): Figure title.
+    
+    Returns:
+        figure (pl.figure) : Matplotlib figure object.
+    """
+    # Set up figure and axes
+    acceleration_magnitude_figure, acceleration_magnitude_axes = setup_figure()
+    
+    # Set title and axes labels
+    acceleration_magnitude_axes.set_title(title)
+    acceleration_magnitude_axes.set_xlabel("Clockwise Crank Angle Rotation [degrees]")
+    acceleration_magnitude_axes.set_ylabel("Acceleration Magnitude [mm/s²]")
+    
+    # Calculate acceleration magnitude
+    acceleration_magnitude = np.linalg.norm(acceleration_array, axis=1)
+    
+    # Plot the acceleration magnitude vs. crank angle
+    acceleration_magnitude_axes.plot(theta_array, acceleration_magnitude, color=PATH_COLOR, linewidth=2.0, label=f"Acceleration Magnitude {point_label}")
+    
+    # Create Legend & Layout
+    acceleration_magnitude_axes.legend(loc = 'best')
+    acceleration_magnitude_figure.tight_layout()
+    
+    
+    return acceleration_magnitude_figure
+
+
+def plot_angular_acceleration_figure(theta_array : np.ndarray, alpha_array : np.ndarray, point_label : str, title : str) -> pl.figure:
+    """
+    General function for plotting angular acceleration vs. crank angle.
+    
+    Args:
+        theta_array (np.ndarray): Crank rotation array in degrees.
+        alpha_array (np.ndarray): Angular acceleration array for a point.
+        point_label (str): Point label, such as P1, P2, or P5.
+        title (str): Figure title.
+    
+    Returns:
+        figure (pl.figure) : Matplotlib figure object.
+    """
+    # Set up figure and axes
+    angular_acceleration_figure, angular_acceleration_axes = setup_figure()
+    
+    # Set title and axes labels
+    angular_acceleration_axes.set_title(title)
+    angular_acceleration_axes.set_xlabel("Clockwise Crank Angle Rotation [degrees]")
+    angular_acceleration_axes.set_ylabel("Angular Acceleration [rad/s²]")
+    
+    # Plot the angular acceleration vs. crank angle
+    angular_acceleration_axes.plot(theta_array, alpha_array, color=PATH_COLOR, linewidth=2.0, label=f"Angular Acceleration {point_label}")
+    
+    # Create Legend & Layout
+    angular_acceleration_axes.legend(loc = 'best')
+    angular_acceleration_figure.tight_layout()
+    
+    
+    return angular_acceleration_figure
+

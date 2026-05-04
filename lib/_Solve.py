@@ -141,6 +141,40 @@ def solve_velocity_1(link_m : float, theta_m : float, omega_m : float) -> np.nda
     return v_P1
 
 
+def solve_acceleration_1(link_m : float, theta_m : float, omega_m : float, alpha_m : float) -> np.ndarray:
+    """
+    Solves the acceleration of Point P1.
+    
+    ! Position Equation:
+        P1 = O4 + link_m * [cos(theta_m), sin(theta_m)]
+        
+    ! Velocity Equation:
+        v_P1 = link_m * omega_m * [-sin(theta_m), cos(theta_m)]
+        
+        
+    ! Acceleration Equation:
+        a_P1 = alpha_m x r_m - omega_m^2 * r_m
+        
+    ! X & Y Components:
+        a_x_P1 = -link_m * alpha_m * sin(theta_m) - link_m * omega_m**2 * cos(theta_m)
+        a_y_P1 = link_m * alpha_m * cos(theta_m) - link_m * omega_m**2 * sin(theta_m)
+    
+    Args:
+        link_m (float): Length of input crank Link M.
+        theta_m (float): The angle of the crank in radians.
+        omega_m (float): The angular velocity of the crank in radians per second.
+        alpha_m (float): The angular acceleration of the crank in radians per second squared.
+    
+    Returns:
+        a_P1 (np.ndarray): Acceleration of Point P1 [a_x_P1, a_y_P1].
+    """
+    # Calculate acceleration of P1 using the acceleration equation
+    a_P1 = alpha_m * link_m * np.array([-np.sin(theta_m), np.cos(theta_m)]) - omega_m**2 * link_m * np.array([np.cos(theta_m), np.sin(theta_m)])
+    
+    
+    return a_P1
+
+
 
 def solve_point_2(O2 : np.ndarray, P1 : np.ndarray, link_b : float, link_j : float) -> np.ndarray:
     """
@@ -677,37 +711,3 @@ def solve_velocity_foot(P5 : np.ndarray, P7 : np.ndarray, v_P5 : np.ndarray, ome
     
     return v_foot
 
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass
-
-def function_name():
-    """
-    Summary of what the function does
-    
-    Args:
-    
-    
-    Returns:
-    
-    
-    Raises:
-    """
-    
-    
-    
-    pass

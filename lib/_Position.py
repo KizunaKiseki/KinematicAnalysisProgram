@@ -23,13 +23,14 @@ import lib._Plot as _plot
 # * FUNCTION *
 # ? ================================================================ ?
 
-def create_position_figures(O2 : np.ndarray, O4: np.ndarray, array_P1: np.ndarray, array_P2: np.ndarray, 
-                            array_P4: np.ndarray, array_P5: np.ndarray, array_P6: np.ndarray, 
-                            array_P7: np.ndarray, crank_angle_plot: np.ndarray) -> tuple[list, list]:
+def create_position_figures(crank_angle_plot: np.ndarray, O2 : np.ndarray, O4: np.ndarray, array_P1: np.ndarray, 
+                            array_P2: np.ndarray, array_P4: np.ndarray, array_P5: np.ndarray, 
+                            array_P6: np.ndarray, array_P7: np.ndarray) -> tuple[list, list]:
     """
     Creates all position analysis figures for the Theo Jansen mechanism.
     
     Args:
+        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
         O2 (np.ndarray): Fixed ground pivot O2.
         O4 (np.ndarray): Fixed crank pivot O4.
         array_P1 (np.ndarray): Point P1 position array.
@@ -38,9 +39,7 @@ def create_position_figures(O2 : np.ndarray, O4: np.ndarray, array_P1: np.ndarra
         array_P5 (np.ndarray): Point P5 position array.
         array_P6 (np.ndarray): Point P6 position array.
         array_P7 (np.ndarray): Point P7 position array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
 
-    
     Returns:
         figure_path (list): List of Matplotlib figure objects.
         figure_names (list): List of figure file names.
