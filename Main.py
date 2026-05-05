@@ -22,7 +22,7 @@ import lib._Solve as _solve
 import lib._Position as _position
 import lib._Velocity as _velocity
 import lib._Acceleration as _acceleration
-import lib._Vectors as _vectors
+import lib._Vector as _vectors
 
 
 # * VARIABLES *
