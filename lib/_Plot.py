@@ -93,7 +93,7 @@ def setup_figure() -> tuple[pl.figure, pl.axes]:
         axes (pl.axes) : Matplotlib axes object. 
     """
     # Create figure
-    figure = pl.figure(figsize=(9, 6))
+    figure = pl.figure(figsize=(7, 7))
     
     # Create axis 
     axes = figure.add_subplot(1, 1, 1)
@@ -564,6 +564,19 @@ def plot_vector_figure(vector: np.ndarray, vector_label : str, title : str, x_la
     
     # Draw Theta arc
     theta_arc = Arc((0, 0), width = 2 * arc_radius, height = 2 * arc_radius, angle=0, theta1=0, theta2=theta_display, color='gray', linewidth = 2.0)
+    
+    # Add a small arrowhead at the end of the theta arc
+    if theta_display > 0:
+        theta_end = np.radians(theta_display)
+        theta_start = np.radians(theta_display - 8)   # small step before the end
+
+        arc_arrow_start = np.array([arc_radius * np.cos(theta_start), arc_radius * np.sin(theta_start)])
+
+        arc_arrow_end = np.array([arc_radius * np.cos(theta_end), arc_radius * np.sin(theta_end)])
+
+        vector_axes.annotate("", xy=(arc_arrow_end[0], arc_arrow_end[1]), xytext=(arc_arrow_start[0], arc_arrow_start[1]),
+            arrowprops=dict(arrowstyle="->", color="gray", lw=1.6, shrinkA=0, shrinkB=0))
+    
     vector_axes.add_patch(theta_arc)
     
     # Place theta text at the midpoint of the arc
@@ -575,7 +588,7 @@ def plot_vector_figure(vector: np.ndarray, vector_label : str, title : str, x_la
     vector_axes.text(theta_text_x, theta_text_y, theta_label, fontsize=12, color='gray', fontweight='bold', ha='center', va='center', bbox=dict(facecolor='white', edgecolor='none', alpha=0.7))
     
     # Add magnitude and numerical angle in text box
-    vector_axes.text(0.02, 0.95, f"|{vector_label}| = {magnitude:.2f} {units}\nθ = {theta_display:.2f}°", transform=vector_axes.transAxes, verticalalignment='top', bbox=dict(facecolor='white', edgecolor='black', alpha=0.7))
+    vector_axes.text(0.02, 0.95, f"|{vector_label}| = {magnitude:.2f} {units}\nθ = {theta_display:.2f}° ↺", transform=vector_axes.transAxes, verticalalignment='top', bbox=dict(facecolor='white', edgecolor='black', alpha=0.7))
     
     # Limits
     plot_limit = max_value * 1.5
@@ -587,9 +600,9 @@ def plot_vector_figure(vector: np.ndarray, vector_label : str, title : str, x_la
     vector_axes.grid(True, linestyle='--', alpha=0.5)
     
     # Title and labels
-    vector_axes.set_title(title)
-    vector_axes.set_xlabel(x_label)
-    vector_axes.set_ylabel(y_label)
+    vector_axes.set_title(title, fontsize=14, fontweight='bold')
+    vector_axes.set_xlabel(x_label, fontsize=12)
+    vector_axes.set_ylabel(y_label, fontsize=12)
     
     # Layout
     vector_figure.tight_layout()

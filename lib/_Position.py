@@ -158,6 +158,10 @@ def create_position_figures(crank_angle_plot: np.ndarray, O2 : np.ndarray, O4: n
     # ? Position Figures ?
     position_number = create_path_figures(position_path, position_names, position_number, crank_angle_plot, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
     
+    # ? Complete Mechanism Figure ?
+    mechanism_number = append_complete_mechanism_figure(mechanism_path, mechanism_names, mechanism_number, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
+    
+    mechanism_number = append_complete_path_figure(mechanism_path, mechanism_names, mechanism_number, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
     
     
     return mechanism_path, mechanism_names, position_path, position_names
@@ -738,6 +742,133 @@ def create_path_figures(position_path : list, position_names : list, figure_numb
     )
     
     figure_number = append_position_figures(position_path, position_names, figure_number, crank_angle_plot, position_P7, "P7", p7_figure)
+    
+    
+    return figure_number
+
+
+def append_complete_mechanism_figure(mechanism_path : list, mechanism_names : list, figure_number : int, O2 : np.ndarray, O4: np.ndarray, position_P1 : np.ndarray, position_P2 : np.ndarray, position_P4 : np.ndarray, position_P5 : np.ndarray, position_P6 : np.ndarray, position_P7 : np.ndarray) -> int:
+    """
+    Appends a complete mechanism figure to the mechanism path and names lists.
+    
+    Args:
+        mechanism_path (list): List to store mechanism figure objects.
+        mechanism_names (list): List to store mechanism figure file names.
+        figure_number (int): Current figure number.
+        O2 (np.ndarray): Fixed ground pivot O2.
+        O4 (np.ndarray): Fixed crank pivot O4.
+        position_P1 (np.ndarray): Position array for point P1.
+        position_P2 (np.ndarray): Position array for point P2.
+        position_P4 (np.ndarray): Position array for point P4.
+        position_P5 (np.ndarray): Position array for point P5.
+        position_P6 (np.ndarray): Position array for point P6.
+        position_P7 (np.ndarray): Position array for point P7.
+
+    Returns:
+        figure_number (int): Updated figure number after appending the complete mechanism figure.
+
+    """
+    title, name = make_figure_label(figure_number, "Mechanism", "Complete Mechanism")
+    
+    links = [
+        {"point_1" : O2, "point_2" : O4, "label" : "Link N", "color" : _plot.LINK_N_COLOR, "linestyle" : _plot.LINK_N_LINE_STYLE},
+        {"point_1" : O4, "point_2" : position_P1[0], "label" : "Link M", "color" : _plot.LINK_M_COLOR},
+        {"point_1" : O2, "point_2" : position_P2[0], "label" : "Link B", "color" : _plot.LINK_B_COLOR},
+        {"point_1" : O2, "point_2" : position_P5[0], "label" : "Link C", "color" : _plot.LINK_C_COLOR},
+        {"point_1" : O2, "point_2" : position_P4[0], "label" : "Link D", "color" : _plot.LINK_D_COLOR},
+        {"point_1" : position_P2[0], "point_2" : position_P4[0], "label" : "Link E", "color" : _plot.LINK_E_COLOR},
+        {"point_1" : position_P4[0], "point_2" : position_P6[0], "label" : "Link F", "color" : _plot.LINK_F_COLOR},
+        {"point_1" : position_P5[0], "point_2" : position_P6[0], "label" : "Link G", "color" : _plot.LINK_G_COLOR},
+        {"point_1" : position_P6[0], "point_2" : position_P7[0], "label" : "Link H", "color" : _plot.LINK_H_COLOR},
+        {"point_1" : position_P5[0], "point_2" : position_P7[0], "label" : "Link I", "color" : _plot.LINK_I_COLOR},
+        {"point_1" : position_P2[0], "point_2" : position_P1[0], "label" : "Link J", "color" : _plot.LINK_J_COLOR},
+        {"point_1" : position_P1[0], "point_2" : position_P5[0], "label" : "Link K", "color" : _plot.LINK_K_COLOR},
+    ]
+    
+    points = [
+        {"point" : O2, "label" : "O2", "x_offset" : -12, "y_offset" : 8},
+        {"point" : O4, "label" : "O4", "x_offset" : -4, "y_offset" : 8},
+        {"point" : position_P1[0], "label" : "P1", "x_offset" : 4, "y_offset" : 8},
+        {"point" : position_P2[0], "label" : "P2", "x_offset" : 6, "y_offset" : 8},
+        {"point" : position_P4[0], "label" : "P4", "x_offset" : -14, "y_offset" : 6},
+        {"point" : position_P5[0], "label" : "P5", "x_offset" : 6, "y_offset" : -14},
+        {"point" : position_P6[0], "label" : "P6", "x_offset" : -12, "y_offset" : -16},
+        {"point" : position_P7[0], "label" : "P7", "x_offset" : -8, "y_offset" : -14},
+    ]
+    
+    complete_mechanism_figure = _plot.plot_mechanism_figure(links = links, points = points, paths = None, title = title, padding = 20.0)
+    
+    mechanism_path.append(complete_mechanism_figure)
+    mechanism_names.append(name)
+    figure_number += 1
+    
+    
+    return figure_number
+
+
+def append_complete_path_figure(mechanism_path : list, mechanism_names : list, figure_number : int, O2 : np.ndarray, O4: np.ndarray, position_P1 : np.ndarray, position_P2 : np.ndarray, position_P4 : np.ndarray, position_P5 : np.ndarray, position_P6 : np.ndarray, position_P7 : np.ndarray) -> int:
+    """
+    Appends a complete path figure to the position path and names lists.
+    
+    Args:
+        mechanism_path (list): List to store figure objects.
+        mechanism_names (list): List to store figure file names.
+        figure_number (int): Current figure number.
+        O2 (np.ndarray): Fixed ground pivot O2.
+        O4 (np.ndarray): Fixed crank pivot O4.
+        position_P1 (np.ndarray): Position array for point P1.
+        position_P2 (np.ndarray): Position array for point P2.
+        position_P4 (np.ndarray): Position array for point P4.
+        position_P5 (np.ndarray): Position array for point P5.
+        position_P6 (np.ndarray): Position array for point P6.
+        position_P7 (np.ndarray): Position array for point P7.
+
+    Returns:
+        figure_number (int): Updated figure number after appending the complete path figure.
+
+    """
+    title, name = make_figure_label(figure_number, "Mechanism", "Complete Mechanism")
+    
+    links = [
+        {"point_1" : O2, "point_2" : O4, "label" : "Link N", "color" : _plot.LINK_N_COLOR, "linestyle" : _plot.LINK_N_LINE_STYLE},
+        {"point_1" : O4, "point_2" : position_P1[0], "label" : "Link M", "color" : _plot.LINK_M_COLOR},
+        {"point_1" : O2, "point_2" : position_P2[0], "label" : "Link B", "color" : _plot.LINK_B_COLOR},
+        {"point_1" : O2, "point_2" : position_P5[0], "label" : "Link C", "color" : _plot.LINK_C_COLOR},
+        {"point_1" : O2, "point_2" : position_P4[0], "label" : "Link D", "color" : _plot.LINK_D_COLOR},
+        {"point_1" : position_P2[0], "point_2" : position_P4[0], "label" : "Link E", "color" : _plot.LINK_E_COLOR},
+        {"point_1" : position_P4[0], "point_2" : position_P6[0], "label" : "Link F", "color" : _plot.LINK_F_COLOR},
+        {"point_1" : position_P5[0], "point_2" : position_P6[0], "label" : "Link G", "color" : _plot.LINK_G_COLOR},
+        {"point_1" : position_P6[0], "point_2" : position_P7[0], "label" : "Link H", "color" : _plot.LINK_H_COLOR},
+        {"point_1" : position_P5[0], "point_2" : position_P7[0], "label" : "Link I", "color" : _plot.LINK_I_COLOR},
+        {"point_1" : position_P2[0], "point_2" : position_P1[0], "label" : "Link J", "color" : _plot.LINK_J_COLOR},
+        {"point_1" : position_P1[0], "point_2" : position_P5[0], "label" : "Link K", "color" : _plot.LINK_K_COLOR},
+    ]
+    
+    points = [
+        {"point" : O2, "label" : "O2", "x_offset" : -12, "y_offset" : 8},
+        {"point" : O4, "label" : "O4", "x_offset" : -4, "y_offset" : 8},
+        {"point" : position_P1[0], "label" : "P1", "x_offset" : 4, "y_offset" : 8},
+        {"point" : position_P2[0], "label" : "P2", "x_offset" : 6, "y_offset" : 8},
+        {"point" : position_P4[0], "label" : "P4", "x_offset" : -14, "y_offset" : 6},
+        {"point" : position_P5[0], "label" : "P5", "x_offset" : 6, "y_offset" : -14},
+        {"point" : position_P6[0], "label" : "P6", "x_offset" : -12, "y_offset" : -16},
+        {"point" : position_P7[0], "label" : "P7", "x_offset" : -8, "y_offset" : -14},
+    ]
+    
+    paths = [
+        {"array" : position_P1, "label" : "P1 Path", "color" : _plot.PATH_COLOR},
+        {"array" : position_P2, "label" : "P2 Path", "color" : _plot.PATH_COLOR},
+        {"array" : position_P4, "label" : "P4 Path", "color" : _plot.PATH_COLOR},
+        {"array" : position_P5, "label" : "P5 Path", "color" : _plot.PATH_COLOR},
+        {"array" : position_P6, "label" : "P6 Path", "color" : _plot.PATH_COLOR},
+        {"array" : position_P7, "label" : "P7 Path", "color" : _plot.PATH_COLOR},
+    ]
+    
+    complete_mechanism_figure = _plot.plot_mechanism_figure(links = links, points = points, paths = paths, title = title, padding = 20.0)
+    
+    mechanism_path.append(complete_mechanism_figure)
+    mechanism_names.append(name)
+    figure_number += 1
     
     
     return figure_number
