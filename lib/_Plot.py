@@ -78,7 +78,7 @@ def crank_angle_label() -> str:
     Returns:
         The standardized label for the crank angle.
     """
-    return r"Clockwise Crank Angle ↻ $\theta_M$°"
+    return r"Clockwise Crank Angle $\theta_M$° , ↻"
     
     
 def setup_figure() -> tuple[pl.figure, pl.axes]:

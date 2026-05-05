@@ -340,7 +340,7 @@ def solve_position_P6(P4 : np.ndarray, P5 : np.ndarray, link_f : float, link_g :
     """
     Solves the position of Point P6.
     """
-    return solve_point_from_two_links(P4, P5, link_f, link_g, selection="max_y")
+    return solve_point_from_two_links(P4, P5, link_f, link_g, selection="min_x")
 
 def solve_velocity_P6(P4 : np.ndarray, P5 : np.ndarray, P6 : np.ndarray, v_P4 : np.ndarray, v_P5 : np.ndarray) -> tuple[np.ndarray, float, float]:
     """

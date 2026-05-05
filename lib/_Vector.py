@@ -55,10 +55,10 @@ def make_figure_label(figure_number: int, analysis_type : str, subject : str, ex
     
     if extra:
         figure_title = f"{figure_id}: {analysis_type} {subject} {extra}"
-        figure_name = f"Figure{figure_id:02d}_{analysis_type}_{subject}_{extra}"
+        figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}_{extra}"
     else:
         figure_title = f"{figure_id}: {analysis_type} {subject}"
-        figure_name = f"Figure{figure_id:02d}_{analysis_type}_{subject}"
+        figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}"
         
     # Clean File Name
     figure_name = (figure_name.replace(" ", "_").replace("-", "_").replace("+", ""). replace(":", "").replace(".", "").replace("(", "").replace(")", ""))
@@ -146,12 +146,12 @@ def create_vector_figures(step : int, velocity_P1 : np.ndarray, velocity_P2 : np
     
     # ? Velocity Vector Figures ?
     velocity_vector_data = [
-        ("P1", velocity_P1),
-        ("P2", velocity_P2),
-        ("P4", velocity_P4),
-        ("P5", velocity_P5),
-        ("P6", velocity_P6),
-        ("P7", velocity_Foot)
+        ("P1", velocity_P1[step]),
+        ("P2", velocity_P2[step]),
+        ("P4", velocity_P4[step]),
+        ("P5", velocity_P5[step]),
+        ("P6", velocity_P6[step]),
+        ("P7", velocity_Foot[step])
     ]   
     
     for point_label, velocity_array in velocity_vector_data:
@@ -159,12 +159,12 @@ def create_vector_figures(step : int, velocity_P1 : np.ndarray, velocity_P2 : np
         
     # ? Acceleration Vector Figures ?
     acceleration_vector_data = [
-        ("P1", accel_P1),
-        ("P2", accel_P2),
-        ("P4", accel_P4),
-        ("P5", accel_P5),
-        ("P6", accel_P6),
-        ("P7", accel_Foot)
+        ("P1", accel_P1[step]),
+        ("P2", accel_P2[step]),
+        ("P4", accel_P4[step]),
+        ("P5", accel_P5[step]),
+        ("P6", accel_P6[step]),
+        ("P7", accel_Foot[step])
     ]
     
     for point_label, acceleration_array in acceleration_vector_data:

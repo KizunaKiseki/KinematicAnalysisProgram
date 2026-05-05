@@ -42,10 +42,10 @@ def make_figure_label(figure_number: int, analysis_type : str, subject : str, ex
     
     if extra:
         figure_title = f"{figure_id}: {analysis_type} {subject} {extra}"
-        figure_name = f"Figure{figure_id:02d}_{analysis_type}_{subject}_{extra}"
+        figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}_{extra}"
     else:
         figure_title = f"{figure_id}: {analysis_type} {subject}"
-        figure_name = f"{figure_id:02d}_{analysis_type}_{subject}"
+        figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}"
         
     # Clean File Name
     figure_name = (figure_name.replace(" ", "_").replace("-", "_").replace("+", ""). replace(":", "").replace(".", "").replace("(", "").replace(")", ""))
@@ -71,7 +71,7 @@ def append_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
     # ! Mechanism Figure !
     title, name = make_figure_label(figure_number, "Mechanism", mechanism_name)
     
-    figure.axes[0].set_title(title)
+    figure.axes[0].set_title(title, fontsize = 14, fontweight = "bold")
     
     mechanism_path.append(figure)
     mechanism_names.append(name)
@@ -113,7 +113,7 @@ def append_position_figures(position_path : list, position_names : list, figure_
     # ! Position Figure for Path !
     title, name = make_figure_label(figure_number, "Position", f"Point {point_label}", "Path")
     
-    path_figure.axes[0].set_title(title)
+    path_figure.axes[0].set_title(title, fontsize = 14, fontweight = "bold")
     position_path.append(path_figure)
     position_names.append(name)
     figure_number += 1
@@ -151,11 +151,12 @@ def create_position_figures(crank_angle_plot: np.ndarray, O2 : np.ndarray, O4: n
     mechanism_number = 1
     position_number = 1
     
+    
     # ? Mechanism Figures ?
     mechanism_number = create_mechanism_figures(mechanism_path, mechanism_names, mechanism_number, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
     
     # ? Position Figures ?
-    position_number = create_position_figures(position_path, position_names, position_number, crank_angle_plot, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
+    position_number = create_path_figures(position_path, position_names, position_number, crank_angle_plot, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
     
     
     
@@ -272,7 +273,7 @@ def create_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
                 "color" : _plot.LINK_M_COLOR,
             },
             {
-                "point_1" : O4,
+                "point_1" : O2,
                 "point_2" : position_P5[0],
                 "label" : "Link C",
                 "color" : _plot.LINK_C_COLOR,
@@ -314,8 +315,8 @@ def create_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
                 "color" : _plot.LINK_D_COLOR,
             },
             {
-                "point_1" : position_P4[0],
-                "point_2" : position_P5[0],
+                "point_1" : position_P2[0],
+                "point_2" : position_P4[0],
                 "label" : "Link E",
                 "color" : _plot.LINK_E_COLOR,
             },
@@ -450,9 +451,9 @@ def create_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
     return figure_number
 
 
-def create_position_figures(position_path : list, position_names : list, figure_number : int, crank_angle_plot: np.ndarray, O2 : np.ndarray, O4: np.ndarray, position_P1 : np.ndarray, position_P2 : np.ndarray, position_P4 : np.ndarray, position_P5 : np.ndarray, position_P6 : np.ndarray, position_P7 : np.ndarray) -> int:
+def create_path_figures(position_path : list, position_names : list, figure_number : int, crank_angle_plot: np.ndarray, O2 : np.ndarray, O4: np.ndarray, position_P1 : np.ndarray, position_P2 : np.ndarray, position_P4 : np.ndarray, position_P5 : np.ndarray, position_P6 : np.ndarray, position_P7 : np.ndarray) -> int:
     """
-    Creates position figures for points P1, P2, P4, P5, P6, and P7 and appends them to the position path and names lists.
+    Creates path figures for points P1, P2, P4, P5, P6, and P7 and appends them to the position path and names lists.
     
     Args:
         position_path (list): List to store figure objects.

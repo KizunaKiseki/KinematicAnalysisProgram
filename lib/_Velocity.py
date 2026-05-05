@@ -54,10 +54,10 @@ def make_figure_label(figure_number: int, analysis_type : str, subject : str, ex
     
     if extra:
         figure_title = f"{figure_id}: {analysis_type} {subject} {extra}"
-        figure_name = f"Figure{figure_id:02d}_{analysis_type}_{subject}_{extra}"
+        figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}_{extra}"
     else:
         figure_title = f"{figure_id}: {analysis_type} {subject}"
-        figure_name = f"Figure{figure_id:02d}_{analysis_type}_{subject}"
+        figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}"
         
     # Clean File Name
     figure_name = (figure_name.replace(" ", "_").replace("-", "_").replace("+", ""). replace(":", "").replace(".", "").replace("(", "").replace(")", ""))
@@ -98,7 +98,7 @@ def append_point_velocity_figures(velocity_path : list, velocity_names : list, f
     
     # ! Velocity Figures for Speed !
     title, name = make_figure_label(figure_number, "Velocity", f"Point {point_label}", "Magnitude")
-    speed_figure = _plot.plot_velocity_figure(crank_angle_plot, velocity_array, point_label, title)
+    speed_figure = _plot.plot_speed_figure(crank_angle_plot, velocity_array, point_label, title)
     velocity_path.append(speed_figure)
     velocity_names.append(name)
     figure_number += 1

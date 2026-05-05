@@ -55,10 +55,10 @@ def make_figure_label(figure_number: int, analysis_type : str, subject : str, ex
     
     if extra:
         figure_title = f"{figure_id}: {analysis_type} {subject} {extra}"
-        figure_name = f"Figure{figure_id:02d}_{analysis_type}_{subject}_{extra}"
+        figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}_{extra}"
     else:
         figure_title = f"{figure_id}: {analysis_type} {subject}"
-        figure_name = f"Figure{figure_id:02d}_{analysis_type}_{subject}"
+        figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}"
         
     # Clean File Name
     figure_name = (figure_name.replace(" ", "_").replace("-", "_").replace("+", ""). replace(":", "").replace(".", "").replace("(", "").replace(")", ""))
@@ -98,7 +98,7 @@ def append_point_acceleration_figures(acceleration_path : list, acceleration_nam
     
     # ! Acceleration Figures for Magnitude !
     title, name = make_figure_label(figure_number, "Acceleration", f"Point {point_label}", "Magnitude")
-    magnitude_figure = _plot.plot_acceleration_figure(crank_angle_plot, acceleration_array, point_label, title)
+    magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, acceleration_array, point_label, title)
     acceleration_path.append(magnitude_figure)
     acceleration_names.append(name)
     figure_number += 1
