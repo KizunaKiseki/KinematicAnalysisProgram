@@ -49,8 +49,6 @@ LINK_N_LINE_STYLE = '--'
 # * Link P Line Style *
 LINK_P_LINE_STYLE = '--'
 
-# * Vector Color *
-VECTOR_COLOR = "#3A0CA3"
 
 # * FUNCTION *
 # ? ================================================================ ?
