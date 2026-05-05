@@ -49,6 +49,9 @@ LINK_N_LINE_STYLE = '--'
 # * Link P Line Style *
 LINK_P_LINE_STYLE = '--'
 
+# * Vector Color *
+VECTOR_COLOR = "#3A0CA3"
+
 # * FUNCTION *
 # ? ================================================================ ?
 
@@ -465,4 +468,5 @@ def plot_angular_acceleration_figure(theta_array : np.ndarray, alpha_array : np.
     
     
     return angular_acceleration_figure
+
 

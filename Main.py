@@ -23,6 +23,7 @@ import lib._Position as _position
 import lib._Velocity as _velocity
 import lib._Acceleration as _acceleration
 
+
 # * VARIABLES *
 # ? ================================================================ ?
 # Scale Factor
@@ -109,6 +110,34 @@ def save_figures(figure_path : list, figure_names : list, folder_name : str) -> 
         print(f"✅ {name} saved to {figure_file_path}")
 
 
+def print_angular_quantity_summary(quantity_name: str, quantity_dictionary: dict) -> None:
+    """
+    Prints angular velocity or angular acceleration summary with direction.
+
+    Args:
+        quantity_name (str): Title for the quantity group.
+        quantity_dictionary (dict): Dictionary of link labels and values.
+
+    Returns:
+        None
+    """
+
+    print("\n" + "=" * 60)
+    print(quantity_name)
+    print("=" * 60)
+
+    for label, value in quantity_dictionary.items():
+        if value > 1e-9:
+            direction = "CCW"
+        elif value < -1e-9:
+            direction = "CW"
+        else:
+            direction = "0"
+
+        if direction == "0":
+            print(f"{label} = 0.000")
+        else:
+            print(f"{label} = {abs(value):.6f} ({direction})")
 
 # * MAIN *
 # ? ================================================================ ?
@@ -132,6 +161,8 @@ def main():
     position_names = []
     velocity_names = []
     acceleration_names = []
+    single_configuration_path = []
+    single_configuration_names = []
     
     # ! Solve across all crank angles !
     # Initialize array to store positions for each crank angle
@@ -258,13 +289,15 @@ def main():
         array_Afoot[step] = _solve.solve_acceleration_foot(array_P5[step], array_P7[step], array_A5[step], array_omegaI[step], array_alphaI[step])
     
     # ! Create Position Figures for Each Point !
-    position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7)
+    #position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7)
 
     # ! Create Velocity Figures for Each Point !
-    velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, array_V1, array_V2, array_V4, array_V5, array_V6, array_V7, array_Vfoot, array_omegaB, array_omegaJ, array_omegaC, array_omegaK, array_omegaD, array_omegaE, array_omegaF, array_omegaG, array_omegaH, array_omegaI)
+    #velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, array_V1, array_V2, array_V4, array_V5, array_V6, array_V7, array_Vfoot, array_omegaB, array_omegaJ, array_omegaC, array_omegaK, array_omegaD, array_omegaE, array_omegaF, array_omegaG, array_omegaH, array_omegaI)
     
     # ! Create Acceleration Figures for Each Point !
-    acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, array_A1, array_A2, array_A4, array_A5, array_A6, array_A7, array_Afoot, array_alphaB, array_alphaJ, array_alphaC, array_alphaK, array_alphaD, array_alphaE, array_alphaF, array_alphaG, array_alphaH, array_alphaI)
+    #acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, array_A1, array_A2, array_A4, array_A5, array_A6, array_A7, array_Afoot, array_alphaB, array_alphaJ, array_alphaC, array_alphaK, array_alphaD, array_alphaE, array_alphaF, array_alphaG, array_alphaH, array_alphaI)
+    
+
     
     # ! Save Figures !
     save_figures(position_path, position_names, folder_name="Position")
