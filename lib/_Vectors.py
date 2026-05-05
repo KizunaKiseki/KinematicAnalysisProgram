@@ -36,6 +36,39 @@ import lib._Plot as _plot
 # * FUNCTION *
 # ? ================================================================ ?
 
+def make_figure_label(figure_number: int, analysis_type : str, subject : str, extra : str = "") -> tuple[str, str]:
+    """
+    Creates a standardized figure title and file name.
+    
+    Args:
+        figure_number (int): Figure number.
+        analysis_type (str): Type of analysis (e.g., "Position", "Velocity", "Acceleration").
+        subject (str): Subject of the figure (e.g., "P1", "P2").
+        extra (str, optional): Additional information for the figure title. Defaults to "".
+    
+    Returns:
+        figure_title (str): Title displayed on the figure.
+        figure_name (str): File name used when saving the plot.
+    """
+    
+    figure_id = f"Figure {figure_number:02d}"
+    
+    if extra:
+        figure_title = f"{figure_id}: {analysis_type} {subject} {extra}"
+        figure_name = f"{figure_id:02d}_{analysis_type}_{subject}_{extra}"
+    else:
+        figure_title = f"{figure_id}: {analysis_type} {subject}"
+        figure_name = f"{figure_id:02d}_{analysis_type}_{subject}"
+        
+    # Clean File Name
+    figure_name = (figure_name.replace(" ", "_").replace("-", "_").replace("+", ""). replace(":", "").replace(".", "").replace("(", "").replace(")", ""))
+    
+    
+    return figure_title, figure_name
+
+
+
+
 def create_vector_figures(step : int, array_V1 : np.ndarray, array_V2 : np.ndarray, array_V4 : np.ndarray, array_V5 : np.ndarray, 
                           array_V6 : np.ndarray, array_vFoot : np.ndarray, array_A1 : np.ndarray, 
                           array_A2 : np.ndarray, array_A4 : np.ndarray, array_A5 : np.ndarray, array_A6 : np.ndarray, 

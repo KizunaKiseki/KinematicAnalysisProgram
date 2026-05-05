@@ -22,7 +22,7 @@ import lib._Solve as _solve
 import lib._Position as _position
 import lib._Velocity as _velocity
 import lib._Acceleration as _acceleration
-import lib._VectorFigures as _vectors
+import lib._Vectors as _vectors
 
 
 # * VARIABLES *
@@ -156,12 +156,18 @@ def main():
     Raises:
     """
     # Initialize figure_path & figure_names lists for saving figures
+    mechanism_path = []
+    mechanism_names = []
+    
     position_path = []
-    velocity_path = []
-    acceleration_path = []
     position_names = []
+    
+    velocity_path = []
     velocity_names = []
+    
+    acceleration_path = []
     acceleration_names = []
+    
     vector_path = []
     vector_names = []
     
@@ -256,22 +262,22 @@ def main():
     
     
     # ! Create Position Figures for Each Point !
-    #position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7)
+    #mechanism_path, mechanism_names, position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
 
     # ! Create Velocity Figures for Each Point !
-    #velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, array_V1, array_V2, array_V4, array_V5, array_V6, array_V7, array_Vfoot, array_omegaB, array_omegaJ, array_omegaC, array_omegaK, array_omegaD, array_omegaE, array_omegaF, array_omegaG, array_omegaH, array_omegaI)
+    #velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_P7, velocity_Foot, omega_B, omega_J, omega_C, omega_K, omega_D, omega_E, omega_F, omega_G, omega_H, omega_I)
     
     # ! Create Acceleration Figures for Each Point !
-    #acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, array_A1, array_A2, array_A4, array_A5, array_A6, array_A7, array_Afoot, array_alphaB, array_alphaJ, array_alphaC, array_alphaK, array_alphaD, array_alphaE, array_alphaF, array_alphaG, array_alphaH, array_alphaI)
-    
+    #acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_P7, acceleration_Foot, alpha_B, alpha_J, alpha_C, alpha_K, alpha_D, alpha_E, alpha_F, alpha_G, alpha_H, alpha_I)
     # ! Single Configuration Vector Figures for Each Point !
-    vector_path, vector_names = _vectors.create_vector_figures(step=0, array_V1=array_V1, array_V2=array_V2, array_V4=array_V4, array_V5=array_V5, array_V6=array_V6, array_vFoot=array_Vfoot, array_A1=array_A1, array_A2=array_A2, array_A4=array_A4, array_A5=array_A5, array_A6=array_A6, array_aFoot=array_Afoot)
+    vector_path, vector_names = _vectors.create_vector_figures(0, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_Foot, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_Foot)
     
     # ! Save Figures !
-    save_figures(position_path, position_names, folder_name="Position")
-    save_figures(velocity_path, velocity_names, folder_name="Velocity")
-    save_figures(acceleration_path, acceleration_names, folder_name="Acceleration")
-    save_figures(vector_path, vector_names, folder_name="Vectors")
+    save_figures(mechanism_path, mechanism_names, folder_name="MechanismFigures")
+    save_figures(position_path, position_names, folder_name="PositionFigures")
+    save_figures(velocity_path, velocity_names, folder_name="VelocityFigures")
+    save_figures(acceleration_path, acceleration_names, folder_name="AccelerationFigures")
+    save_figures(vector_path, vector_names, folder_name="VectorFigures")
 
     
 # * EXECUTE *

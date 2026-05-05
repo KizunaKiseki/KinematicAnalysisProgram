@@ -30,428 +30,175 @@ import numpy as np
 
 # ! PROJECT MODULES !
 import lib._Plot as _plot
+from lib._Velocity import append_angular_velocity_figures
 
 
 # * FUNCTION *
 # ? ================================================================ ?
 
-def create_acceleration_figures(crank_angle_plot: np.ndarray, array_A1 : np.ndarray, array_A2 : np.ndarray, array_A4 : np.ndarray, 
-                                array_A5 : np.ndarray, array_A6 : np.ndarray, array_A7 : np.ndarray, array_Afoot : np.ndarray, 
-                                array_alphaB : np.ndarray, array_alphaJ : np.ndarray, array_alphaC : np.ndarray, 
-                                array_alphaK : np.ndarray, array_alphaD : np.ndarray, array_alphaE : np.ndarray, 
-                                array_alphaF : np.ndarray, array_alphaG : np.ndarray, array_alphaH : np.ndarray, 
-                                array_alphaI : np.ndarray) -> tuple[list, list]:
+def make_figure_label(figure_number: int, analysis_type : str, subject : str, extra : str = "") -> tuple[str, str]:
+    """
+    Creates a standardized figure title and file name.
+    
+    Args:
+        figure_number (int): Figure number.
+        analysis_type (str): Type of analysis (e.g., "Position", "Velocity", "Acceleration").
+        subject (str): Subject of the figure (e.g., "P1", "P2").
+        extra (str, optional): Additional information for the figure title. Defaults to "".
+    
+    Returns:
+        figure_title (str): Title displayed on the figure.
+        figure_name (str): File name used when saving the plot.
+    """
+    
+    figure_id = f"Figure {figure_number:02d}"
+    
+    if extra:
+        figure_title = f"{figure_id}: {analysis_type} {subject} {extra}"
+        figure_name = f"{figure_id:02d}_{analysis_type}_{subject}_{extra}"
+    else:
+        figure_title = f"{figure_id}: {analysis_type} {subject}"
+        figure_name = f"{figure_id:02d}_{analysis_type}_{subject}"
+        
+    # Clean File Name
+    figure_name = (figure_name.replace(" ", "_").replace("-", "_").replace("+", ""). replace(":", "").replace(".", "").replace("(", "").replace(")", ""))
+    
+    
+    return figure_title, figure_name
+
+
+def append_point_acceleration_figures(acceleration_path : list, acceleration_names : list, figure_number : int, crank_angle_plot : np.ndarray, acceleration_array : np.ndarray, point_label : str) -> int:
+    """
+    Appends acceleration figures for a specific point to the acceleration path and names lists.
+    
+    Args:
+        acceleration_path (list): List to store acceleration figure objects.
+        acceleration_names (list): List to store acceleration figure file names.
+        figure_number (int): Current figure number.
+        crank_angle_plot (np.ndarray): Array of crank angles for plotting.
+        acceleration_array (np.ndarray): Acceleration array for the specific point.
+        point_label (str): Label for the point (e.g., "P1", "P2").
+    
+    Returns:
+        figure_number (int): Updated figure number.
+    """
+    # ! Acceleration Figures for X-Component !
+    title, name = make_figure_label(figure_number, "Acceleration", f"Point {point_label}", "X-Component")
+    ax_figure = _plot.plot_acceleration_figure(crank_angle_plot, acceleration_array, 0, point_label, title)
+    acceleration_path.append(ax_figure)
+    acceleration_names.append(name)
+    figure_number += 1
+    
+    # ! Acceleration Figures for Y-Component !
+    title, name = make_figure_label(figure_number, "Acceleration", f"Point {point_label}", "Y-Component")
+    ay_figure = _plot.plot_acceleration_figure(crank_angle_plot, acceleration_array, 1, point_label, title)
+    acceleration_path.append(ay_figure)
+    acceleration_names.append(name)
+    figure_number += 1
+    
+    # ! Acceleration Figures for Magnitude !
+    title, name = make_figure_label(figure_number, "Acceleration", f"Point {point_label}", "Magnitude")
+    magnitude_figure = _plot.plot_acceleration_figure(crank_angle_plot, acceleration_array, 2, point_label, title)
+    acceleration_path.append(magnitude_figure)
+    acceleration_names.append(name)
+    figure_number += 1
+    
+    
+    return figure_number
+
+
+def append_angular_acceleration_figures(acceleration_path : list, acceleration_names : list, figure_number : int, crank_angle_plot : np.ndarray, alpha_array : np.ndarray, link_label : str) -> int:
+    """
+    Appends one angular acceleration figure.
+    
+    Args:
+        acceleration_path (list): List to store acceleration figure objects.
+        acceleration_names (list): List to store acceleration figure file names.
+        figure_number (int): Current figure number.
+        crank_angle_plot (np.ndarray): Array of crank angles for plotting.
+        alpha_array (np.ndarray): Angular acceleration array for the specific link.
+        link_label (str): Label for the link (e.g., "B", "C").
+        
+    Returns:
+        figure_number (int): Updated figure number.
+    """
+    # ! Angular Acceleration Figure for Link !
+    title, name = make_figure_label(figure_number, "Acceleration", f"Link {link_label}", "Angular Acceleration")
+    alpha_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, alpha_array, link_label, title)
+    acceleration_path.append(alpha_figure)
+    acceleration_names.append(name)
+    figure_number += 1
+    
+    
+    return figure_number 
+
+
+def create_acceleration_figures(crank_angle_plot: np.ndarray, accel_P1: np.ndarray, accel_P2: np.ndarray, accel_P4: np.ndarray, accel_P5: np.ndarray, accel_P6: np.ndarray, accel_P7: np.ndarray, accel_Foot: np.ndarray, 
+                                alphaB: np.ndarray, alphaJ: np.ndarray, alphaC: np.ndarray, alphaK: np.ndarray, alphaD: np.ndarray, alphaE: np.ndarray, alphaF: np.ndarray, alphaG: np.ndarray, alphaH: np.ndarray, alphaI: np.ndarray) -> tuple[list, list]:
     """
     Creates all acceleration analysis figures for the Theo Jansen mechanism.
     
     Args:
         crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-        array_A1 (np.ndarray): Point P1 acceleration array.
-        array_A2 (np.ndarray): Point P2 acceleration array.
-        array_A4 (np.ndarray): Point P4 acceleration array.
-        array_A5 (np.ndarray): Point P5 acceleration array.
-        array_A6 (np.ndarray): Point P6 acceleration array.
-        array_A7 (np.ndarray): Point P7 acceleration array.
-        array_Afoot (np.ndarray): Point Pfoot acceleration array.
-        array_alphaB (np.ndarray): Link B angular acceleration array.
-        array_alphaJ (np.ndarray): Link J angular acceleration array.
-        array_alphaC (np.ndarray): Link C angular acceleration array.
-        array_alphaK (np.ndarray): Link K angular acceleration array.
-        array_alphaD (np.ndarray): Link D angular acceleration array.
-        array_alphaE (np.ndarray): Link E angular acceleration array.
-        array_alphaF (np.ndarray): Link F angular acceleration array.
-        array_alphaG (np.ndarray): Link G angular acceleration array.
-        array_alphaH (np.ndarray): Link H angular acceleration array.
-        array_alphaI (np.ndarray): Link I angular acceleration array.
+        accel_P1 (np.ndarray): Point P1 acceleration array.
+        accel_P2 (np.ndarray): Point P2 acceleration array.
+        accel_P4 (np.ndarray): Point P4 acceleration array.
+        accel_P5 (np.ndarray): Point P5 acceleration array.
+        accel_P6 (np.ndarray): Point P6 acceleration array.
+        accel_P7 (np.ndarray): Point P7 acceleration array.
+        accel_Foot (np.ndarray): Point Pfoot acceleration array.
+        alphaB (np.ndarray): Link B angular acceleration array.
+        alphaJ (np.ndarray): Link J angular acceleration array.
+        alphaC (np.ndarray): Link C angular acceleration array.
+        alphaK (np.ndarray): Link K angular acceleration array.
+        alphaD (np.ndarray): Link D angular acceleration array.
+        alphaE (np.ndarray): Link E angular acceleration array.
+        alphaF (np.ndarray): Link F angular acceleration array.
+        alphaG (np.ndarray): Link G angular acceleration array.
+        alphaH (np.ndarray): Link H angular acceleration array.
+        alphaI (np.ndarray): Link I angular acceleration array.
     
     Returns:
         figure_path (list): List of Matplotlib figure objects.
         figure_names (list): List of figure file names.
     """
     # Initialize lists to store figure paths and names
-    figure_path = []
-    figure_names = []
-    
-    # * Create Acceleration Figures for each Point *
-    a1_figures(figure_path, figure_names, array_A1, crank_angle_plot)
-    a2_figures(figure_path, figure_names, array_A2, crank_angle_plot)
-    a4_figures(figure_path, figure_names, array_A4, crank_angle_plot)
-    a5_figures(figure_path, figure_names, array_A5, crank_angle_plot)
-    a6_figures(figure_path, figure_names, array_A6, crank_angle_plot)
-    a7_figures(figure_path, figure_names, array_A7, crank_angle_plot)
-    afoot_figures(figure_path, figure_names, array_Afoot, crank_angle_plot)
+    acceleration_path = []
+    acceleration_names = []
+    figure_number = 1
     
     
-    # * Create Angular Acceleration Figures for Each Link *
-    alphaB_figures(figure_path, figure_names, array_alphaB, crank_angle_plot)
-    alphaJ_figures(figure_path, figure_names, array_alphaJ, crank_angle_plot)
-    alphaC_figures(figure_path, figure_names, array_alphaC, crank_angle_plot)
-    alphaK_figures(figure_path, figure_names, array_alphaK, crank_angle_plot)
-    alphaD_figures(figure_path, figure_names, array_alphaD, crank_angle_plot)
-    alphaE_figures(figure_path, figure_names, array_alphaE, crank_angle_plot)
-    alphaF_figures(figure_path, figure_names, array_alphaF, crank_angle_plot)
-    alphaG_figures(figure_path, figure_names, array_alphaG, crank_angle_plot)
-    alphaH_figures(figure_path, figure_names, array_alphaH, crank_angle_plot)
-    alphaI_figures(figure_path, figure_names, array_alphaI, crank_angle_plot)
+    # ? Point Acceleration Figures ?
+    point_acceleration_data = [
+        ("P1", accel_P1),
+        ("P2", accel_P2),
+        ("P4", accel_P4),
+        ("P5", accel_P5),
+        ("P6", accel_P6),
+        ("P7", accel_Foot)
+    ]
     
+    for point_label, accel_array in point_acceleration_data:
+        figure_number = append_point_acceleration_figures(acceleration_path, acceleration_names, figure_number, crank_angle_plot, accel_array, point_label)
+        
+        
+    # ? Angular Acceleration Figures ?
+    angular_acceleration_data = [
+        ("B", alphaB),
+        ("J", alphaJ),
+        ("C", alphaC),
+        ("K", alphaK),
+        ("D", alphaD),
+        ("E", alphaE),
+        ("F", alphaF),
+        ("G", alphaG),
+        ("H", alphaH),
+        ("I", alphaI)
+    ]
     
-    return figure_path, figure_names
+    for link_label, alpha_array in angular_acceleration_data:
+        figure_number = append_angular_acceleration_figures(acceleration_path, acceleration_names, figure_number, crank_angle_plot, alpha_array, link_label)
+    
+        
+    return acceleration_path, acceleration_names
 
-
-def a1_figures(figure_path: list, figure_names: list, array_A1: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates acceleration figures for Point P1.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_A1 (np.ndarray): Point P1 acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Acceleration Figures for Point P1 !
-    a1_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A1, 0, "P1", "Figure XX: P1 X-Acceleration vs Crank Angle")
-    a1_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A1, 1, "P1", "Figure XX: P1 Y-Acceleration vs Crank Angle")
-    a1_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_A1, "P1", "Figure XX: P1 Acceleration Magnitude vs Crank Angle")
-
-
-    # Append Figures
-    figure_path.extend([a1_x_figure, a1_y_figure, a1_magnitude_figure])
-    
-    # Append Figure Names
-    figure_names.extend(["a1_x_figure", "a1_y_figure", "a1_magnitude_figure"])
-
-def a2_figures(figure_path: list, figure_names: list, array_A2: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates acceleration figures for Point P2.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_A2 (np.ndarray): Point P2 acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Acceleration Figures for Point P2 !
-    a2_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A2, 0, "P2", "Figure XX: P2 X-Acceleration vs Crank Angle")
-    a2_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A2, 1, "P2", "Figure XX: P2 Y-Acceleration vs Crank Angle")
-    a2_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_A2, "P2", "Figure XX: P2 Acceleration Magnitude vs Crank Angle")
-
-
-    # Append Figures
-    figure_path.extend([a2_x_figure, a2_y_figure, a2_magnitude_figure])
-    
-    # Append Figure Names
-    figure_names.extend(["a2_x_figure", "a2_y_figure", "a2_magnitude_figure"])
-
-
-def a4_figures(figure_path: list, figure_names: list, array_A4: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates acceleration figures for Point P4.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_A4 (np.ndarray): Point P4 acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Acceleration Figures for Point P4 !
-    a4_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A4, 0, "P4", "Figure XX: P4 X-Acceleration vs Crank Angle")
-    a4_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A4, 1, "P4", "Figure XX: P4 Y-Acceleration vs Crank Angle")
-    a4_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_A4, "P4", "Figure XX: P4 Acceleration Magnitude vs Crank Angle")
-
-
-    # Append Figures
-    figure_path.extend([a4_x_figure, a4_y_figure, a4_magnitude_figure])
-    
-    # Append Figure Names
-    figure_names.extend(["a4_x_figure", "a4_y_figure", "a4_magnitude_figure"])
-    
-
-def a5_figures(figure_path: list, figure_names: list, array_A5: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates acceleration figures for Point P5.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_A5 (np.ndarray): Point P5 acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Acceleration Figures for Point P5 !
-    a5_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A5, 0, "P5", "Figure XX: P5 X-Acceleration vs Crank Angle")
-    a5_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A5, 1, "P5", "Figure XX: P5 Y-Acceleration vs Crank Angle")
-    a5_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_A5, "P5", "Figure XX: P5 Acceleration Magnitude vs Crank Angle")
-
-
-    # Append Figures
-    figure_path.extend([a5_x_figure, a5_y_figure, a5_magnitude_figure])
-    
-    # Append Figure Names
-    figure_names.extend(["a5_x_figure", "a5_y_figure", "a5_magnitude_figure"])
-    
-
-def a6_figures(figure_path: list, figure_names: list, array_A6: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates acceleration figures for Point P6.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_A6 (np.ndarray): Point P6 acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Acceleration Figures for Point P6 !
-    a6_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A6, 0, "P6", "Figure XX: P6 X-Acceleration vs Crank Angle")
-    a6_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A6, 1, "P6", "Figure XX: P6 Y-Acceleration vs Crank Angle")
-    a6_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_A6, "P6", "Figure XX: P6 Acceleration Magnitude vs Crank Angle")
-
-
-    # Append Figures
-    figure_path.extend([a6_x_figure, a6_y_figure, a6_magnitude_figure])
-    
-    # Append Figure Names
-    figure_names.extend(["a6_x_figure", "a6_y_figure", "a6_magnitude_figure"])
-    
-
-def a7_figures(figure_path: list, figure_names: list, array_A7: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates acceleration figures for Point P7.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_A7 (np.ndarray): Point P7 acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Acceleration Figures for Point P7 !
-    a7_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A7, 0, "P7", "Figure XX: P7 X-Acceleration vs Crank Angle")
-    a7_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_A7, 1, "P7", "Figure XX: P7 Y-Acceleration vs Crank Angle")
-    a7_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_A7, "P7", "Figure XX: P7 Acceleration Magnitude vs Crank Angle")
-
-
-    # Append Figures
-    figure_path.extend([a7_x_figure, a7_y_figure, a7_magnitude_figure])
-    
-    # Append Figure Names
-    figure_names.extend(["a7_x_figure", "a7_y_figure", "a7_magnitude_figure"])    
-    
-
-def afoot_figures(figure_path: list, figure_names: list, array_Afoot: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates acceleration figures for Point Pfoot.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_Afoot (np.ndarray): Point Pfoot acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Acceleration Figures for Point Pfoot !
-    afoot_x_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_Afoot, 0, "Pfoot", "Figure XX: Pfoot X-Acceleration vs Crank Angle")
-    afoot_y_figure = _plot.plot_acceleration_figure(crank_angle_plot, array_Afoot, 1, "Pfoot", "Figure XX: Pfoot Y-Acceleration vs Crank Angle")
-    afoot_magnitude_figure = _plot.plot_acceleration_magnitude_figure(crank_angle_plot, array_Afoot, "Pfoot", "Figure XX: Pfoot Acceleration Magnitude vs Crank Angle")
-
-
-    # Append Figures
-    figure_path.extend([afoot_x_figure, afoot_y_figure, afoot_magnitude_figure])
-    
-    # Append Figure Names
-    figure_names.extend(["afoot_x_figure", "afoot_y_figure", "afoot_magnitude_figure"])
-
-
-def alphaB_figures(figure_path: list, figure_names: list, array_alphaB: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates angular acceleration figures for Link B.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_alphaB (np.ndarray): Link B angular acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Angular Acceleration Figures for Link B !
-    alphaB_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaB, "Link B", "Figure XX: Link B Angular Acceleration vs Crank Angle")
-    
-    # Append Figure
-    figure_path.append(alphaB_figure)
-    
-    # Append Figure Name
-    figure_names.append("alphaB_figure")
-    
-    
-def alphaJ_figures(figure_path: list, figure_names: list, array_alphaJ: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates angular acceleration figures for Link J.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_alphaJ (np.ndarray): Link J angular acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Angular Acceleration Figures for Link J !
-    alphaJ_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaJ, "Link J", "Figure XX: Link J Angular Acceleration vs Crank Angle")
-    
-    # Append Figure
-    figure_path.append(alphaJ_figure)
-    
-    # Append Figure Name
-    figure_names.append("alphaJ_figure")
-
-
-def alphaC_figures(figure_path: list, figure_names: list, array_alphaC: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates angular acceleration figures for Link C.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_alphaC (np.ndarray): Link C angular acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Angular Acceleration Figures for Link C !
-    alphaC_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaC, "Link C", "Figure XX: Link C Angular Acceleration vs Crank Angle")
-    
-    # Append Figure
-    figure_path.append(alphaC_figure)
-    
-    # Append Figure Name
-    figure_names.append("alphaC_figure")
-    
-
-def alphaK_figures(figure_path: list, figure_names: list, array_alphaK: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates angular acceleration figures for Link K.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_alphaK (np.ndarray): Link K angular acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Angular Acceleration Figures for Link K !
-    alphaK_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaK, "Link K", "Figure XX: Link K Angular Acceleration vs Crank Angle")
-    
-    # Append Figure
-    figure_path.append(alphaK_figure)
-    
-    # Append Figure Name
-    figure_names.append("alphaK_figure")
-    
-def alphaD_figures(figure_path: list, figure_names: list, array_alphaD: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates angular acceleration figures for Link D.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_alphaD (np.ndarray): Link D angular acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Angular Acceleration Figures for Link D !
-    alphaD_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaD, "Link D", "Figure XX: Link D Angular Acceleration vs Crank Angle")
-    
-    # Append Figure
-    figure_path.append(alphaD_figure)
-    
-    # Append Figure Name
-    figure_names.append("alphaD_figure")
-    
-    
-def alphaE_figures(figure_path: list, figure_names: list, array_alphaE: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates angular acceleration figures for Link E.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_alphaE (np.ndarray): Link E angular acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Angular Acceleration Figures for Link E !
-    alphaE_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaE, "Link E", "Figure XX: Link E Angular Acceleration vs Crank Angle")
-    
-    # Append Figure
-    figure_path.append(alphaE_figure)
-    
-    # Append Figure Name
-    figure_names.append("alphaE_figure")
-    
-    
-def alphaF_figures(figure_path: list, figure_names: list, array_alphaF: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates angular acceleration figures for Link F.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_alphaF (np.ndarray): Link F angular acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Angular Acceleration Figures for Link F !
-    alphaF_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaF, "Link F", "Figure XX: Link F Angular Acceleration vs Crank Angle")
-    
-    # Append Figure
-    figure_path.append(alphaF_figure)
-    
-    # Append Figure Name
-    figure_names.append("alphaF_figure")
-    
-
-def alphaG_figures(figure_path: list, figure_names: list, array_alphaG: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates angular acceleration figures for Link G.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_alphaG (np.ndarray): Link G angular acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Angular Acceleration Figures for Link G !
-    alphaG_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaG, "Link G", "Figure XX: Link G Angular Acceleration vs Crank Angle")
-    
-    # Append Figure
-    figure_path.append(alphaG_figure)
-    
-    # Append Figure Name
-    figure_names.append("alphaG_figure")
-    
-    
-def alphaH_figures(figure_path: list, figure_names: list, array_alphaH: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates angular acceleration figures for Link H.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_alphaH (np.ndarray): Link H angular acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Angular Acceleration Figures for Link H !
-    alphaH_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaH, "Link H", "Figure XX: Link H Angular Acceleration vs Crank Angle")
-    
-    # Append Figure
-    figure_path.append(alphaH_figure)
-    
-    # Append Figure Name
-    figure_names.append("alphaH_figure")
-    
-    
-def alphaI_figures(figure_path: list, figure_names: list, array_alphaI: np.ndarray, crank_angle_plot: np.ndarray):
-    """
-    Creates angular acceleration figures for Link I.
-    
-    Args:
-        figure_path (list): List to store Matplotlib figure objects.
-        figure_names (list): List to store figure file names.
-        array_alphaI (np.ndarray): Link I angular acceleration array.
-        crank_angle_plot (np.ndarray): Crank angle array used for plotting.
-    """
-    # ! Angular Acceleration Figures for Link I !
-    alphaI_figure = _plot.plot_angular_acceleration_figure(crank_angle_plot, array_alphaI, "Link I", "Figure XX: Link I Angular Acceleration vs Crank Angle")
-    
-    # Append Figure
-    figure_path.append(alphaI_figure)
-    
-    # Append Figure Name
-    figure_names.append("alphaI_figure")
