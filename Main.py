@@ -167,127 +167,93 @@ def main():
     
     # ! Solve across all crank angles !
     # Initialize array to store positions for each crank angle
-    array_P1 = np.zeros((NUM_STEPS, 2))  
-    array_P2 = np.zeros((NUM_STEPS, 2))
-    array_P4 = np.zeros((NUM_STEPS, 2))
-    array_P5 = np.zeros((NUM_STEPS, 2))
-    array_P6 = np.zeros((NUM_STEPS, 2))
-    array_P7 = np.zeros((NUM_STEPS, 2))
+    position_P1 = np.zeros((NUM_STEPS, 2))  
+    position_P2 = np.zeros((NUM_STEPS, 2))
+    position_P4 = np.zeros((NUM_STEPS, 2))
+    position_P5 = np.zeros((NUM_STEPS, 2))
+    position_P6 = np.zeros((NUM_STEPS, 2))
+    position_P7 = np.zeros((NUM_STEPS, 2))
     
     # Initialize array to store velocity for each crank angle
-    array_V1 = np.zeros((NUM_STEPS, 2))
-    array_V2 = np.zeros((NUM_STEPS, 2))
-    array_V4 = np.zeros((NUM_STEPS, 2))
-    array_V5 = np.zeros((NUM_STEPS, 2))
-    array_V6 = np.zeros((NUM_STEPS, 2))
-    array_V7 = np.zeros((NUM_STEPS, 2))
-    array_Vfoot = np.zeros((NUM_STEPS, 2))
+    velocity_P1 = np.zeros((NUM_STEPS, 2))
+    velocity_P2 = np.zeros((NUM_STEPS, 2))
+    velocity_P4 = np.zeros((NUM_STEPS, 2))
+    velocity_P5 = np.zeros((NUM_STEPS, 2))
+    velocity_P6 = np.zeros((NUM_STEPS, 2))
+    velocity_P7 = np.zeros((NUM_STEPS, 2))
+    velocity_Foot = np.zeros((NUM_STEPS, 2))
     
     # Initialize array to store angular velocity for each crank angle
-    array_omegaB = np.zeros(NUM_STEPS)
-    array_omegaJ = np.zeros(NUM_STEPS)
-    array_omegaC = np.zeros(NUM_STEPS)
-    array_omegaK = np.zeros(NUM_STEPS)
-    array_omegaD = np.zeros(NUM_STEPS)
-    array_omegaE = np.zeros(NUM_STEPS)
-    array_omegaF = np.zeros(NUM_STEPS)
-    array_omegaG = np.zeros(NUM_STEPS)
-    array_omegaH = np.zeros(NUM_STEPS)
-    array_omegaI = np.zeros(NUM_STEPS)
+    omega_B = np.zeros(NUM_STEPS)
+    omega_J = np.zeros(NUM_STEPS)
+    omega_C = np.zeros(NUM_STEPS)
+    omega_K = np.zeros(NUM_STEPS)
+    omega_D = np.zeros(NUM_STEPS)
+    omega_E = np.zeros(NUM_STEPS)
+    omega_F = np.zeros(NUM_STEPS)
+    omega_G = np.zeros(NUM_STEPS)
+    omega_H = np.zeros(NUM_STEPS)
+    omega_I = np.zeros(NUM_STEPS)
     
     # Initialize array to store acceleration for each crank angle
-    array_A1 = np.zeros((NUM_STEPS, 2))
-    array_A2 = np.zeros((NUM_STEPS, 2))
-    array_A4 = np.zeros((NUM_STEPS, 2))
-    array_A5 = np.zeros((NUM_STEPS, 2))
-    array_A6 = np.zeros((NUM_STEPS, 2))
-    array_A7 = np.zeros((NUM_STEPS, 2))
-    array_Afoot = np.zeros((NUM_STEPS, 2))
+    acceleration_P1 = np.zeros((NUM_STEPS, 2))
+    acceleration_P2 = np.zeros((NUM_STEPS, 2))
+    acceleration_P4 = np.zeros((NUM_STEPS, 2))
+    acceleration_P5 = np.zeros((NUM_STEPS, 2))
+    acceleration_P6 = np.zeros((NUM_STEPS, 2))
+    acceleration_P7 = np.zeros((NUM_STEPS, 2))
+    acceleration_Foot = np.zeros((NUM_STEPS, 2))
     
     # Initialize array to store angular acceleration for each crank angle
-    array_alphaB = np.zeros(NUM_STEPS)
-    array_alphaJ = np.zeros(NUM_STEPS)
-    array_alphaC = np.zeros(NUM_STEPS)
-    array_alphaK = np.zeros(NUM_STEPS)
-    array_alphaD = np.zeros(NUM_STEPS)
-    array_alphaE = np.zeros(NUM_STEPS)
-    array_alphaF = np.zeros(NUM_STEPS)
-    array_alphaG = np.zeros(NUM_STEPS)
-    array_alphaH = np.zeros(NUM_STEPS)
-    array_alphaI = np.zeros(NUM_STEPS)
+    alpha_B = np.zeros(NUM_STEPS)
+    alpha_J = np.zeros(NUM_STEPS)
+    alpha_C = np.zeros(NUM_STEPS)
+    alpha_K = np.zeros(NUM_STEPS)
+    alpha_D = np.zeros(NUM_STEPS)
+    alpha_E = np.zeros(NUM_STEPS)
+    alpha_F = np.zeros(NUM_STEPS)
+    alpha_G = np.zeros(NUM_STEPS)
+    alpha_H = np.zeros(NUM_STEPS)
+    alpha_I = np.zeros(NUM_STEPS)
     
     
     # * Loop through each crank angle and solve for each angle *
     for step, theta_m in enumerate(THETA_M_ARRAY):
-        # ? Solve for Point P1 across all Crank Angles ?
-        array_P1[step] = _solve.solve_point_1(O4, LINK_M, theta_m)
         
-        # ! Solve for Velocity of Point P1 across all Crank Angles !
-        array_V1[step] = _solve.solve_velocity_1(LINK_M, theta_m, OMEGA_M)
+        # ! Solve Position, Velocity & Acceleration for P1 !
+        position_P1[step] = _solve.solve_position_P1(O4, LINK_M, theta_m)
+        velocity_P1[step] = _solve.solve_velocity_P1(LINK_M, theta_m, OMEGA_M)
+        acceleration_P1[step] = _solve.solve_acceleration_P1(LINK_M, theta_m, OMEGA_M, ALPHA_M)
         
-        # * Solve for Acceleration of Point P1 across all Crank Angles *
-        array_A1[step] = _solve.solve_acceleration_1(LINK_M, theta_m, OMEGA_M, ALPHA_M)
+        # ! Solve for Position, Velocity, & Acceleration for P2 !
+        position_P2[step] = _solve.solve_position_P2(O2, position_P1[step], LINK_B, LINK_J)
+        velocity_P2[step], omega_B[step], omega_J[step] = _solve.solve_velocity_P2(O2, position_P1[step], position_P2[step], velocity_P1[step])
+        acceleration_P2[step], alpha_B[step], alpha_J[step] = _solve.solve_acceleration_P2(O2, position_P1[step], position_P2[step], acceleration_P1[step], omega_B[step], omega_J[step])
         
-        # ? Solve for Point P2 across all Crank Angles ?
-        array_P2[step] = _solve.solve_point_2(O2, array_P1[step], LINK_B, LINK_J)
+        # ! Solve for Position, Velocity, & Acceleration for P4 !
+        position_P4[step] = _solve.solve_position_P4(O2, position_P2[step], LINK_D, LINK_E)
+        velocity_P4[step], omega_D[step], omega_E[step] = _solve.solve_velocity_P4(O2, position_P2[step], position_P4[step], velocity_P2[step])
+        acceleration_P4[step], alpha_D[step], alpha_E[step] = _solve.solve_acceleration_P4(O2, position_P2[step], position_P4[step], acceleration_P2[step], omega_D[step], omega_E[step])
         
-        # ! Solve for Velocity & Angular Velocity of Point P2 across all Crank Angles !
-        array_V2[step], array_omegaB[step], array_omegaJ[step] = _solve.solve_velocity_2(O2, array_P1[step], array_P2[step], 
-                                                                                         array_V1[step])
+        # ! Solve for Position, Velocity, & Acceleration for P5 !
+        position_P5[step] = _solve.solve_position_P5(O2, position_P1[step], LINK_C, LINK_K)
+        velocity_P5[step], omega_C[step], omega_K[step] = _solve.solve_velocity_P5(O2, position_P1[step], position_P5[step], velocity_P1[step])
+        acceleration_P5[step], alpha_C[step], alpha_K[step] = _solve.solve_acceleration_P5(O2, position_P1[step], position_P5[step], acceleration_P1[step], omega_C[step], omega_K[step])
         
-        # * Solve for Acceleration of Point P2 across all Crank Angles *
-        array_A2[step], array_alphaB[step], array_alphaJ[step] = _solve.solve_acceleration_2(O2, array_P1[step], array_P2[step],
-                                                                                         array_A1[step], array_omegaB[step], array_omegaJ[step])
+        # ! Solve for Position, Velocity, & Acceleration for P6 !
+        position_P6[step] = _solve.solve_position_P6(position_P4[step], position_P5[step], LINK_F, LINK_G)
+        velocity_P6[step], omega_F[step], omega_G[step] = _solve.solve_velocity_P6(position_P4[step], position_P5[step], position_P6[step], velocity_P4[step], velocity_P5[step])
+        acceleration_P6[step], alpha_F[step], alpha_G[step] = _solve.solve_acceleration_P6(position_P4[step], position_P5[step], position_P6[step],acceleration_P4[step], acceleration_P5[step], omega_F[step], omega_G[step])
         
-        # ? Solve for Point P4 across all Crank Angles ?
-        array_P4[step] = _solve.solve_point_4(O2, array_P2[step], LINK_D, LINK_E)
+        # ! Solve for Position, Velocity, & Acceleration for P7 !
+        position_P7[step] = _solve.solve_position_P7(position_P6[step], position_P5[step], LINK_H, LINK_I)
+        velocity_P7[step], omega_H[step], omega_I[step] = _solve.solve_velocity_P7(position_P5[step], position_P6[step], position_P7[step], velocity_P5[step], velocity_P6[step])
+        acceleration_P7[step], alpha_H[step], alpha_I[step] = _solve.solve_acceleration_P7(position_P5[step], position_P6[step], position_P7[step],acceleration_P5[step], acceleration_P6[step], omega_H[step], omega_I[step])
         
-        # ! Solve for Velocity & Angular Velocity of Point P4 across all Crank Angles !
-        array_V4[step], array_omegaD[step], array_omegaE[step] = _solve.solve_velocity_4(O2, array_P2[step], array_P4[step], 
-                                                                                         array_V2[step])
-        
-        # * Solve for Acceleration of Point P4 across all Crank Angles *
-        array_A4[step], array_alphaD[step], array_alphaE[step] = _solve.solve_acceleration_4(O2, array_P2[step], array_P4[step],
-                                                                                         array_A2[step], array_omegaD[step], array_omegaE[step])
-        
-        # ? Solve for Point P5 across all Crank Angles ?
-        array_P5[step] = _solve.solve_point_5(O2, array_P1[step], LINK_C, LINK_K)
-        
-        # ! Solve for Velocity & Angular Velocity of Point P5 across all Crank Angles !
-        array_V5[step], array_omegaC[step], array_omegaK[step] = _solve.solve_velocity_5(O2, array_P1[step], array_P5[step], 
-                                                                                         array_V1[step])
-        
-        # * Solve for Acceleration of Point P5 across all Crank Angles *
-        array_A5[step], array_alphaC[step], array_alphaK[step] = _solve.solve_acceleration_5(O2, array_P1[step], array_P5[step], 
-                                                                                         array_A1[step], array_omegaC[step], array_omegaK[step])
-        
-        # ? Solve for Point P6 across all Crank Angles ?
-        array_P6[step] = _solve.solve_point_6(array_P4[step], array_P5[step], LINK_F, LINK_G)
-        
-        # ! Solve for Velocity & Angular Velocity of Point P6 across all Crank Angles !
-        array_V6[step], array_omegaF[step], array_omegaG[step] = _solve.solve_velocity_6(array_P4[step], array_P5[step], array_P6[step], 
-                                                                                         array_V4[step], array_V5[step])
-        
-        # * Solve for Acceleration of Point P6 across all Crank Angles *
-        array_A6[step], array_alphaF[step], array_alphaG[step] = _solve.solve_acceleration_6(array_P4[step], array_P5[step], array_P6[step],
-                                                                                         array_A4[step], array_A5[step], array_omegaF[step], array_omegaG[step])
-        
-        # ? Solve for Point P7 across all Crank Angles ?
-        array_P7[step] = _solve.solve_point_7(array_P6[step], array_P5[step], LINK_H, LINK_I)
-        
-        # ! Solve for Velocity & Angular Velocity of Point P7 across all Crank Angles !
-        array_V7[step], array_omegaH[step], array_omegaI[step] = _solve.solve_velocity_7(array_P5[step], array_P6[step], array_P7[step], 
-                                                                                         array_V5[step], array_V6[step])
-        
-        # * Solve for Acceleration of Point P7 across all Crank Angles *
-        array_A7[step], array_alphaH[step], array_alphaI[step] = _solve.solve_acceleration_7(array_P5[step], array_P6[step], array_P7[step],
-                                                                                         array_A5[step], array_A6[step], array_omegaH[step], array_omegaI[step])
-        
-        # ! Solve for Velocity of Foot Point P7 across all Crank Angles !
-        array_Vfoot[step] = _solve.solve_velocity_foot(array_P5[step], array_P7[step], array_V5[step], array_omegaI[step])
-        
-        # * Solve for Acceleration of Foot Point P7 across all Crank Angles *
-        array_Afoot[step] = _solve.solve_acceleration_foot(array_P5[step], array_P7[step], array_A5[step], array_omegaI[step], array_alphaI[step])
+        # ! Solve for Velocity & Acceleeration of Foot Point P7 !
+        velocity_Foot[step] = _solve.solve_velocity_foot(position_P5[step], position_P7[step], velocity_P5[step], omega_I[step])
+        acceleration_Foot[step] = _solve.solve_acceleration_foot(position_P5[step], position_P7[step], acceleration_P5[step], omega_I[step], alpha_I[step])
+    
     
     # ! Create Position Figures for Each Point !
     #position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, array_P1, array_P2, array_P4, array_P5, array_P6, array_P7)
