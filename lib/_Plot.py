@@ -16,7 +16,7 @@ AUTHOR : Nicholas Heling
 # ! PYTHON TEMPLATES & LIBRARIES !
 import numpy as np
 import matplotlib.pyplot as pl
-
+from matplotlib.patches import Arc
 
 # * VARIABLES *
 # ? ================================================================ ?
@@ -468,3 +468,79 @@ def plot_angular_acceleration_figure(theta_array : np.ndarray, alpha_array : np.
     return angular_acceleration_figure
 
 
+def plot_vector_figure(vector: np.ndarray, vector_label : str, title : str, x_label :str, y_label : str, units : str, theta_label: str = r"$\theta$") -> pl.figure:
+    """
+    Plots a single vector starting from the origin and includes the angle theta
+    
+    Args:
+        vector (np.ndarray): Vector array with shape (n, 2) where n is the number of data points.
+        vector_label (str): Label for the vector to be used in the legend.
+        title (str): Figure title.
+        x_label (str): Label for the x-axis.
+        y_label (str): Label for the y-axis.
+        units (str): Units to be displayed in the axis labels.
+        theta_label (str): Label for the crank angle in the x-axis. Default is r"$\theta$".
+    
+    Returns:
+        vector_figure (pl.figure) : Matplotlib figure object.
+    """
+    # Set up figure and axes
+    vector_figure, vector_axes = setup_figure()
+    
+    # Components
+    x_component = vector[0]
+    y_component = vector[1]
+    
+    # Magnitude and angle
+    magnitude = np.linalg.norm(vector)
+    angle = np.degrees(np.arctan2(y_component, x_component))
+    theta_display = angle if angle >= 0 else angle + 360
+    
+    # Draw x-axis and y-axis
+    vector_axes.axhline(0, color='black', linewidth=1)
+    vector_axes.axvline(0, color='black', linewidth=1)
+    
+    # Draw vector as an arrow
+    vector_axes.quiver(0, 0, x_component, y_component, angles='xy', scale_units='xy', scale=1, color=PATH_COLOR, width = 0.005)
+    
+    # Add label near the tip of the vector
+    vector_axes.annotate(vector_label, xy=(x_component, y_component), xytext=(8, 8), textcoords='offset points', fontsize=10, color=PATH_COLOR, fontweight='bold', bbox=dict(facecolor='white', edgecolor='none', alpha=0.7))
+    
+    # Arc radius
+    max_value = max(abs(x_component), abs(y_component), 1.0)
+    arc_radius = 0.35 * max_value
+    
+    # Draw Theta arc
+    theta_arc = Arc((0, 0), width = 2 * arc_radius, height = 2 * arc_radius, angle=0, theta1=0, theta2=theta_display, color='gray', linewidth = 2.0)
+    vector_axes.add_patch(theta_arc)
+    
+    # Place theta text at the midpoint of the arc
+    theta_mid_angle = np.radians(theta_display / 2)
+    theta_text_radius = arc_radius * 1.5
+    theta_text_x = theta_text_radius * np.cos(theta_mid_angle)
+    theta_text_y = theta_text_radius * np.sin(theta_mid_angle)
+    
+    vector_axes.text(theta_text_x, theta_text_y, theta_label, fontsize=12, color='gray', fontweight='bold', ha='center', va='center', bbox=dict(facecolor='white', edgecolor='none', alpha=0.7))
+    
+    # Add magnitude and numerical angle in text box
+    vector_axes.text(0.02, 0.95, f"|{vector_label}| = {magnitude:.2f} {units}\nθ = {theta_display:.2f}°", transform=vector_axes.transAxes, verticalalignment='top', bbox=dict(facecolor='white', edgecolor='black', alpha=0.7))
+    
+    # Limits
+    plot_limit = max_value * 1.5
+    vector_axes.set_xlim(-plot_limit, plot_limit)
+    vector_axes.set_ylim(-plot_limit, plot_limit)
+    vector_axes.set_aspect('equal', adjustable='box')
+    
+    # Grid
+    vector_axes.grid(True, linestyle='--', alpha=0.5)
+    
+    # Title and labels
+    vector_axes.set_title(title)
+    vector_axes.set_xlabel(x_label)
+    vector_axes.set_ylabel(y_label)
+    
+    # Layout
+    vector_figure.tight_layout()
+    
+    
+    return vector_figure

@@ -22,6 +22,7 @@ import lib._Solve as _solve
 import lib._Position as _position
 import lib._Velocity as _velocity
 import lib._Acceleration as _acceleration
+import lib._VectorFigures as _vectors
 
 
 # * VARIABLES *
@@ -161,8 +162,8 @@ def main():
     position_names = []
     velocity_names = []
     acceleration_names = []
-    single_configuration_path = []
-    single_configuration_names = []
+    vector_path = []
+    vector_names = []
     
     # ! Solve across all crank angles !
     # Initialize array to store positions for each crank angle
@@ -297,12 +298,14 @@ def main():
     # ! Create Acceleration Figures for Each Point !
     #acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, array_A1, array_A2, array_A4, array_A5, array_A6, array_A7, array_Afoot, array_alphaB, array_alphaJ, array_alphaC, array_alphaK, array_alphaD, array_alphaE, array_alphaF, array_alphaG, array_alphaH, array_alphaI)
     
-
+    # ! Single Configuration Vector Figures for Each Point !
+    vector_path, vector_names = _vectors.create_vector_figures(step=0, array_V1=array_V1, array_V2=array_V2, array_V4=array_V4, array_V5=array_V5, array_V6=array_V6, array_vFoot=array_Vfoot, array_A1=array_A1, array_A2=array_A2, array_A4=array_A4, array_A5=array_A5, array_A6=array_A6, array_aFoot=array_Afoot)
     
     # ! Save Figures !
     save_figures(position_path, position_names, folder_name="Position")
     save_figures(velocity_path, velocity_names, folder_name="Velocity")
     save_figures(acceleration_path, acceleration_names, folder_name="Acceleration")
+    save_figures(vector_path, vector_names, folder_name="Vectors")
 
     
 # * EXECUTE *
