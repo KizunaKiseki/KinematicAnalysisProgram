@@ -42,7 +42,7 @@ def make_figure_label(figure_number: int, analysis_type : str, subject : str, ex
     
     if extra:
         figure_title = f"{figure_id}: {analysis_type} {subject} {extra}"
-        figure_name = f"{figure_id:02d}_{analysis_type}_{subject}_{extra}"
+        figure_name = f"Figure{figure_id:02d}_{analysis_type}_{subject}_{extra}"
     else:
         figure_title = f"{figure_id}: {analysis_type} {subject}"
         figure_name = f"{figure_id:02d}_{analysis_type}_{subject}"
@@ -97,21 +97,21 @@ def append_position_figures(position_path : list, position_names : list, figure_
         figure_number (int): Updated figure number.
     """
     # ! Position Figure for X-Component !
-    title, name = make_figure_label(figure_number, "Position", f"Point{point_label}", "X-Component")
+    title, name = make_figure_label(figure_number, "Position", f"Point {point_label}", "X-Component")
     px_figure = _plot.plot_position_figure(crank_angle_plot, position_array, 0, f"Point {point_label}", title)
     position_path.append(px_figure)
     position_names.append(name)
     figure_number += 1
     
     # ! Position Figure for Y-Component !
-    title, name = make_figure_label(figure_number, "Position", f"Point{point_label}", "Y-Component")
+    title, name = make_figure_label(figure_number, "Position", f"Point {point_label}", "Y-Component")
     py_figure = _plot.plot_position_figure(crank_angle_plot, position_array, 1, f"Point {point_label}", title)
     position_path.append(py_figure)
     position_names.append(name)
     figure_number += 1
     
     # ! Position Figure for Path !
-    title, name = make_figure_label(figure_number, "Position", f"Point{point_label}", "Path")
+    title, name = make_figure_label(figure_number, "Position", f"Point {point_label}", "Path")
     
     path_figure.axes[0].set_title(title)
     position_path.append(path_figure)

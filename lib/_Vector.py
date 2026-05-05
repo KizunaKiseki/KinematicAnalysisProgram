@@ -55,10 +55,10 @@ def make_figure_label(figure_number: int, analysis_type : str, subject : str, ex
     
     if extra:
         figure_title = f"{figure_id}: {analysis_type} {subject} {extra}"
-        figure_name = f"{figure_id:02d}_{analysis_type}_{subject}_{extra}"
+        figure_name = f"Figure{figure_id:02d}_{analysis_type}_{subject}_{extra}"
     else:
         figure_title = f"{figure_id}: {analysis_type} {subject}"
-        figure_name = f"{figure_id:02d}_{analysis_type}_{subject}"
+        figure_name = f"Figure{figure_id:02d}_{analysis_type}_{subject}"
         
     # Clean File Name
     figure_name = (figure_name.replace(" ", "_").replace("-", "_").replace("+", ""). replace(":", "").replace(".", "").replace("(", "").replace(")", ""))
@@ -67,29 +67,71 @@ def make_figure_label(figure_number: int, analysis_type : str, subject : str, ex
     return figure_title, figure_name
 
 
-
-
-def create_vector_figures(step : int, array_V1 : np.ndarray, array_V2 : np.ndarray, array_V4 : np.ndarray, array_V5 : np.ndarray, 
-                          array_V6 : np.ndarray, array_vFoot : np.ndarray, array_A1 : np.ndarray, 
-                          array_A2 : np.ndarray, array_A4 : np.ndarray, array_A5 : np.ndarray, array_A6 : np.ndarray, 
-                          array_aFoot : np.ndarray) -> tuple[list, list]:
+def append_vector_figures(vector_path : list, vector_names : list, figure_number : int, vector_array : np.ndarray, point_label : str, vector_type : str) -> int:
+    """
+    Appends one velocity or acceleration vector figure.
+    
+    Args:
+        vector_path (list): List to append the figure path to.
+        vector_names (list): List to append the figure name to.
+        figure_number (int): Current figure number for labeling.
+        vector_array (np.ndarray): Array containing the vector data for all points and steps.
+        point_label (str): Label of the point for which the vector is being plotted (e.g., "P1").
+        vector_type (str): Type of vector being plotted ("Velocity" or "Acceleration").
+        
+    Returns:
+        figure_number (int): Updated figure number after appending the new figure.
+        
+    Raises:
+        ValueError: If the vector_type is not "Velocity" or "Acceleration".
+    """
+    title, name = make_figure_label(figure_number, "Vector", f"Point {point_label}", vector_type)
+    
+    if vector_type == "Velocity":
+        vector_symbol = "V"
+        vector_label = rf"${vector_symbol}_{{{point_label}}}$"
+        x_label = r"$V_x$ [mm/s]"
+        y_label = r"$V_y$ [mm/s]"
+        units = "mm/s"
+        theta_label = rf"$\theta_{{V, {point_label}}}$"
+    elif vector_type == "Acceleration":
+        vector_symbol = "A"
+        vector_label = rf"${vector_symbol}_{{{point_label}}}$"
+        x_label = r"$A_x$ [mm/s²]"
+        y_label = r"$A_y$ [mm/s²]"
+        units = "mm/s²"
+        theta_label = rf"$\theta_{{A, {point_label}}}$"
+    else:
+        raise ValueError("Invalid vector type. Must be 'Velocity' or 'Acceleration'.")
+    
+    figure = _plot.plot_vector_figure(vector_array, vector_label, title, x_label, y_label, units, theta_label)
+    vector_path.append(figure)
+    vector_names.append(name)
+    figure_number += 1
+    
+    
+    return figure_number
+    
+    
+def create_vector_figures(step : int, velocity_P1 : np.ndarray, velocity_P2 : np.ndarray, velocity_P4 : np.ndarray, velocity_P5 : np.ndarray, velocity_P6 : np.ndarray, velocity_Foot : np.ndarray, 
+                          accel_P1 : np.ndarray, accel_P2 : np.ndarray, accel_P4 : np.ndarray, accel_P5 : np.ndarray, accel_P6 : np.ndarray, accel_Foot : np.ndarray) -> tuple[list, list]:
     """
     Creates velocity and acceleration vectors figures for one crank position.
     
     Args:
         step (int): The current step of the analysis.
-        array_V1 (np.ndarray): Velocity vector of link 1.
-        array_V2 (np.ndarray): Velocity vector of link 2.
-        array_V4 (np.ndarray): Velocity vector of link 4.
-        array_V5 (np.ndarray): Velocity vector of link 5.
-        array_V6 (np.ndarray): Velocity vector of link 6.
-        array_vFoot (np.ndarray): Velocity vector of the foot.
-        array_A1 (np.ndarray): Acceleration vector of link 1.
-        array_A2 (np.ndarray): Acceleration vector of link 2.
-        array_A4 (np.ndarray): Acceleration vector of link 4.
-        array_A5 (np.ndarray): Acceleration vector of link 5.
-        array_A6 (np.ndarray): Acceleration vector of link 6.
-        array_aFoot (np.ndarray): Acceleration vector of the foot.
+        velocity_P1 (np.ndarray): Velocity vector of point P1.
+        velocity_P2 (np.ndarray): Velocity vector of point P2.
+        velocity_P4 (np.ndarray): Velocity vector of point P4.
+        velocity_P5 (np.ndarray): Velocity vector of point P5.
+        velocity_P6 (np.ndarray): Velocity vector of point P6.
+        velocity_Foot (np.ndarray): Velocity vector of the foot.
+        accel_P1 (np.ndarray): Acceleration vector of point P1.
+        accel_P2 (np.ndarray): Acceleration vector of point P2.
+        accel_P4 (np.ndarray): Acceleration vector of point P4.
+        accel_P5 (np.ndarray): Acceleration vector of point P5.
+        accel_P6 (np.ndarray): Acceleration vector of point P6.
+        accel_Foot (np.ndarray): Acceleration vector of the foot.
     
     Returns:
         vector_path (list): A list of matplotlib path objects for the velocity vectors.
@@ -100,39 +142,34 @@ def create_vector_figures(step : int, array_V1 : np.ndarray, array_V2 : np.ndarr
     # Initialize lists to store vector paths and names
     vector_path = []
     vector_names = []
+    figure_number = 1
     
-    # ! Velocity Vector Figures !
-    velocity_vectors = {
-        "P1": array_V1[step],
-        "P2": array_V2[step],
-        "P4": array_V4[step],
-        "P5": array_V5[step],
-        "P6": array_V6[step],
-        "P7": array_vFoot[step]
-    }
+    # ? Velocity Vector Figures ?
+    velocity_vector_data = [
+        ("P1", velocity_P1),
+        ("P2", velocity_P2),
+        ("P4", velocity_P4),
+        ("P5", velocity_P5),
+        ("P6", velocity_P6),
+        ("P7", velocity_Foot)
+    ]   
     
-    for point_label, vector in velocity_vectors.items():
-        figure = _plot.plot_vector_figure(vector=vector, vector_label=rf"$V_{{{point_label}}}$", title=f" Velocity Vector of Point {point_label}", x_label="Vx", y_label="Vy", units="mm/s", theta_label=rf"$\theta_{{V, {point_label}}}$")
-    
-        vector_path.append(figure)
-        vector_names.append(f"{point_label}_Velocity_Vector")
-    
-    # ! Acceleration Vector Figures !
-    acceleration_vectors = {
-        "P1": array_A1[step],
-        "P2": array_A2[step],
-        "P4": array_A4[step],
-        "P5": array_A5[step],
-        "P6": array_A6[step],
-        "P7": array_aFoot[step]
-    }
-    
-    for point_label, vector in acceleration_vectors.items():
-        figure = _plot.plot_vector_figure(vector=vector, vector_label=rf"$A_{{{point_label}}}$", title=f" Acceleration Vector of Point {point_label}", x_label="Ax", y_label="Ay", units="mm/s²", theta_label=rf"$\theta_{{A, {point_label}}}$")
+    for point_label, velocity_array in velocity_vector_data:
+        figure_number = append_vector_figures(vector_path, vector_names, figure_number, velocity_array, point_label, "Velocity")
         
-        vector_path.append(figure)
-        vector_names.append(f"{point_label}_Acceleration_Vector")
+    # ? Acceleration Vector Figures ?
+    acceleration_vector_data = [
+        ("P1", accel_P1),
+        ("P2", accel_P2),
+        ("P4", accel_P4),
+        ("P5", accel_P5),
+        ("P6", accel_P6),
+        ("P7", accel_Foot)
+    ]
     
+    for point_label, acceleration_array in acceleration_vector_data:
+        figure_number = append_vector_figures(vector_path, vector_names, figure_number, acceleration_array, point_label, "Acceleration")
+        
     
     return vector_path, vector_names
 
