@@ -87,6 +87,7 @@ def append_vector_figures(vector_path : list, vector_names : list, figure_number
     """
     title, name = make_figure_label(figure_number, "Vector", f"Point {point_label}", vector_type)
     
+    # ! Create Velocity Vector Figure !
     if vector_type == "Velocity":
         vector_symbol = "V"
         vector_label = rf"${vector_symbol}_{{{point_label}}}$"
@@ -94,6 +95,8 @@ def append_vector_figures(vector_path : list, vector_names : list, figure_number
         y_label = r"$V_y$ [mm/s]"
         units = "mm/s"
         theta_label = rf"$\theta_{{V, {point_label}}}$"
+        
+    # ! Create Acceleration Vector Figure !
     elif vector_type == "Acceleration":
         vector_symbol = "A"
         vector_label = rf"${vector_symbol}_{{{point_label}}}$"

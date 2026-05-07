@@ -389,5 +389,3 @@ def solve_acceleration_foot(P5 : np.ndarray, P7 : np.ndarray, a_P5 : np.ndarray,
     
     return a_P5 + alpha_I * perpendicular(R_I) - omega_I**2 * R_I
 
-
-

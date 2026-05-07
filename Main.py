@@ -23,7 +23,7 @@ import lib._Position as _position
 import lib._Velocity as _velocity
 import lib._Acceleration as _acceleration
 import lib._Vector as _vectors
-
+import lib._Table as _table
 
 # * VARIABLES *
 # ? ================================================================ ?
@@ -171,6 +171,9 @@ def main():
     vector_path = []
     vector_names = []
     
+    table_path = []
+    table_names = []
+    
     # ! Solve across all crank angles !
     # Initialize array to store positions for each crank angle
     position_P1 = np.zeros((NUM_STEPS, 2))  
@@ -271,7 +274,11 @@ def main():
     #acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_P7, acceleration_Foot, alpha_B, alpha_J, alpha_C, alpha_K, alpha_D, alpha_E, alpha_F, alpha_G, alpha_H, alpha_I)
     
     # ! Single Configuration Vector Figures for Each Point !
-    vector_path, vector_names = _vectors.create_vector_figures(0, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_Foot, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_Foot)
+    #vector_path, vector_names = _vectors.create_vector_figures(0, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_Foot, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_Foot)
+    
+    # ! Create Summary Tables for Angular Velocity & Angular Acceleration !
+    table_path, table_names = _table.create_angular_summary_tables(0, OMEGA_M, omega_B, omega_J, omega_C, omega_K, omega_D, omega_E, omega_F, omega_G, omega_H, omega_I, ALPHA_M, alpha_B, alpha_J, alpha_C, alpha_K, alpha_D, alpha_E, alpha_F, alpha_G, alpha_H, alpha_I, decimals=3)
+    
     
     # ! Save Figures !
     save_figures(mechanism_path, mechanism_names, folder_name="MechanismFigures")
@@ -279,6 +286,7 @@ def main():
     save_figures(velocity_path, velocity_names, folder_name="VelocityFigures")
     save_figures(acceleration_path, acceleration_names, folder_name="AccelerationFigures")
     save_figures(vector_path, vector_names, folder_name="VectorFigures")
+    save_figures(table_path, table_names, folder_name="TableFigures")
 
     
 # * EXECUTE *

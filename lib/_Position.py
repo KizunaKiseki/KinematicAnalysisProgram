@@ -187,6 +187,7 @@ def create_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
     Returns:
         figure_number (int): Updated figure number.
     """
+    # ! Ground Mechanism Figure !
     ground_mechanism_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -217,6 +218,7 @@ def create_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
     
     figure_number = append_mechanism_figures(mechanism_path, mechanism_names, figure_number, ground_mechanism_figure, "Ground Mechanism")
     
+    # ! Crank Mechanism Figure NM-BJ !
     nm_bj_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -260,6 +262,7 @@ def create_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
     
     figure_number = append_mechanism_figures(mechanism_path, mechanism_names, figure_number, nm_bj_figure, "Closed Loop NM-BJ")
 
+    # ! Crank Mechanism Figure NM-CK !
     nm_ck_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -303,6 +306,7 @@ def create_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
     
     figure_number = append_mechanism_figures(mechanism_path, mechanism_names, figure_number, nm_ck_figure, "Closed Loop NM-CK")
     
+    # ! Rigid Body BDE Figure !
     bde_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -338,6 +342,7 @@ def create_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
     
     figure_number = append_mechanism_figures(mechanism_path, mechanism_names, figure_number, bde_figure, "Rigid Body BDE")
     
+    # ! Parallel Loop Figure DF-GC !
     parallel_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -380,6 +385,7 @@ def create_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
     
     figure_number = append_mechanism_figures(mechanism_path, mechanism_names, figure_number, parallel_figure, "Parallel Loop DF-GC")
     
+    # ! Rigid Body GHI Figure !
     ghi_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -415,6 +421,7 @@ def create_mechanism_figures(mechanism_path : list, mechanism_names : list, figu
     
     figure_number = append_mechanism_figures(mechanism_path, mechanism_names, figure_number, ghi_figure, "Rigid Body GHI")
     
+    # ! Foot Mechanism Figure CIP!
     foot_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -477,6 +484,7 @@ def create_path_figures(position_path : list, position_names : list, figure_numb
         figure_number (int): Updated figure number after appending all position figures.
 
     """
+    # ! Position Figure for Point P1 !
     p1_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -512,6 +520,7 @@ def create_path_figures(position_path : list, position_names : list, figure_numb
     
     figure_number = append_position_figures(position_path, position_names, figure_number, crank_angle_plot, position_P1, "P1", p1_figure)
 
+    # ! Position Figure for Point P2 !
     p2_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -560,6 +569,7 @@ def create_path_figures(position_path : list, position_names : list, figure_numb
     
     figure_number = append_position_figures(position_path, position_names, figure_number, crank_angle_plot, position_P2, "P2", p2_figure)
     
+    # ! Position Figure for Point P4 !
     p4_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -607,6 +617,7 @@ def create_path_figures(position_path : list, position_names : list, figure_numb
     
     figure_number = append_position_figures(position_path, position_names, figure_number, crank_angle_plot, position_P4, "P4", p4_figure)
     
+    # ! Position Figure for Point P5 !
     p5_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -655,6 +666,7 @@ def create_path_figures(position_path : list, position_names : list, figure_numb
     
     figure_number = append_position_figures(position_path, position_names, figure_number, crank_angle_plot, position_P5, "P5", p5_figure)
     
+    # ! Position Figure for Point P6 !
     p6_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -702,6 +714,7 @@ def create_path_figures(position_path : list, position_names : list, figure_numb
     
     figure_number = append_position_figures(position_path, position_names, figure_number, crank_angle_plot, position_P6, "P6", p6_figure)
     
+    # ! Position Figure for Point P7 !
     p7_figure = _plot.plot_mechanism_figure(
         title = "",
         links = [
@@ -768,6 +781,7 @@ def append_complete_mechanism_figure(mechanism_path : list, mechanism_names : li
         figure_number (int): Updated figure number after appending the complete mechanism figure.
 
     """
+    # ! Complete Mechanism Figure !
     title, name = make_figure_label(figure_number, "Mechanism", "Complete Mechanism")
     
     links = [
@@ -827,6 +841,7 @@ def append_complete_path_figure(mechanism_path : list, mechanism_names : list, f
         figure_number (int): Updated figure number after appending the complete path figure.
 
     """
+    # ! Complete Mechanism Figure with Paths !
     title, name = make_figure_label(figure_number, "Mechanism", "Complete Mechanism")
     
     links = [

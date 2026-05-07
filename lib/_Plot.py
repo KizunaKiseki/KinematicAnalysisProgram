@@ -565,10 +565,11 @@ def plot_vector_figure(vector: np.ndarray, vector_label : str, title : str, x_la
     # Draw Theta arc
     theta_arc = Arc((0, 0), width = 2 * arc_radius, height = 2 * arc_radius, angle=0, theta1=0, theta2=theta_display, color='gray', linewidth = 2.0)
     
-    # Add a small arrowhead at the end of the theta arc
+    # Add a arrowhead at the end of the theta arc
     if theta_display > 0:
         theta_end = np.radians(theta_display)
-        theta_start = np.radians(theta_display - 8)   # small step before the end
+        # Step back from the end of the arc to place the arrowhead
+        theta_start = np.radians(theta_display - 8)   
 
         arc_arrow_start = np.array([arc_radius * np.cos(theta_start), arc_radius * np.sin(theta_start)])
 
