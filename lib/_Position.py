@@ -151,6 +151,8 @@ def create_position_figures(crank_angle_plot: np.ndarray, O2 : np.ndarray, O4: n
     mechanism_number = 1
     position_number = 1
     
+    # ? Complete Mechanism Figure ?
+    mechanism_number = append_complete_mechanism_figure(mechanism_path, mechanism_names, mechanism_number, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
     
     # ? Mechanism Figures ?
     mechanism_number = create_mechanism_figures(mechanism_path, mechanism_names, mechanism_number, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
@@ -158,9 +160,7 @@ def create_position_figures(crank_angle_plot: np.ndarray, O2 : np.ndarray, O4: n
     # ? Position Figures ?
     position_number = create_path_figures(position_path, position_names, position_number, crank_angle_plot, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
     
-    # ? Complete Mechanism Figure ?
-    mechanism_number = append_complete_mechanism_figure(mechanism_path, mechanism_names, mechanism_number, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
-    
+    # ? Complete Path Figure ?
     mechanism_number = append_complete_path_figure(mechanism_path, mechanism_names, mechanism_number, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
     
     
@@ -785,7 +785,6 @@ def append_complete_mechanism_figure(mechanism_path : list, mechanism_names : li
     title, name = make_figure_label(figure_number, "Mechanism", "Complete Mechanism")
     
     links = [
-        {"point_1" : O2, "point_2" : O4, "label" : "Link N", "color" : _plot.LINK_N_COLOR, "linestyle" : _plot.LINK_N_LINE_STYLE},
         {"point_1" : O4, "point_2" : position_P1[0], "label" : "Link M", "color" : _plot.LINK_M_COLOR},
         {"point_1" : O2, "point_2" : position_P2[0], "label" : "Link B", "color" : _plot.LINK_B_COLOR},
         {"point_1" : O2, "point_2" : position_P5[0], "label" : "Link C", "color" : _plot.LINK_C_COLOR},
@@ -816,6 +815,41 @@ def append_complete_mechanism_figure(mechanism_path : list, mechanism_names : li
     mechanism_names.append(name)
     figure_number += 1
     
+    # ! Segmented Mechanism Figure !
+    title, name = make_figure_label(figure_number, "Mechanism", "Segmented Mechanism")
+    
+    links = [
+        {"point_1" : O2, "point_2" : O4, "label" : "Link N", "color" : _plot.LINK_N_COLOR, "linestyle" : _plot.LINK_N_LINE_STYLE},
+        {"point_1" : O4, "point_2" : position_P1[0], "label" : "Link M", "color" : _plot.LINK_M_COLOR},
+        {"point_1" : O2, "point_2" : position_P2[0], "label" : "Link B", "color" : _plot.LINK_B_COLOR},
+        {"point_1" : O2, "point_2" : position_P5[0], "label" : "Link C", "color" : _plot.LINK_C_COLOR},
+        {"point_1" : O2, "point_2" : position_P4[0], "label" : "Link D", "color" : _plot.LINK_D_COLOR},
+        {"point_1" : position_P2[0], "point_2" : position_P4[0], "label" : "Link E", "color" : _plot.LINK_E_COLOR},
+        {"point_1" : position_P4[0], "point_2" : position_P6[0], "label" : "Link F", "color" : _plot.LINK_F_COLOR},
+        {"point_1" : position_P5[0], "point_2" : position_P6[0], "label" : "Link G", "color" : _plot.LINK_G_COLOR},
+        {"point_1" : position_P6[0], "point_2" : position_P7[0], "label" : "Link H", "color" : _plot.LINK_H_COLOR},
+        {"point_1" : position_P5[0], "point_2" : position_P7[0], "label" : "Link I", "color" : _plot.LINK_I_COLOR},
+        {"point_1" : position_P2[0], "point_2" : position_P1[0], "label" : "Link J", "color" : _plot.LINK_J_COLOR},
+        {"point_1" : position_P1[0], "point_2" : position_P5[0], "label" : "Link K", "color" : _plot.LINK_K_COLOR},
+        {"point_1" : O2, "point_2" : position_P7[0], "label" : "Link P", "color" : _plot.LINK_P_COLOR, "linestyle" : _plot.LINK_P_LINE_STYLE},
+    ]
+    
+    points = [
+        {"point" : O2, "label" : "O2", "x_offset" : -12, "y_offset" : 8},
+        {"point" : O4, "label" : "O4", "x_offset" : -4, "y_offset" : 8},
+        {"point" : position_P1[0], "label" : "P1", "x_offset" : 4, "y_offset" : 8},
+        {"point" : position_P2[0], "label" : "P2", "x_offset" : 6, "y_offset" : 8},
+        {"point" : position_P4[0], "label" : "P4", "x_offset" : -14, "y_offset" : 6},
+        {"point" : position_P5[0], "label" : "P5", "x_offset" : 6, "y_offset" : -14},
+        {"point" : position_P6[0], "label" : "P6", "x_offset" : -12, "y_offset" : -16},
+        {"point" : position_P7[0], "label" : "P7", "x_offset" : -8, "y_offset" : -14},
+    ]
+    
+    segmented_mechanism_figure = _plot.plot_mechanism_figure(links = links, points = points, paths = None, title = title, padding = 20.0)
+    
+    mechanism_path.append(segmented_mechanism_figure)
+    mechanism_names.append(name)
+    figure_number += 1
     
     return figure_number
 
@@ -845,7 +879,6 @@ def append_complete_path_figure(mechanism_path : list, mechanism_names : list, f
     title, name = make_figure_label(figure_number, "Mechanism", "Complete Mechanism")
     
     links = [
-        {"point_1" : O2, "point_2" : O4, "label" : "Link N", "color" : _plot.LINK_N_COLOR, "linestyle" : _plot.LINK_N_LINE_STYLE},
         {"point_1" : O4, "point_2" : position_P1[0], "label" : "Link M", "color" : _plot.LINK_M_COLOR},
         {"point_1" : O2, "point_2" : position_P2[0], "label" : "Link B", "color" : _plot.LINK_B_COLOR},
         {"point_1" : O2, "point_2" : position_P5[0], "label" : "Link C", "color" : _plot.LINK_C_COLOR},
