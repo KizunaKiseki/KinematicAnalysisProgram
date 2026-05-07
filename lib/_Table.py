@@ -97,8 +97,8 @@ def get_rotation_direction(value: float, tolerance: float = 1e-9) -> str:
     """
     Determines the angular direction from the sign convection.
     
-    Positive = CCW,　↺
-    Negative = CW,  ↻
+    Positive = CCW
+    Negative = CW
     Zero = 0
     
     Args:
@@ -106,19 +106,15 @@ def get_rotation_direction(value: float, tolerance: float = 1e-9) -> str:
         tolerance (float, optional): A small threshold to consider values as zero. Defaults to 1e-9.
     
     Returns:
-        str: "CCW, ↺" for counterclockwise, "CW, ↻" for clockwise, and "0" for no rotation.
+        str: "CCW" for counterclockwise, "CW" for clockwise, and "0" for no rotation.
     """
     if value > tolerance:
         return "CCW"
     elif value < -tolerance:
         return "CW"
     else:
-        return "0"
+        return "-"
     
-    
-    
-    pass
-
 
 def create_table_figure(title: str, column_labels: list[str], table_data: list[list[str]]) -> plt.Figure:
     """
@@ -247,7 +243,7 @@ def append_angular_velocity_table(table_path: list, table_names: list, figure_nu
     
     
     # ! Create Table Figure for Angular Velocity  !
-    table_figure = create_table_figure("ANGULAR VELOCITY SUMMARY , ω", column_labels, table_data)
+    table_figure = create_table_figure(f"Table {figure_number}: ANGULAR VELOCITY", column_labels, table_data)
     
     table_figure.axes[0].set_title(title, fontsize=1, color="white")
     
@@ -312,7 +308,7 @@ def append_angular_acceleration_table(table_path: list, table_names: list, figur
     
     
     # ! Create Table Figure for Angular Acceleration  !
-    table_figure = create_table_figure("ANGULAR ACCELERATION SUMMARY , α", column_labels, table_data)
+    table_figure = create_table_figure(f"Table {figure_number}: ANGULAR ACCELERATION", column_labels, table_data)
     
     table_figure.axes[0].set_title(title, fontsize=1, color="white")
     
