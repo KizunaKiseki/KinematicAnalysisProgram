@@ -28,7 +28,7 @@ import lib._Table as _table
 # * VARIABLES *
 # ? ================================================================ ?
 # Scale Factor
-SCALE_FACTOR = 1.5
+SCALE_FACTOR = 1.0
 
 # Link Lengths in [mm]
 LINK_A = 38.00 * SCALE_FACTOR
@@ -47,8 +47,8 @@ LINK_M = 15.00 * SCALE_FACTOR
 LINK_N = np.sqrt(LINK_A ** 2 + LINK_L ** 2)
 
 # Gear Ratio in [mm]
-SMALL_GEAR_DIAMETER = 9     # Motor Gear
-LARGE_GEAR_DIAMETER = 54    # Crank Gear
+SMALL_GEAR_DIAMETER = 12.5  # Motor Gear
+LARGE_GEAR_DIAMETER = 40    # Crank Gear
 GEAR_RATIO = LARGE_GEAR_DIAMETER / SMALL_GEAR_DIAMETER
 
 # Input Speed in [RPM]
@@ -56,7 +56,7 @@ MOTOR_SPEED = 30
 CRANK_SPEED = MOTOR_SPEED / GEAR_RATIO
 
 # Angular Velocity in [rad/s]
-OMEGA_M = - (CRANK_SPEED * 2 * np.pi) / 60      # ↻ , Negative sign indicates clockwise rotation
+OMEGA_M = (CRANK_SPEED * 2 * np.pi) / 60      # ↺ , Positive sign indicates counter-clockwise rotation
 
 # Angular Acceleration in [rad/s^2]
 ALPHA_M = 0                                     # Assuming constant speed
@@ -69,7 +69,7 @@ THETA_M_TEST = np.deg2rad(CRANK_ANGLE)
 
 # Crank Angle Array [radians]
 NUM_STEPS = 361
-CRANK_ANGLE_ARRAY = np.linspace(CRANK_ANGLE, CRANK_ANGLE - 360, NUM_STEPS)  # ↻ , from 0° to -360°
+CRANK_ANGLE_ARRAY = np.linspace(CRANK_ANGLE, CRANK_ANGLE + 360, NUM_STEPS)  # ↺ , from 0° to 360°
 THETA_M_ARRAY = np.deg2rad(CRANK_ANGLE_ARRAY)
 
 # Ground Points
@@ -263,21 +263,23 @@ def main():
         velocity_Foot[step] = _solve.solve_velocity_foot(position_P5[step], position_P7[step], velocity_P5[step], omega_I[step])
         acceleration_Foot[step] = _solve.solve_acceleration_foot(position_P5[step], position_P7[step], acceleration_P5[step], omega_I[step], alpha_I[step])
     
+    # Index for the desired crank angle step (e.g., 0 for the first step)
+    step_index = 0  
     
     # ! Create Position Figures for Each Point !
     mechanism_path, mechanism_names, position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
 
     # ! Create Velocity Figures for Each Point !
-    #velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_P7, velocity_Foot, omega_B, omega_J, omega_C, omega_K, omega_D, omega_E, omega_F, omega_G, omega_H, omega_I)
+    velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_P7, velocity_Foot, omega_B, omega_J, omega_C, omega_K, omega_D, omega_E, omega_F, omega_G, omega_H, omega_I)
     
     # ! Create Acceleration Figures for Each Point !
-    #acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_P7, acceleration_Foot, alpha_B, alpha_J, alpha_C, alpha_K, alpha_D, alpha_E, alpha_F, alpha_G, alpha_H, alpha_I)
+    acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_P7, acceleration_Foot, alpha_B, alpha_J, alpha_C, alpha_K, alpha_D, alpha_E, alpha_F, alpha_G, alpha_H, alpha_I)
     
     # ! Single Configuration Vector Figures for Each Point !
-    #vector_path, vector_names = _vectors.create_vector_figures(0, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_Foot, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_Foot)
+    vector_path, vector_names = _vectors.create_vector_figures(step_index, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_Foot, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_Foot)
     
     # ! Create Summary Tables for Angular Velocity & Angular Acceleration !
-    #table_path, table_names = _table.create_angular_summary_tables(0, OMEGA_M, omega_B, omega_J, omega_C, omega_K, omega_D, omega_E, omega_F, omega_G, omega_H, omega_I, ALPHA_M, alpha_B, alpha_J, alpha_C, alpha_K, alpha_D, alpha_E, alpha_F, alpha_G, alpha_H, alpha_I, decimals=3)
+    table_path, table_names = _table.create_angular_summary_tables(step_index, OMEGA_M, omega_B, omega_J, omega_C, omega_K, omega_D, omega_E, omega_F, omega_G, omega_H, omega_I, ALPHA_M, alpha_B, alpha_J, alpha_C, alpha_K, alpha_D, alpha_E, alpha_F, alpha_G, alpha_H, alpha_I, decimals=3)
     
     
     # ! Save Figures !

@@ -146,7 +146,7 @@ def create_acceleration_figures(crank_angle_plot: np.ndarray, accel_P1: np.ndarr
         accel_P5 (np.ndarray): Point P5 acceleration array.
         accel_P6 (np.ndarray): Point P6 acceleration array.
         accel_P7 (np.ndarray): Point P7 acceleration array.
-        accel_Foot (np.ndarray): Point Pfoot acceleration array.
+        accel_Foot (np.ndarray): Point foot acceleration array.
         alphaB (np.ndarray): Link B angular acceleration array.
         alphaJ (np.ndarray): Link J angular acceleration array.
         alphaC (np.ndarray): Link C angular acceleration array.
