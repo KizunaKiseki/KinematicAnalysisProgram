@@ -286,13 +286,13 @@ def main():
     step_index = 0  
     
     # ! Create Position Figures for Each Point !
-    mechanism_path, mechanism_names, position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
+    #mechanism_path, mechanism_names, position_path, position_names = _position.create_position_figures(CRANK_ANGLE_PLOT, O2, O4, position_P1, position_P2, position_P4, position_P5, position_P6, position_P7)
 
     # ! Create Velocity Figures for Each Point !
-    velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_P7, velocity_Foot, omega_B, omega_J, omega_C, omega_K, omega_D, omega_E, omega_F, omega_G, omega_H, omega_I)
+    #velocity_path, velocity_names = _velocity.create_velocity_figures(CRANK_ANGLE_PLOT, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_P7, velocity_Foot, omega_B, omega_J, omega_C, omega_K, omega_D, omega_E, omega_F, omega_G, omega_H, omega_I)
     
     # ! Create Acceleration Figures for Each Point !
-    acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_P7, acceleration_Foot, alpha_B, alpha_J, alpha_C, alpha_K, alpha_D, alpha_E, alpha_F, alpha_G, alpha_H, alpha_I)
+    #acceleration_path, acceleration_names = _acceleration.create_acceleration_figures(CRANK_ANGLE_PLOT, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_P7, acceleration_Foot, alpha_B, alpha_J, alpha_C, alpha_K, alpha_D, alpha_E, alpha_F, alpha_G, alpha_H, alpha_I)
     
     # ! Single Configuration Vector Figures for Each Point !
     vector_path, vector_names = _vectors.create_vector_figures(step_index, velocity_P1, velocity_P2, velocity_P4, velocity_P5, velocity_P6, velocity_Foot, acceleration_P1, acceleration_P2, acceleration_P4, acceleration_P5, acceleration_P6, acceleration_Foot)

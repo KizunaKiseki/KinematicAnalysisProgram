@@ -75,21 +75,21 @@ def append_vector_figures(vector_path : list, vector_names : list, figure_number
     
     # ! Create Velocity Vector Figure !
     if vector_type == "Velocity":
-        vector_symbol = "V"
+        vector_symbol = "v"
         vector_label = rf"${vector_symbol}_{{{point_label}}}$"
-        x_label = r"$V_x$ [mm/s]"
-        y_label = r"$V_y$ [mm/s]"
+        x_label = r"$v_x$ [mm/s]"
+        y_label = r"$v_y$ [mm/s]"
         units = "mm/s"
-        theta_label = rf"$\theta_{{V, {point_label}}}$"
+        theta_label = rf"$\theta_{{v, {point_label}}}$"
         
     # ! Create Acceleration Vector Figure !
     elif vector_type == "Acceleration":
-        vector_symbol = "A"
+        vector_symbol = "a"
         vector_label = rf"${vector_symbol}_{{{point_label}}}$"
-        x_label = r"$A_x$ [mm/s²]"
-        y_label = r"$A_y$ [mm/s²]"
+        x_label = r"$a_x$ [mm/s²]"
+        y_label = r"$a_y$ [mm/s²]"
         units = "mm/s²"
-        theta_label = rf"$\theta_{{A, {point_label}}}$"
+        theta_label = rf"$\theta_{{a, {point_label}}}$"
     else:
         raise ValueError("Invalid vector type. Must be 'Velocity' or 'Acceleration'.")
     
