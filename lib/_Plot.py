@@ -312,11 +312,11 @@ def plot_velocity_figure(theta_array : np.ndarray, velocity_array : np.ndarray, 
     point_subscript = math_label(point_label)
     
     if coordinate_index == 0:
-        coordinate_label = r"$V_x$"
-        legend_label = rf"$V_{{x, {point_subscript}}}$"
+        coordinate_label = r"$v_x$"
+        legend_label = rf"$v_{{x, {point_subscript}}}$"
     else:
-        coordinate_label = r"$V_y$"
-        legend_label = rf"$V_{{y, {point_subscript}}}$"
+        coordinate_label = r"$v_y$"
+        legend_label = rf"$v_{{y, {point_subscript}}}$"
         
     # Set title and axes labels
     velocity_axes.set_title(title, fontsize=14, fontweight='bold')
@@ -356,10 +356,10 @@ def plot_speed_figure(theta_array : np.ndarray, velocity_array : np.ndarray, poi
     # Set title and axes labels
     speed_axes.set_title(title, fontsize=14, fontweight='bold')
     speed_axes.set_xlabel(crank_angle_label(), fontsize=12)
-    speed_axes.set_ylabel(rf"$|V_{{{point_subscript}}}|$ ", fontsize=12)
+    speed_axes.set_ylabel(rf"$|v_{{{point_subscript}}}|$ [mm/s]", fontsize=12)
     
     # Plot the speed vs. crank angle
-    speed_axes.plot(theta_array, speed_array, color=PATH_COLOR, linewidth=2.0, label=rf"$|V_{{{point_subscript}}}|$")
+    speed_axes.plot(theta_array, speed_array, color=PATH_COLOR, linewidth=2.0, label=rf"$|v_{{{point_subscript}}}|$")
     
     # Create Legend & Layout
     speed_axes.legend(loc = 'best', fontsize=10)
@@ -391,7 +391,7 @@ def plot_angular_velocity_figure(theta_array : np.ndarray, omega_array : np.ndar
     # Set title and axes labels
     omega_axes.set_title(title, fontsize=14, fontweight='bold')
     omega_axes.set_xlabel(crank_angle_label(), fontsize=12)
-    omega_axes.set_ylabel(r"$\omega_{{{link_subscript}}}$ [rad/s]", fontsize=12)
+    omega_axes.set_ylabel(rf"$\omega_{{{link_subscript}}}$ [rad/s]", fontsize=12)
     
     # Plot the angular velocity vs. crank angle
     omega_axes.plot(theta_array, omega_array, color=PATH_COLOR, linewidth=2.0, label=rf"$\omega_{{{link_subscript}}}$")
@@ -425,11 +425,11 @@ def plot_acceleration_figure(theta_array : np.ndarray, acceleration_array : np.n
     point_subscript = math_label(point_label)
     
     if coordinate_index == 0:
-        coordinate_label = r"$A_x$"
-        legend_label = rf"$A_{{x, {point_subscript}}}$"
+        coordinate_label = r"$a_x$"
+        legend_label = rf"$a_{{x, {point_subscript}}}$"
     else:
-        coordinate_label = r"$A_y$"
-        legend_label = rf"$A_{{y, {point_subscript}}}$"
+        coordinate_label = r"$a_y$"
+        legend_label = rf"$a_{{y, {point_subscript}}}$"
     
     # Set title and axes labels
     acceleration_axes.set_title(title, fontsize=14, fontweight='bold')
@@ -473,10 +473,10 @@ def plot_acceleration_magnitude_figure(theta_array : np.ndarray, acceleration_ar
     # Set title and axes labels
     acceleration_magnitude_axes.set_title(title, fontsize=14, fontweight='bold')
     acceleration_magnitude_axes.set_xlabel(crank_angle_label(), fontsize=12)
-    acceleration_magnitude_axes.set_ylabel(r"$|A_{{{point_subscript}}}|$ [mm/s$^2$]", fontsize=12)
+    acceleration_magnitude_axes.set_ylabel(rf"$|a_{{{point_subscript}}}|$ [mm/s$^2$]", fontsize=12)
     
     # Plot the acceleration magnitude vs. crank angle
-    acceleration_magnitude_axes.plot(theta_array, acceleration_magnitude, color=PATH_COLOR, linewidth=2.0, label=rf"$|A_{{{point_subscript}}}|$")
+    acceleration_magnitude_axes.plot(theta_array, acceleration_magnitude, color=PATH_COLOR, linewidth=2.0, label=rf"$|a_{{{point_subscript}}}|$")
     
     # Create Legend & Layout
     acceleration_magnitude_axes.legend(loc = 'best', fontsize=10)
@@ -508,7 +508,7 @@ def plot_angular_acceleration_figure(theta_array : np.ndarray, alpha_array : np.
     # Set title and axes labels
     angular_acceleration_axes.set_title(title, fontsize=14, fontweight='bold')
     angular_acceleration_axes.set_xlabel(crank_angle_label(), fontsize=12)
-    angular_acceleration_axes.set_ylabel(r"$\alpha_{{{link_subscript}}}$ [rad/s$^2$]", fontsize=12)
+    angular_acceleration_axes.set_ylabel(rf"$\alpha_{{{link_subscript}}}$ [rad/s$^2$]", fontsize=12)
     
     # Plot the angular acceleration vs. crank angle
     angular_acceleration_axes.plot(theta_array, alpha_array, color=PATH_COLOR, linewidth=2.0, label=rf"$\alpha_{{{link_subscript}}}$")
