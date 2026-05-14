@@ -46,10 +46,27 @@ LINK_L = 7.80 * SCALE_FACTOR
 LINK_M = 15.00 * SCALE_FACTOR
 LINK_N = np.sqrt(LINK_A ** 2 + LINK_L ** 2)
 
-# Gear Ratio in [mm]
-SMALL_GEAR_DIAMETER = 12.5  # Motor Gear
-LARGE_GEAR_DIAMETER = 40    # Crank Gear
-GEAR_RATIO = LARGE_GEAR_DIAMETER / SMALL_GEAR_DIAMETER
+# Gear Ratio
+"""
+! Compound Gear Ratio Calculation:
+First Stage (Gear 1 to Gear 2): N1 = 12, N2 = 36
+Second Stage (Gear 2 to Gear 3): N2 = 36, N3 = 12
+
+! Bevel Gear Ratio Calculation:
+Small Bevel Gear (Gear 3): N3 = 20
+Large Bevel Gear (Gear 4): N4 = 40
+
+! Crank Gear Ratio Calculation:
+Crank Gear (Gear 4): N4 = 45
+Small Crank Gear (Gear 5): N5 = 15
+
+! Total Gear Ratio Calculation:
+Total Gear Ratio = (N2 / N1) * (N3 / N2) * (N4 / N3) * (N5 / N4)
+                 = (36 / 12) * (12 / 36) * (40 / 20) * (15 / 45)
+                 = 3 * (1/3) * 2 * (1/3)
+                 = 54
+"""
+GEAR_RATIO = 54
 
 # Input Speed in [RPM]
 MOTOR_SPEED = 30

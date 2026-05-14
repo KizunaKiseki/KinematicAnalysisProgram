@@ -558,8 +558,8 @@ def plot_vector_figure(vector: np.ndarray, vector_label : str, title : str, x_la
     # Add label near the tip of the vector
     vector_axes.annotate(vector_label, xy=(x_component, y_component), xytext=(8, 8), textcoords='offset points', fontsize=10, color=PATH_COLOR, fontweight='bold', bbox=dict(facecolor='white', edgecolor='none', alpha=0.7))
     
-    # Arc radius
-    max_value = max(abs(x_component), abs(y_component), 1.0)
+    # Arc radius — scale to actual vector magnitude with fallback for zero vectors
+    max_value = max(abs(x_component), abs(y_component)) or 1.0
     arc_radius = 0.35 * max_value
     
     # Draw Theta arc
