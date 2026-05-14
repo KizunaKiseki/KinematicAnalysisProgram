@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-TITLE =[Insert Title]
+TITLE = Kinematic Analysis Program
 DATE  = 2026.05.15
 _____________________________________________________________________
 DESCRIPTION:
-1. [Insert Description]
+1. Program to analyze the kinematics of the Theo Jansen Mechanism.
+2. Solves for position, velocity, and acceleration of key points across a full crank rotation.
+3. Generates figures and tables summarizing the results.
 _____________________________________________________________________
 AUTHOR : Nicholas Heling
 """

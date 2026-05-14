@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-TITLE = [INSERT TITLE HERE]
-DATE  = 2026.01.01
+TITLE = Kinematic Analysis Solvers
+DATE  = 2026.05.15
 _____________________________________________________________________
 DESCRIPTION:
-1. [Insert Description Here]
-2. ...
+1. Solver to compute the position, velocity, and acceleration of the points for the Theo Jansen mechanism.
+2. Solver to find the intersection of two circles, which is a common geometric problem in kinematic analysis.
+3. Functions to solve for the position, velocity, and acceleration of points connected by two links.
+4. Velocity and acceleration solvers for points in two-link loops.
 _____________________________________________________________________
 AUTHOR : Nicholas Heling
 """
@@ -15,7 +17,6 @@ AUTHOR : Nicholas Heling
 
 # ! PYTHON TEMPLATES & LIBRARIES !
 import numpy as np
-
 
 # * FUNCTION *
 # ? ================================================================ ?

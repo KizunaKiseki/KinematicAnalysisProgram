@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-TITLE = [INSERT TITLE HERE]
-DATE  = 2026.01.01
+TITLE = Position Figures for Theo Jansen Mechanism
+DATE  = 2026.05.15
 _____________________________________________________________________
 DESCRIPTION:
-1. [Insert Description Here]
-2. ...
+1. Functions to create standardized figure titles and file names for position analysis.
+2. Functions to append position figures for points and mechanisms to the respective lists.
+3. Function to create path figures for points P1, P2, P4, P5, P6, and P7.
 _____________________________________________________________________
 AUTHOR : Nicholas Heling
 """
@@ -18,7 +19,6 @@ import numpy as np
 
 # ! PROJECT MODULES !
 import lib._Plot as _plot
-
 
 # * FUNCTION *
 # ? ================================================================ ?

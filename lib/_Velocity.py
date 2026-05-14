@@ -1,25 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-TITLE = [INSERT TITLE HERE]
-DATE  = 2026.01.01
+TITLE = Velocity Figures for Theo Jansen Mechanism
+DATE  = 2026.05.15  
 _____________________________________________________________________
 DESCRIPTION:
-1. [Insert Description Here]
-2. ...
+1. Functions to create standardized figure titles and file names for velocity analysis.
+2. Functions to append velocity figures for points and links to the respective lists.
 _____________________________________________________________________
-HOW-TO:
--> Click on the button
--> ...
-_____________________________________________________________________
-UPDATES:
-- [2026.02.02] - 1.1 ...
-- [2026.01.01] - 1.0 RELEASE
-_____________________________________________________________________
-TO-DO:
-- Describe Next Features
-- ...
-_____________________________________________________________________
-AUTHOR : [Author]
+AUTHOR : Nicholas Heling
 """
 
 # * IMPORTS *
@@ -30,7 +18,6 @@ import numpy as np
 
 # ! PROJECT MODULES !
 import lib._Plot as _plot
-
 
 # * FUNCTION *
 # ? ================================================================ ?

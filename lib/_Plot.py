@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-TITLE = [INSERT TITLE HERE]
-DATE  = 2026.01.01
+TITLE = Plotting Functions for Theo Jansen Mechanism
+DATE  = 2026.05.15
 _____________________________________________________________________
 DESCRIPTION:
-1. [Insert Description Here]
-2. ...
+1. General functions for plotting mechanism figures, position, velocity, and acceleration graphs with standardized formatting.
+2. Functions to create standardized figure titles and file names for all types of plots.
 _____________________________________________________________________
 AUTHOR : Nicholas Heling
 """
