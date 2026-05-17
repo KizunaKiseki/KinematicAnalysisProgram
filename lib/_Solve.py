@@ -356,7 +356,11 @@ def solve_acceleration_P6(P4 : np.ndarray, P5 : np.ndarray, P6 : np.ndarray, a_P
     return solve_acceleration_two_link_loop(P4, P5, P6, a_P4, a_P5, omega_F, omega_G)
 
 
-
+def solve_position_P7(P6: np.ndarray, P5 : np.ndarray, link_h : float, link_i : float) -> np.ndarray:
+    """
+    Solves the position of Point P7.
+    """
+    return solve_point_from_two_links(P6, P5, link_h, link_i, selection="min_y")
 
 def solve_velocity_P7(P5 : np.ndarray, P6 : np.ndarray, P7 : np.ndarray, v_P5 : np.ndarray, v_P6 : np.ndarray) -> tuple[np.ndarray, float, float]:
     """
@@ -369,12 +373,6 @@ def solve_acceleration_P7(P5 : np.ndarray, P6 : np.ndarray, P7 : np.ndarray, a_P
     Solves the acceleration of Point P7.
     """
     return solve_acceleration_two_link_loop(P6, P5, P7, a_P6, a_P5, omega_H, omega_I)
-
-def solve_position_P7(P6: np.ndarray, P5 : np.ndarray, link_h : float, link_i : float) -> np.ndarray:
-    """
-    Solves the position of Point P7.
-    """
-    return solve_point_from_two_links(P6, P5, link_h, link_i, selection="min_y")
 
 def solve_velocity_foot(P5 : np.ndarray, P7 : np.ndarray, v_P5 : np.ndarray, omega_I : np.ndarray) -> np.ndarray:
     """
