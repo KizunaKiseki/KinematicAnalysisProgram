@@ -348,7 +348,7 @@ def create_angular_summary_tables(step : int, omega_M : np.ndarray, omega_B : np
     figure_number = append_angular_velocity_table(table_path, table_names, figure_number, step, omega_M, omega_B, omega_J, omega_C, Omega_K, Omega_D, Omega_E, Omega_F, Omega_G, Omega_H, Omega_I, decimals)
     
     # ? Angular Acceleration Summary Table ?
-    figure_number = append_angular_acceleration_table(table_path, table_names, figure_number, step, alpha_M, alpha_B, alpha_J, alpha_C, Alpha_K, Alpha_D, Alpha_E, Alpha_F, Alpha_G, Alpha_H, Alpha_I, decimals)
+    figure_number = append_angular_acceleration_table(table_path, table_names, figure_number, step, alpha_M, alpha_B, alpha_J, alpha_C, Alpha_K, Alpha_D, Alpha_E, Alpha_F, Alpha_G, Alpha_H, Alpha_I, 4)
     
     
     return table_path, table_names

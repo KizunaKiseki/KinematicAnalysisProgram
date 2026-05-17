@@ -48,6 +48,10 @@ LINK_L = 7.80 * SCALE_FACTOR
 LINK_M = 15.00 * SCALE_FACTOR
 LINK_N = np.sqrt(LINK_A ** 2 + LINK_L ** 2)
 
+# Ground Points
+O2 = np.array([0.0, 0.0])    
+O4 = np.array([LINK_A, LINK_L]) 
+
 # Gear Ratio
 """
 ! Compound Gear Ratio Calculation:
@@ -90,10 +94,6 @@ THETA_M_TEST = np.deg2rad(CRANK_ANGLE)
 NUM_STEPS = 361
 CRANK_ANGLE_ARRAY = np.linspace(CRANK_ANGLE, CRANK_ANGLE + 360, NUM_STEPS)  # ↺ , from 0° to 360°
 THETA_M_ARRAY = np.deg2rad(CRANK_ANGLE_ARRAY)
-
-# Ground Points
-O2 = np.array([0.0, 0.0])    
-O4 = np.array([LINK_A, LINK_L]) 
 
 # Figures Aesthetics Tweaks
 CRANK_ANGLE_PLOT = np.linspace(0, CRANK_ANGLE + 360, NUM_STEPS)  
