@@ -376,7 +376,7 @@ def solve_acceleration_P7(P5 : np.ndarray, P6 : np.ndarray, P7 : np.ndarray, a_P
 
 def solve_velocity_foot(P5 : np.ndarray, P7 : np.ndarray, v_P5 : np.ndarray, omega_I : np.ndarray) -> np.ndarray:
     """
-    Solves the position of the foot point P7.
+    Solves the velocity of the foot point P7.
     """
     r_I = P7 - P5
     
