@@ -782,7 +782,7 @@ def append_complete_mechanism_figure(mechanism_path : list, mechanism_names : li
 
     """
     # ! Complete Mechanism Figure !
-    title, name = make_figure_label(figure_number, "Mechanism", "Complete Mechanism")
+    title, name = make_figure_label(figure_number, "Mechanism", "Theo Jansen Mechanism")
     
     links = [
         {"point_1" : O4, "point_2" : position_P1[0], "label" : "Link M", "color" : _plot.LINK_M_COLOR},
@@ -876,7 +876,7 @@ def append_complete_path_figure(mechanism_path : list, mechanism_names : list, f
 
     """
     # ! Complete Mechanism Figure with Paths !
-    title, name = make_figure_label(figure_number, "Mechanism", "Complete Mechanism")
+    title, name = make_figure_label(figure_number, "Mechanism", "Theo Jansen Mechanism")
     
     links = [
         {"point_1" : O4, "point_2" : position_P1[0], "label" : "Link M", "color" : _plot.LINK_M_COLOR},
