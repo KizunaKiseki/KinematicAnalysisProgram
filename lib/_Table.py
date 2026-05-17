@@ -45,14 +45,11 @@ def make_figure_label(figure_number: int, analysis_type : str, subject : str, ex
         figure_title (str): Title displayed on the figure.
         figure_name (str): File name used when saving the plot.
     """
-    
-    figure_id = f"Figure {figure_number:02d}"
-    
     if extra:
-        figure_title = f"{figure_id}: {analysis_type} {subject} {extra}"
+        figure_title = f"{analysis_type} {subject} {extra}"
         figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}_{extra}"
     else:
-        figure_title = f"{figure_id}: {analysis_type} {subject}"
+        figure_title = f"{analysis_type} {subject}"
         figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}"
         
     # Clean File Name
@@ -230,7 +227,7 @@ def append_angular_velocity_table(table_path: list, table_names: list, figure_nu
     
     
     # ! Create Table Figure for Angular Velocity  !
-    table_figure = create_table_figure(f"Table {figure_number}: ANGULAR VELOCITY", column_labels, table_data)
+    table_figure = create_table_figure(f"Table ANGULAR VELOCITY", column_labels, table_data)
     
     table_figure.axes[0].set_title(title, fontsize=1, color="white")
     
@@ -295,7 +292,7 @@ def append_angular_acceleration_table(table_path: list, table_names: list, figur
     
     
     # ! Create Table Figure for Angular Acceleration  !
-    table_figure = create_table_figure(f"Table {figure_number}: ANGULAR ACCELERATION", column_labels, table_data)
+    table_figure = create_table_figure(f"Table ANGULAR ACCELERATION", column_labels, table_data)
     
     table_figure.axes[0].set_title(title, fontsize=1, color="white")
     

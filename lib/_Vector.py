@@ -36,14 +36,11 @@ def make_figure_label(figure_number: int, analysis_type : str, subject : str, ex
         figure_title (str): Title displayed on the figure.
         figure_name (str): File name used when saving the plot.
     """
-    
-    figure_id = f"Figure {figure_number:02d}"
-    
     if extra:
-        figure_title = f"{figure_id}: {analysis_type} {subject} {extra}"
+        figure_title = f"{analysis_type} {subject} {extra}"
         figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}_{extra}"
     else:
-        figure_title = f"{figure_id}: {analysis_type} {subject}"
+        figure_title = f"{analysis_type} {subject}"
         figure_name = f"Figure{figure_number:02d}_{analysis_type}_{subject}"
         
     # Clean File Name
