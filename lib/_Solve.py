@@ -378,15 +378,15 @@ def solve_velocity_foot(P5 : np.ndarray, P7 : np.ndarray, v_P5 : np.ndarray, ome
     """
     Solves the position of the foot point P7.
     """
-    R_I = P7 - P5
+    r_I = P7 - P5
     
-    return v_P5 + omega_I * perpendicular(R_I)
+    return v_P5 + omega_I * perpendicular(r_I)
 
 def solve_acceleration_foot(P5 : np.ndarray, P7 : np.ndarray, a_P5 : np.ndarray, omega_I : np.ndarray, alpha_I : np.ndarray) -> np.ndarray:
     """
     Solves the acceleration of the foot point P7.
     """
-    R_I = P7 - P5
+    r_I = P7 - P5
     
-    return a_P5 + alpha_I * perpendicular(R_I) - omega_I**2 * R_I
+    return a_P5 + alpha_I * perpendicular(r_I) - omega_I**2 * r_I
 
