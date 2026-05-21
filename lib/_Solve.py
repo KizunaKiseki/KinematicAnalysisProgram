@@ -211,8 +211,12 @@ def solve_acceleration_two_link_loop(base_1 : np.ndarray, base_2 : np.ndarray, t
             r_2 = target - base_2
             
     ! Matrix Form:
-        | -r_1_y   r_2_y | | alpha_1 | = | A_target_x - A_base_1_x + omega_1^2 * r_1_x - A_base_2_x + omega_2^2 * r_2_x |
-        | r_1_x   -r_2_x | | alpha_2 | = | A_target_y - A_base_1_y + omega_1^2 * r_1_y - A_base_2_y + omega_2^2 * r_2_y |
+        | -r_1_y   r_2_y | | alpha_1 | = | RHS_X |
+        | r_1_x   -r_2_x | | alpha_2 | = | RHS_Y |
+    
+    ! RHS Vector:
+        | A_target_x - A_base_1_x + omega_1^2 * r_1_x - A_base_2_x + omega_2^2 * r_2_x |
+        | A_target_y - A_base_1_y + omega_1^2 * r_1_y - A_base_2_y + omega_2^2 * r_2_y |
     
     Args:
         base_1 (np.ndarray): First base point [x, y].
