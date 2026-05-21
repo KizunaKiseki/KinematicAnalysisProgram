@@ -51,27 +51,27 @@ def circle_intersection(center_1 : np.ndarray, radius_1 : float, center_2 : np.n
     # Calculate distance between centers
     dx = x2 - x1
     dy = y2 - y1
-    d = np.sqrt(dx**2 + dy**2)
+    distance = np.sqrt(dx**2 + dy**2)
     
     # Check for non-intersecting circles
-    if d > radius_1 + radius_2:
+    if distance > radius_1 + radius_2:
         raise ValueError("Circles do not intersect.")
     
     # Check for one circle within the other
-    if d < abs(radius_1 - radius_2):
+    if distance < abs(radius_1 - radius_2):
         raise ValueError("One circle is contained within the other.")
     
     # Check for coincident circles
-    if d == 0 and radius_1 == radius_2:
+    if distance == 0 and radius_1 == radius_2:
         raise ValueError("Circles are coincident.")
 
     # Calculate intersection points
-    a = (radius_1**2 - radius_2**2 + d**2) / (2 * d)
-    h = np.sqrt(radius_1**2 - a**2)
+    centerline_distance = (radius_1**2 - radius_2**2 + distance**2) / (2 * distance)
+    intersection_offset = np.sqrt(radius_1**2 - centerline_distance**2)
     
     # Calculate midpoint between the two centers along the line connecting them
-    midpoint = center_1 + a * np.array([dx, dy]) / d
-    offset = h * np.array([-dy, dx]) / d
+    midpoint = center_1 + centerline_distance * np.array([dx, dy]) / distance
+    offset = intersection_offset * np.array([-dy, dx]) / distance
     
     intersection_1 = midpoint + offset
     intersection_2 = midpoint - offset
