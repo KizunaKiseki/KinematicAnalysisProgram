@@ -7,7 +7,7 @@ DESCRIPTION:
 1. Functions to create standardized figure titles and file names for table analysis.
 2. Functions to create and format table figures.
 _____________________________________________________________________
-AUTHOR : Nicholas Heling
+AUTHOR : KizunaKiseki
 """
 
 # * IMPORTS *

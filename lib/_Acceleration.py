@@ -7,7 +7,7 @@ DESCRIPTION:
 1. Functions to create standardized figure titles and file names for acceleration analysis.
 2. Functions to append acceleration figures for points and links to the respective lists.
 _____________________________________________________________________
-AUTHOR : Nicholas Heling
+AUTHOR : KizunaKiseki
 """
 
 # * IMPORTS *

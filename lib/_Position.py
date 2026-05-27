@@ -8,7 +8,7 @@ DESCRIPTION:
 2. Functions to append position figures for points and mechanisms to the respective lists.
 3. Function to create path figures for points P1, P2, P4, P5, P6, and P7.
 _____________________________________________________________________
-AUTHOR : Nicholas Heling
+AUTHOR : KizunaKiseki
 """
 
 # * IMPORTS *

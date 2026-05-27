@@ -7,7 +7,7 @@ DESCRIPTION:
 1. Functions to create standardized figure titles and file names for vector analysis.
 2. Functions to append velocity and acceleration vector figures for points to the respective lists.
 _____________________________________________________________________
-AUTHOR : Nicholas Heling
+AUTHOR : KizunaKiseki
 """
 
 # * IMPORTS *

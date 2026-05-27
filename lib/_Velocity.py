@@ -7,7 +7,7 @@ DESCRIPTION:
 1. Functions to create standardized figure titles and file names for velocity analysis.
 2. Functions to append velocity figures for points and links to the respective lists.
 _____________________________________________________________________
-AUTHOR : Nicholas Heling
+AUTHOR : KizunaKiseki
 """
 
 # * IMPORTS *

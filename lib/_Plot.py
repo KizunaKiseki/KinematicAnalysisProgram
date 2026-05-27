@@ -7,7 +7,7 @@ DESCRIPTION:
 1. General functions for plotting mechanism figures, position, velocity, and acceleration graphs with standardized formatting.
 2. Functions to create standardized figure titles and file names for all types of plots.
 _____________________________________________________________________
-AUTHOR : Nicholas Heling
+AUTHOR : KizunaKiseki
 """
 
 # * IMPORTS *

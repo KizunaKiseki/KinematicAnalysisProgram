@@ -8,7 +8,7 @@ DESCRIPTION:
 2. Solves for position, velocity, and acceleration of key points across a full crank rotation.
 3. Generates figures and tables summarizing the results.
 _____________________________________________________________________
-AUTHOR : Nicholas Heling
+AUTHOR : KizunaKiseki
 """
 
 # * IMPORTS *

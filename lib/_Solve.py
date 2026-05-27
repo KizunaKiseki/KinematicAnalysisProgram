@@ -9,7 +9,7 @@ DESCRIPTION:
 3. Functions to solve for the position, velocity, and acceleration of points connected by two links.
 4. Velocity and acceleration solvers for points in two-link loops.
 _____________________________________________________________________
-AUTHOR : Nicholas Heling
+AUTHOR : KizunaKiseki
 """
 
 # * IMPORTS *
