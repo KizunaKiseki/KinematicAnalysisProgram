@@ -19,13 +19,13 @@ import numpy as np
 import os
 
 # ! PROJECT MODULES !
-import lib._Plot as _plot
-import lib._Solve as _solve
-import lib._Position as _position
-import lib._Velocity as _velocity
-import lib._Acceleration as _acceleration
-import lib._Vector as _vectors
-import lib._Table as _table
+import src._Plot as _plot
+import src._Solve as _solve
+import src._Position as _position
+import src._Velocity as _velocity
+import src._Acceleration as _acceleration
+import src._Vector as _vectors
+import src._Table as _table
 
 # * VARIABLES *
 # ? ================================================================ ?

@@ -17,8 +17,7 @@ AUTHOR : KizunaKiseki
 import numpy as np
 
 # ! PROJECT MODULES !
-import lib._Plot as _plot
-from lib._Velocity import append_angular_velocity_figures
+import src._Plot as _plot
 
 # * FUNCTION *
 # ? ================================================================ ?

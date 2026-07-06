@@ -17,7 +17,7 @@ AUTHOR : KizunaKiseki
 import numpy as np
 
 # ! PROJECT MODULES !
-import lib._Plot as _plot
+import src._Plot as _plot
 
 # * FUNCTION *
 # ? ================================================================ ?
